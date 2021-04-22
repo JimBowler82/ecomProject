@@ -7,6 +7,6 @@
         <p class='flex-1'>{{ $product->description }}</p>
         <p class="border-t-2 border-b-2 border-gray-200 mt-3 mb-2 font-bold text-center"><span class='mr-2'>only</span>£{{ $product->price }}</p>
     </div>
-    <button class="bg-gray-800 text-white w-full py-1">View</button>
+    <button class="bg-gray-800 hover:bg-green-300 hover:text-gray-800 hover:font-bold text-white w-full py-1 transition-colors duration-300">View</button>
 </div>
         
