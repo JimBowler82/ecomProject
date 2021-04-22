@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('homepage');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/portal', function () {
     return view('portal');
