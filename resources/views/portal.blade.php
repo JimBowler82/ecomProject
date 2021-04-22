@@ -21,16 +21,31 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         
     </head>
-    <body class="antialiased min-h-full bg-gray-500">
+    <body class="antialiase bg-gray-500">
         <header class='fixed w-full shadow-xl bg-gray-800'>
             <div class=" flex justify-between items-center p-4 text-3xl text-white w-5/6 mx-auto" >
-                <h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1>
-                <x-cart-widget />
+                <h1 class='text-3xl font-bold' style="font-family: 'Playball', cursive;">EcomProject <span class='font-sans font-normal text-2xl ml-2'>Back Office</span></h1>
             </div>
         </header>
 
-        
+        <main class="h-screen w-full flex items-center justify-center">
+            @if (Route::has('login'))
+            <div class="flex flex-col items-center bg-white w-2/6 rounded-md p-3 h-60 justify-between shadow-lg">
+                <h2 class="text-xl mt-4">Please log in or register to use Back Office</h2>
+                <div class='flex flex-col w-full items-center mb-2'>
+                    @auth
+                        <a href="{{ route('backoffice') }}" class="bg-green-300 text-white">Back Office</a>
+                        @else
+                        <a href="{{ route('login') }}" class="bg-green-300 hover:bg-green-500 text-gray-800 w-1/2 py-3 rounded-lg text-center mb-4">Log in</a>
 
-        <x-backoffice-link/>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="bg-blue-300 hover:bg-blue-500 text-gray-800 w-1/2 py-3 rounded-lg text-center">Register</a>
+                        @endif
+                    @endauth
+                </div>
+                
+            </div>
+            @endif
+        </main>
     </body>
 </html>

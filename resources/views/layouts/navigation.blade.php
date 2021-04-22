@@ -1,16 +1,16 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="fixed top-0 w-full bg-gray-800 shadow-xl">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex items-center ">
-                <h1 class='text-2xl'>Back Office</h1>
+            <div class="flex items-center text-white">
+                <h1 class='text-3xl font-bold' style="font-family: 'Playball', cursive;">EcomProject <span class='font-sans font-normal text-2xl ml-2'>Back Office</span></h1>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                        <button class="flex items-center text-sm font-medium text-white hover:text-blue-400 hover:border-gray-300 focus:outline-none focus:text-gblue-400 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">

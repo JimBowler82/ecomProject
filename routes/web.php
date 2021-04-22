@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('homepage');
 });
 
+Route::get('/portal', function () {
+    return view('portal');
+});
+
 Route::get('/backoffice', function () {
     return view('backoffice');
 })->middleware(['auth'])->name('backoffice');
