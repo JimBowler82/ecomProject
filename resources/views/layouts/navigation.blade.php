@@ -22,6 +22,8 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-home-drop-link />
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -32,6 +34,7 @@
                                 {{ __('Log out') }}
                             </x-dropdown-link>
                         </form>
+                        
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -50,11 +53,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('backoffice')" :active="request()->routeIs('backoffice')">
-                DashBoard
-            </x-responsive-nav-link>
-        </div>
+    
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -66,12 +65,15 @@
                 </div>
 
                 <div class="ml-3">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-base text-white">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-white">{{ Auth::user()->email }}</div>
                 </div>
             </div>
 
-            <div class="mt-3 space-y-1">
+            <div class="mt-3 space-y-1 pl-4 pt-2 pb-2 hover:bg-white hover:text-gray-800">
+                <a href="/" class='text-white hover:text-gray-800'>Home Page</a>
+            </div>
+            <div class="mt-1 space-y-1">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -79,7 +81,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log out') }}
+                        Log Out
                     </x-responsive-nav-link>
                 </form>
             </div>
