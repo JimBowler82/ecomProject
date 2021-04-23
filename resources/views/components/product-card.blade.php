@@ -1,6 +1,6 @@
 
     
-<div class='bg-white flex flex-col items-center p-4 shadow-lg'>
+<div class='bg-white flex flex-col items-center p-4 m-2 shadow-lg' style="max-width: 386px; min-width: 300px;">
     <img src="{{ $product->picture }}" alt="" width="150px">
     <div class="flex flex-col flex-1 ">
         <h3 class='font-bold mt-2 mb-3'>{{ $product->manufacturer }} <span class='font-normal'>{{ $product->model }}</span> </h3>
