@@ -21,27 +21,18 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         
     </head>
-    <body class="antialiased min-h-screen bg-gray-500 ">
+    <body class="antialiased min-h-screen bg-gray-500" style='min-width: 360px'>
         <header class='fixed top-0 w-full shadow-xl bg-gray-800'>
             <div class=" flex justify-between items-center p-4 text-3xl text-white w-5/6 mx-auto" >
                 <h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1>
                 <x-cart-widget />
             </div>
         </header>
-        <main class='w-3/5 mx-auto mt-28 mb-11'>
+        <main class='max-w-screen-xl mx-auto mt-28 mb-11 p-2'>
+
+            {{ $slot }}
             
-                @if($products)
-                <div class='grid grid-cols-3 gap-5'>
-                    @foreach ($products as $product )
-                        <x-product-card :product="$product"/>
-                    @endforeach
-                </div>
-                <div class="w-3/4 mx-auto mt-8">
-                    {{ $products->links() }}
-                </div>
-                @else
-                    <h1>No Products</h1>
-                @endif
+                
             
         </main>
         
