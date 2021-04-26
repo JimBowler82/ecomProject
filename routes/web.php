@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__.'/auth.php';
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-Route::get('/portal', function () {
-    return view('portal');
-});
+Route::get('/portal', [App\Http\Controllers\HomeController::class, 'portal'])->name('portal');
 
 Route::get('/backoffice', function () {
     return view('backoffice');
 })->middleware(['auth'])->name('backoffice');
 
-require __DIR__.'/auth.php';
+Route::get('/{category:slug}', [App\Http\Controllers\HomeController::class, 'category']);
+
+Route::get('/product/{product:id}', [App\Http\Controllers\HomeController::class, 'product']);

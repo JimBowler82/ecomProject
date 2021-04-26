@@ -2,12 +2,19 @@
     <h3 class='text-2xl'>Categories</h3>
     <div class="p-4">
         @foreach ($categories as $category )
-            <a href="/{{ $category->slug }}" class='bg-white px-2 py-1 rounded hover:underline font-bold hover:bg-green-300 mr-3'>{{ $category->name }}</a>
+            <a href="/{{ $category->slug }}" class='inline-block bg-white px-2 py-1 rounded font-bold hover:bg-green-300 mt-2 mr-3 transition-all duration-300'>{{ $category->name }}</a>
         @endforeach
+        
+        
+
+        @if (request()->path() != "/")
+            <a href="/" class='inline-block bg-gray-800 text-white px-2 py-1 rounded  font-bold hover:bg-green-300 hover:text-gray-800 mt-2 mr-3 transition-all duration-300'>Show All</a>
+        @endif    
+        
         
     </div>
     <hr>
-    <h3 class='text-2xl mt-8 mb-2'>Latest Products</h3>
+    <h3 class='text-2xl mt-8 mb-2'>{{ $title }}</h3>
     @if($products)
         <div class='flex flex-wrap justify-center'>
             @foreach ($products as $product )

@@ -22,17 +22,15 @@
         
     </head>
     <body class="antialiased min-h-screen bg-gray-500" style='min-width: 360px'>
-        <header class='fixed top-0 w-full shadow-xl bg-gray-800'>
+        <header class='fixed top-0 w-full shadow-xl bg-gray-800 z-50'>
             <div class=" flex justify-between items-center p-4 text-3xl text-white w-5/6 mx-auto" >
-                <h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1>
+                <a href="/"><h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1></a>
                 <x-cart-widget />
             </div>
         </header>
         <main class='max-w-screen-xl mx-auto mt-28 mb-11 p-2'>
 
-            {{ $slot }}
-            
-                
+            {{ $slot }}  
             
         </main>
         
