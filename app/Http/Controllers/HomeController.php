@@ -32,4 +32,9 @@ class HomeController extends Controller
             'product' => $product
         ]);
     }
+
+    public function portal()
+    {
+        return view('portal');
+    }
 }
