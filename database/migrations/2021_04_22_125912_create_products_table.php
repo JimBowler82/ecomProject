@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('manufacturer');
             $table->string('model');
+            $table->string('condition');
             $table->string('picture');
             $table->text('description');
             $table->float('price');

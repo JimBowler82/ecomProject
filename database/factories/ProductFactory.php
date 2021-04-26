@@ -24,6 +24,7 @@ class ProductFactory extends Factory
         return [
             'manufacturer' => "Apple",
             'model' => "IPhone",
+            'condition' => 'new',
             'picture' => "images/dummy_phone.webp",
             'description' => $this->faker->sentences($nb=2, $asText = true),
             'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 450, $max = 1200),

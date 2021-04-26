@@ -25,12 +25,12 @@ class DatabaseSeeder extends Seeder
             'slug' => 'samsung'
         ]);
 
-        Category::factory()->create([
+        $android = Category::factory()->create([
             'name' => 'Android',
             'slug' => 'android'
         ]);
 
-        Category::factory()->create([
+        $other = Category::factory()->create([
             'name' => 'Other',
             'slug' => 'other'
         ]);
@@ -47,14 +47,37 @@ class DatabaseSeeder extends Seeder
 
         Product::factory(10)->hasAttached([$apple, $new])->create([
             'manufacturer' => "Apple",
-            'model' => "IPhone",
+            'model' => "IPhone 12",
+            'condition' => 'new',
             'picture' => "images/iphone_placeholder.webp",
         ]);
 
-        Product::factory(10)->hasAttached([$samsung, $new])->create([
+        Product::factory(10)->hasAttached([$apple, $refurb])->create([
+            'manufacturer' => "Apple",
+            'model' => "IPhone 12",
+            'condition' => 'refurbished',
+            'picture' => "images/iphone_placeholder.webp",
+        ]);
+
+        Product::factory(10)->hasAttached([$samsung, $android, $new])->create([
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",
+            'condition' => 'new',
             'picture' => "images/samsung_placeholder.webp",
+        ]);
+
+        Product::factory(10)->hasAttached([$samsung, $android, $refurb])->create([
+            'manufacturer' => "Samsung",
+            'model' => "Galaxy S20",
+            'condition' => 'refurbished',
+            'picture' => "images/samsung_placeholder.webp",
+        ]);
+
+        Product::factory(10)->hasAttached([$other, $android, $new])->create([
+            'manufacturer' => "Huawei",
+            'model' => "GP30 Lite",
+            'condition' => 'new',
+            'picture' => "images/huawei_placeholder.webp",
         ]);
     }
 }

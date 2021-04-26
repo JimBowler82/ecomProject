@@ -10,9 +10,26 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('latest-all', [
+        return view('show-products', [
             'categories' => Category::all(),
-            'products' => Product::paginate(9)
+            'title' => 'Latest Products',
+            'products' => Product::orderBy('updated_at', 'desc')->paginate(9)
+        ]);
+    }
+
+    public function category(Category $category)
+    {
+        return view('show-products', [
+            'categories' => Category::where('name', '<>', $category->name)->get(),
+            'title' => $category->name,
+            'products' => $category->products()->paginate(9)
+        ]);
+    }
+
+    public function product(Product $product)
+    {
+        return view('product-page', [
+            'product' => $product
         ]);
     }
 }

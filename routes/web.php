@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/{category:slug}', [App\Http\Controllers\HomeController::class, 'category']);
+
+Route::get('/product/{product:id}', [App\Http\Controllers\HomeController::class, 'product']);
 
 
 Route::get('/portal', function () {
