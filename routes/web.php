@@ -26,6 +26,7 @@ Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
 
 Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class, 'addToCart']);
 Route::get('/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'removeFromCart']);
+Route::get('/cart/remove/{product:id}/all', [App\Http\Controllers\CartController::class, 'removeAllOfItem']);
 
 Route::get('/{category:slug}', [App\Http\Controllers\HomeController::class, 'category']);
 

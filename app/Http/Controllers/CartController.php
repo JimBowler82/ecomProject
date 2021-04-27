@@ -32,7 +32,8 @@ class CartController extends Controller
                 "cart-contents" => [
 
                     $product->id => [
-                        "name" => $product->name,
+                        "manufacturer" => $product->manufacturer,
+                        "model" => $product->model,
                         "quantity" => 1,
                         "price" => $product->price,
                         "picture" => $product->picture
@@ -62,7 +63,8 @@ class CartController extends Controller
 
         // If cart exists but product is not present, add product to cart with quantity 1
         $cart['cart-contents'][$product->id] = [
-            "name" => $product->name,
+            "manufacturer" => $product->manufacturer,
+            "model" => $product->model,
             "quantity" => 1,
             "price" => $product->price,
             "picture" => $product->picture
@@ -90,14 +92,28 @@ class CartController extends Controller
                     $cart['cart-quantity']--;
                     $cart['cart-total'] -= $cart['cart-contents'][$request->id]['price'];
                     unset($cart['cart-contents'][$request->id]);
-                    
-                    //dd($cart);
                 }
             }
 
             session()->put('cart', $cart);
 
             return back()->with('success', 'Product removed successfully');
+        }
+    }
+
+    public function removeAllOfItem(Product $product)
+    {
+        $cart = session('cart');
+
+        if ($cart && isset($cart['cart-contents'][$product->id])) {
+            $cart['cart-quantity'] -= $cart['cart-contents'][$product->id]['quantity'];
+            $cart['cart-total'] -= $cart['cart-contents'][$product->id]['price'] * $cart['cart-contents'][$product->id]['quantity'];
+            unset($cart['cart-contents'][$product->id]);
+
+            session()->put('cart', $cart);
+            return back()->with('success', 'Items removed from cart successfully');
+        } else {
+            dd('oops');
         }
     }
 }
