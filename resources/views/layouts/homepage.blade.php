@@ -22,12 +22,21 @@
         
     </head>
     <body class="antialiased min-h-screen bg-gray-500" style='min-width: 360px'>
-        <header class='fixed top-0 w-full shadow-xl bg-gray-800 z-50'>
+        <header class='fixed top-0 w-full shadow-xl bg-gray-800 z-49 '>
             <div class=" flex justify-between items-center p-4 text-3xl text-white w-5/6 mx-auto" >
                 <a href="/"><h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1></a>
                 <x-cart-widget />
             </div>
+            
         </header>
+        
+        @if(session('success'))
+            <div class='alert fixed top-5 border-2 border-white bg-green-500 rounded-md tet-white p-6 z-50' style="left:50%; transform: translateX(-50%)">
+                <h1 class='text-white text-xl'>{{ session('success') }}</h1>
+                <button type="button" onclick="document.querySelector('.alert').style.visibility='hidden'" class='absolute top-0 right-3 font-bold text-white text-xl hover:text-gray-800'>x</button>
+            </div>
+        @endif
+
         <main class='max-w-screen-xl mx-auto mt-28 mb-11 p-2'>
 
             {{ $slot }}  

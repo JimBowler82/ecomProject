@@ -29,22 +29,31 @@ class CartController extends Controller
         // If no cart is present, create the cart and add first item
         if (!$cart) {
             $cart = [
-                $product->id => [
-                    "name" => $product->name,
-                    "quantity" => 1,
-                    "price" => $product->price,
-                    "picture" => $product->picture
-                ]
+                "cart-contents" => [
+
+                    $product->id => [
+                        "name" => $product->name,
+                        "quantity" => 1,
+                        "price" => $product->price,
+                        "picture" => $product->picture
+                    ]
+                    
+                ],
+                "cart-total" => $product->price,
+                "cart-quantity" => 1,
+                
             ];
 
             session()->put('cart', $cart);
 
-            return back()->with('success', 'product added to the cart successfully!');
+            return back()->with('success', 'Product added to the cart successfully!');
         }
 
         // If cart exists and product exists in cart already, increment quantity by 1
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity']++;
+        if (isset($cart['cart-contents'][$product->id])) {
+            $cart['cart-contents'][$product->id]['quantity']++;
+            $cart['cart-quantity']++;
+            $cart['cart-total'] += $product->price;
 
             session()->put('cart', $cart);
 
@@ -52,35 +61,43 @@ class CartController extends Controller
         }
 
         // If cart exists but product is not present, add product to cart with quantity 1
-        $cart[$product->id] = [
+        $cart['cart-contents'][$product->id] = [
             "name" => $product->name,
             "quantity" => 1,
             "price" => $product->price,
             "picture" => $product->picture
         ];
 
+        $cart['cart-quantity']++;
+        $cart['cart-total'] += $product->price;
+
         session()->put('cart', $cart);
 
-        return back()->with('success', 'Product added to cart successfully!');
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
-    public function cartTotal($cart)
+    public function removeFromCart(Request $request)
     {
-        $total = 0;
-        foreach ($cart as $id => $details) {
-            $total += $details['quantity'] + $details['price'];
+        if ($request->id) {
+            $cart = session('cart');
+
+            if (isset($cart['cart-contents'][$request->id])) {
+                if ($cart['cart-contents'][$request->id]['quantity'] > 1) {
+                    $cart['cart-contents'][$request->id]['quantity']--;
+                    $cart['cart-quantity']--;
+                    $cart['cart-total'] -= $cart['cart-contents'][$request->id]['price'];
+                } else {
+                    $cart['cart-quantity']--;
+                    $cart['cart-total'] -= $cart['cart-contents'][$request->id]['price'];
+                    unset($cart['cart-contents'][$request->id]);
+                    
+                    //dd($cart);
+                }
+            }
+
+            session()->put('cart', $cart);
+
+            return back()->with('success', 'Product removed successfully');
         }
-
-        return $total;
-    }
-
-    public function cartQuantity($cart)
-    {
-        $quantity = 0;
-        foreach ($cart as $id => $details) {
-            $quantity += $details['quantity'];
-        }
-
-        return $quantity;
     }
 }

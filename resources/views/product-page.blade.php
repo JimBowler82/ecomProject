@@ -35,11 +35,7 @@
             </div>
 
         </div>
-        <div>
-            @if(session('status'))
-                <h1 class='text-white'>{{ session('status') }}</h1>
-            @endif
-        </div>
+        
     </div>
 
     
