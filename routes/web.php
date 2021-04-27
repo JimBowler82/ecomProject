@@ -22,6 +22,10 @@ Route::get('/backoffice', function () {
     return view('backoffice');
 })->middleware(['auth'])->name('backoffice');
 
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
+
+Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class, 'addToCart']);
+
 Route::get('/{category:slug}', [App\Http\Controllers\HomeController::class, 'category']);
 
 Route::get('/product/{product:id}', [App\Http\Controllers\HomeController::class, 'product']);

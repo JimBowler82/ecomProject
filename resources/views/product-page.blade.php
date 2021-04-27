@@ -31,9 +31,16 @@
                         
                     </li>
                 </ul>
-                <button class='box-border bg-gray-800 text-white w-11/12 mx-auto py-3 mt-3 justify-self-end border-4 border-gray-800 hover:bg-red-300  hover:border-gray-800 hover:text-gray-800 hover:font-extrabold transition-all duration-300'>Add to basket</button>
+                <a href="/cart/add/{{ $product->id }}" class='box-border bg-gray-800 text-white text-center w-11/12 mx-auto py-3 mt-3 justify-self-end border-4 border-gray-800 hover:bg-red-300  hover:border-gray-800 hover:text-gray-800 hover:font-extrabold transition-all duration-300'>Add to basket</a>
             </div>
 
         </div>
+        <div>
+            @if(session('status'))
+                <h1 class='text-white'>{{ session('status') }}</h1>
+            @endif
+        </div>
     </div>
+
+    
 </x-homepage-layout>
