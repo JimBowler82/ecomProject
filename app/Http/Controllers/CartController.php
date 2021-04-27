@@ -112,8 +112,6 @@ class CartController extends Controller
 
             session()->put('cart', $cart);
             return back()->with('success', 'Items removed from cart successfully');
-        } else {
-            dd('oops');
         }
     }
 }

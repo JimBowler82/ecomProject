@@ -1,7 +1,10 @@
 <x-homepage-layout>
     <div class='bg-white p-3 shadow-2xl'>
-        <h1 class='text-3xl'>Your Shopping Cart</h1>
+        <h1 class='text-3xl ml-6 mt-3'>Your Shopping Cart</h1>
     
+        @if (!$cart || $cart['cart-quantity'] === 0)
+            <p class='text-center w-1/2 mt-6'>You have no items</p>
+        @endif
     
         @if ($cart)
         
@@ -42,7 +45,7 @@
                     <h4 class='text-4xl mt-3'>Total: £{{ $cart['cart-total'] > 0 ? $cart['cart-total'] : '0.00' }}</h4>
                 </div>
                 <div class='flex flex-col text-white mt-6 sm:mt-0'>
-                    <button class='bg-gray-800 px-3 py-2 rounded mb-2 hover:bg-green-300 hover:text-gray-800 transition-colors duration-300 shadow'>Checkout</button>
+                    <button class='bg-gray-800 px-3 py-2 rounded mb-2 hover:bg-green-300 hover:text-gray-800 transition-colors duration-300 shadow' >Checkout</button>
                     <a href="{{ url('/') }}" class='bg-gray-800 px-3 py-2 rounded hover:bg-blue-300 hover:text-gray-800 transition-colors duration-300 text-center'>Continue Shopping</a>
                 </div>
             </div>

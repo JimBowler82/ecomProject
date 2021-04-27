@@ -31,7 +31,7 @@
         </header>
         
         @if(session('success'))
-            <div class='alert fixed top-5 border-2 border-white bg-green-500 rounded-md tet-white p-6 z-50' style="left:50%; transform: translateX(-50%)">
+            <div class='alert fixed top-5 border-2 border-white bg-green-500 rounded text-white p-6 z-50' style="left:50%; transform: translateX(-50%)">
                 <h1 class='text-white text-xl'>{{ session('success') }}</h1>
                 <button type="button" onclick="document.querySelector('.alert').style.visibility='hidden'" class='absolute top-0 right-3 font-bold text-white text-xl hover:text-gray-800'>x</button>
             </div>
