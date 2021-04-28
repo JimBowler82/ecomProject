@@ -18,9 +18,15 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::get('/portal', [App\Http\Controllers\HomeController::class, 'portal'])->name('portal');
 
-Route::get('/backoffice', function () {
-    return view('backoffice');
-})->middleware(['auth'])->name('backoffice');
+Route::middleware('auth')->group(function () {
+    Route::get('/backoffice', [App\Http\Controllers\BackofficeController::class, 'index'])->name('backoffice');
+    Route::get('/backoffice/addProduct', [App\Http\Controllers\BackofficeController::class, 'addProduct']);
+    Route::get('/backoffice/addCategory', [App\Http\Controllers\BackofficeController::class, 'addCategory']);
+    Route::post('/backoffice/addProduct', [App\Http\Controllers\ProductController::class, 'store']);
+    Route::post('/backoffice/addCategory', [App\Http\Controllers\CategoryController::class, 'store']);
+});
+
+
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
 

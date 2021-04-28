@@ -1,20 +1,17 @@
 <x-homepage-layout>
     <div class='w-full pl-4 pr-4'>
+
         <div class='mx-auto mb-6' style='max-width: 900px;'>
-            <a href="{{ url()->previous() }}" class='bg-gray-800 text-white py-2 px-4 rounded group hover:text-green-300 transition-colors duration-100'>
-                <i class="fas fa-arrow-left transform mr-3 group-hover:-translate-x-1 transition-all duration-600"></i>
-                <span class=''>Back</span>
-                
-            </a>
-            
+            <x-back-btn :path="url('/')"/>
         </div>
+
         <div class='bg-white mx-auto flex flex-col sm:flex-row p-4 rounded' style='max-width: 900px; '>
 
             <div class='w-4/5 sm:w-1/2 flex justify-center mx-auto'>
                 <img src="{{ asset($product->picture) }}" alt="{{ $product->manufacturer . ' ' . $product->model }}">
             </div>
 
-            <div class='bg-green-100 flex flex-col p-8 sm:w-1/2 mt-2 w-full shadow-lg'>
+            <div class='bg-green-100 flex flex-col p-8 sm:w-1/2 ml-2 mt-2 w-full shadow-lg'>
                 <ul class='flex-1 flex flex-col justify-center'>
                     <li class='text-3xl text-bold mt-2 mb-2'>
                         {{ $product->manufacturer }} 
