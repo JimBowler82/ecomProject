@@ -47,6 +47,28 @@
                     </select>
                 </div>
 
+                <!-- Categories checkbox -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+
+                    <p class='font-medium text-sm text-gray-700 sm:w-24 place-self-start'>Categories</p>
+
+                    <div class='mb-3 flex flex-wrap p-4 border border-gray-300 rounded-md'>
+
+                        @if($categories)
+                            @foreach ($categories as $category )
+                            <div class='w-2/6 mb-3'>
+                                <x-label for="{{ $category->slug }}" value="{{ $category->name }}" />
+                                <x-input type="checkbox" name="categories[]" id="{{ $category->slug }}" value="{{ $category->id }}" />
+                            </div>
+                            @endforeach
+                        @endif
+
+                    </div>
+                </div>
+                
+                
+                
+
                 <!-- Price -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="price"  :value="__('Price (£)')" class="sm:w-24" />

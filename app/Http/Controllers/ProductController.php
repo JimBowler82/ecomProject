@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function store()
     {
-        //dd(request('picture'));
+        //dd(request()->categories);
         $attributes = request()->validate([
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
@@ -24,7 +24,7 @@ class ProductController extends Controller
         $attributes['picture'] = request('picture')->store('images');
 
         // Product create
-        Product::create([
+        $product = Product::create([
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
@@ -32,6 +32,8 @@ class ProductController extends Controller
             'condition' => $attributes['condition'],
             'price' => $attributes['price']
         ]);
+
+        $product->categories()->syncWithoutDetaching(request()->categories);
 
         return back()->with('success', 'Product added to database');
     }

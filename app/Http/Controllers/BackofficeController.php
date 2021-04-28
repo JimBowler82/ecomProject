@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BackofficeController extends Controller
@@ -13,6 +14,13 @@ class BackofficeController extends Controller
 
     public function addProduct()
     {
-        return view('add-product');
+        return view('add-product', [
+            'categories' => Category::all()
+        ]);
+    }
+
+    public function addCategory()
+    {
+        return view('add-category');
     }
 }
