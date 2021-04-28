@@ -2,9 +2,9 @@
     <div class='w-full pl-4 pr-4'>
 
         <div class='mx-auto mb-6' style='max-width: 900px;'>
-            <x-back-btn :path="url()->previous()"/>
+            <x-back-btn :path="url('/')"/>
         </div>
-        
+
         <div class='bg-white mx-auto flex flex-col sm:flex-row p-4 rounded' style='max-width: 900px; '>
 
             <div class='w-4/5 sm:w-1/2 flex justify-center mx-auto'>
