@@ -1,5 +1,10 @@
-te<x-app-layout>
+<x-app-layout>
     <div class="pt-20 pl-6 pr-6" >
+
+        <div class="mx-auto mb-4" style="max-width: 600px">
+            <x-back-btn :path="route('backoffice')"/>
+        </div>
+
         <div class='bg-white mx-auto rounded p-6 shadow-xl' style="max-width: 600px">
             <h1 class='text-2xl mb-2'>Add product page</h1>
             <hr class="mb-6">
@@ -16,7 +21,7 @@ te<x-app-layout>
                 <!-- Model -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="model"  :value="__('Model')" class="sm:w-24" />
-                    <x-input id="model" type="text" name="model" :value="old('model')" class="sm:w-9/12" placeholder="e.g 'iPhone 11 Pro" required />
+                    <x-input id="model" type="text" name="model" :value="old('model')" class="sm:w-9/12" placeholder="e.g 'iPhone 11 Pro'" required />
                 </div>
 
                 <!-- Description -->

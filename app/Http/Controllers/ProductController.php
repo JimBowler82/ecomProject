@@ -21,7 +21,7 @@ class ProductController extends Controller
         ]);
 
         // Store the image
-        $attributes['picture'] = request('picture')->store('/images');
+        $attributes['picture'] = request('picture')->store('images');
 
         // Product create
         Product::create([
