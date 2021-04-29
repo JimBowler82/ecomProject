@@ -55,7 +55,7 @@
                                         <form action="/product/delete/{{ $product->id }}" method="POST" id="delete-form" class="mr-1">
                                             @method('delete')
                                             @csrf
-                                            <button id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                                            <button type="button" id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                         <a href='/product/{{ $product->id }}' class="hover:text-blue-500"><i class="fas fa-eye"></i></a>
                                         
@@ -76,14 +76,24 @@
 
     @section('page-script')
         <script type='text/javascript'>
-            const form = document.getElementById('delete-form');
-            const deleteBtn = document.getElementById('delete-btn');
+            window.addEventListener('DOMContentLoaded', () => {
 
-            deleteBtn.addEventListener('click', () => {
-                if(confirm("Are you sure you want to delete?")) {
-                    form.submit();
-                }
+                const buttons = document.querySelectorAll('form>button');
+
+                buttons.forEach(button => {
+
+                    button.addEventListener('click', (e) => {
+
+                        if( confirm('Are you sure you want to delete?') ) {
+                            return button.parentElement.submit();
+                        }
+
+                    });
+
+                });
+            
             });
+            
 
         </script>
     @stop

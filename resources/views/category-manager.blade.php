@@ -38,16 +38,14 @@
                                     {{ count($category->products) }}
                                 </td>
                                 <td class='p-2'>
-                                    <div class=' flex justify-evenly'>
-                                        <a href='/category/edit/{{ $category->id }}' class="hover:text-green-500"><i class="fas fa-edit"></i></button>
-                                        <form action="/category/delete/{{ $category->id }}" method="POST" id="delete-form">
+                                    <div class='flex justify-evenly'>
+                                        <a href='/category/edit/{{ $category->id }}' class="hover:text-green-500 mr-1"><i class="fas fa-edit"></i></a>
+                                        <form action="/category/delete/{{ $category->id }}" method="POST" id="delete-form" class="mr-1">
                                             @method('delete')
                                             @csrf
-                                            <button id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+                                            <button type="button" id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
                                         </form>
-                                        <a href='/{{ $category->slug }}' class="hover:text-blue-500"><i class="fas fa-eye"></i></a>
-                                        
-                                        
+                                        <a href='/{{ $category->slug }}' class="hover:text-blue-500 mr-1"><i class="fas fa-eye"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -64,14 +62,24 @@
 
     @section('page-script')
         <script type='text/javascript'>
-            const form = document.getElementById('delete-form');
-            const deleteBtn = document.getElementById('delete-btn');
+            window.addEventListener('DOMContentLoaded', () => {
 
-            deleteBtn.addEventListener('click', () => {
-                if(confirm("Are you sure you want to delete?")) {
-                    form.submit();
-                }
+                const buttons = document.querySelectorAll('form>button');
+
+                buttons.forEach(button => {
+
+                    button.addEventListener('click', (e) => {
+
+                        if( confirm('Are you sure you want to delete?') ) {
+                            return button.parentElement.submit();
+                        }
+
+                    });
+
+                });
+              
             });
+            
 
         </script>
     @stop

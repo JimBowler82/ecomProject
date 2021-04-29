@@ -24,12 +24,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/backoffice/categoryManager', [App\Http\Controllers\BackofficeController::class, 'categoryManager']);
     Route::get('/backoffice/addProduct', [App\Http\Controllers\BackofficeController::class, 'addProduct']);
     Route::get('/backoffice/addCategory', [App\Http\Controllers\BackofficeController::class, 'addCategory']);
-    Route::post('/backoffice/addProduct', [App\Http\Controllers\ProductController::class, 'store']);
-    Route::post('/backoffice/addCategory', [App\Http\Controllers\CategoryController::class, 'store']);
-    Route::delete('/product/delete/{product:id}', [App\Http\Controllers\ProductController::class, 'delete']);
     Route::get('/product/edit/{product:id}', [App\Http\Controllers\BackofficeController::class, 'productEdit']);
     Route::get('/category/edit/{category:id}', [App\Http\Controllers\BackofficeController::class, 'categoryEdit']);
+    Route::post('/backoffice/addProduct', [App\Http\Controllers\ProductController::class, 'store']);
+    Route::post('/backoffice/addCategory', [App\Http\Controllers\CategoryController::class, 'store']);
     Route::patch('/product/edit/{product:id}', [App\Http\Controllers\ProductController::class, 'editProduct']);
+    Route::patch('/category/edit/{category:id}', [App\Http\Controllers\CategoryController::class, 'editCategory']);
+    Route::delete('/product/delete/{product:id}', [App\Http\Controllers\ProductController::class, 'delete']);
+    Route::delete('/category/delete/{category:id}', [App\Http\Controllers\CategoryController::class, 'delete']);
 });
 
 

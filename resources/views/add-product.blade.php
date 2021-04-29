@@ -66,14 +66,34 @@
                     </div>
                 </div>
                 
-                
-                
-
                 <!-- Price -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="price"  :value="__('Price (£)')" class="sm:w-24" />
                     <x-input id="price" type="number" name="price" :value="old('price')" step="0.01" placeholder="0.00" required />
                 </div>
+
+                <!-- Errors -->
+                @error('name')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Manufacturer: </span>{{ $message }}</p>
+                @enderror
+                @error('model')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Model: </span>{{ $message }}</p>
+                @enderror
+                @error('description')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Description: </span>{{ $message }}</p>
+                @enderror
+                @error('picture')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
+                @enderror
+                @error('condition')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Condition: </span>{{ $message }}</p>
+                @enderror
+                @error('categories')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Categories: </span>{{ $message }}</p>
+                @enderror
+                @error('price')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Price: </span>{{ $message }}</p>
+                @enderror
 
                 <!-- Form Buttons -->
                 <div class=" w-11/12 flex flex-row mt-10 mx-auto">

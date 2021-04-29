@@ -24,7 +24,13 @@
                     <x-input id="slug" type="text" name="slug" :value="old('slug')" class="sm:w-9/12" placeholder="e.g 'new-phones'" required />
                 </div>
 
-                
+                <!-- Errors -->
+                @error('name')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
+                @enderror
+                @error('slug')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
+                @enderror
 
                 <!-- Form Buttons -->
                 <div class=" w-11/12 flex flex-row mt-10 mx-auto">

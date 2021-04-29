@@ -38,7 +38,7 @@ class ProductController extends Controller
         return redirect('/backoffice/productManager')->with('success', 'Product added to database');
     }
 
-    public function editProduct(Product $product) 
+    public function editProduct(Product $product)
     {
         //dd(request());
 
@@ -53,7 +53,7 @@ class ProductController extends Controller
         ]);
 
         // If new picture then save it
-        if(request('picture')) {
+        if (request('picture')) {
             $attributes['picture'] = request('picture')->store('images');
         }
 
@@ -70,6 +70,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return back()->with('success', 'Prorduct deleted from database');
+        return back()->with('success', 'Product deleted from database');
     }
 }
