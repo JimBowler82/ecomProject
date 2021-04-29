@@ -10,13 +10,13 @@ class ProductController extends Controller
 {
     public function store()
     {
-        //dd(request()->categories);
+        // Validate
         $attributes = request()->validate([
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
             'picture' => ['file', 'required'],
-            'condition' => ['required', Rule::in(['new', 'refubished'])],
+            'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required']
         ]);
 
@@ -35,6 +35,41 @@ class ProductController extends Controller
 
         $product->categories()->syncWithoutDetaching(request()->categories);
 
-        return back()->with('success', 'Product added to database');
+        return redirect('/backoffice/productManager')->with('success', 'Product added to database');
+    }
+
+    public function editProduct(Product $product)
+    {
+        //dd(request());
+
+        // Validate
+        $attributes = request()->validate([
+            'manufacturer' => ['string', 'required', 'max:255'],
+            'model' => ['string', 'required', 'max:255'],
+            'description' => ['string', 'required'],
+            'picture' => ['file', 'nullable'],
+            'condition' => ['required', Rule::in(['new', 'refurbished'])],
+            'price' => ['numeric', 'required']
+        ]);
+
+        // If new picture then save it
+        if (request('picture')) {
+            $attributes['picture'] = request('picture')->store('images');
+        }
+
+        // Update the category associatons
+        $product->categories()->sync(request()->categories);
+
+        // Update the product
+        $product->update($attributes);
+
+        return redirect('/backoffice/productManager')->with('success', 'Product updated in database');
+    }
+
+    public function delete(Product $product)
+    {
+        $product->delete();
+
+        return back()->with('success', 'Product deleted from database');
     }
 }
