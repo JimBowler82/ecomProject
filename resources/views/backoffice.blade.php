@@ -7,8 +7,8 @@
                 </div>
                 <div class='p-4 w-4/5 mx-auto'>
                     <ul class='w-full text-center'>
-                        <li class='m-6'><a href="/backoffice/addProduct" class='bg-gray-800 rounded text-white px-3 py-2 block hover:bg-green-300 hover:text-gray-800 transition-colors duration-300'>Add Product</a></li>
-                        <li class='m-6 '><a href="/backoffice/addCategory" class='bg-gray-800 rounded text-white px-3 py-2 block hover:bg-green-300 hover:text-gray-800 transition-colors duration-300'>Add Category</a></li>
+                        <li class='m-6'><a href="/backoffice/productManager" class='bg-gray-800 rounded text-white px-3 py-2 block hover:bg-green-300 hover:text-gray-800 transition-colors duration-300'>Product Manager</a></li>
+                        <li class='m-6 '><a href="/backoffice/categoryManager" class='bg-gray-800 rounded text-white px-3 py-2 block hover:bg-green-300 hover:text-gray-800 transition-colors duration-300'>Category Manager</a></li>
                     </ul>
                 </div>
             </div>

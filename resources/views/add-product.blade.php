@@ -2,7 +2,7 @@
     <div class="pt-20 pl-6 pr-6" >
 
         <div class="mx-auto mb-4" style="max-width: 600px">
-            <x-back-btn :path="route('backoffice')"/>
+            <x-back-btn :path="url('/backoffice/productManager')"/>
         </div>
 
         <div class='bg-white mx-auto rounded p-6 shadow-xl' style="max-width: 600px">
