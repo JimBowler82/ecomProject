@@ -17,7 +17,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return view('product-manager', [
+        return view('product.product-manager', [
             'products' => Product::all()->sortByDesc('updated_at'),
             'title' => 'Product Manager'
         ]);
@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('add-product', [
+        return view('product.add-product', [
             'categories' => Category::all(),
             'title' => 'Add Product'
         ]);
@@ -63,7 +63,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('product-page', [
+        return view('product.product-page', [
             'product' => $product,
             'title' => $product->model
         ]);
@@ -71,7 +71,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('edit-product', [
+        return view('product.edit-product', [
             'product' => $product,
             'categories' => Category::all(),
             'title' => 'Edit Product'

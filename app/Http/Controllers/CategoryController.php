@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return view('category-manager', [
+        return view('category.category-manager', [
             'categories' => Category::all(),
             'title' => 'Category Manager'
         ]);
@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('add-category', [
+        return view('category.add-category', [
             'title' => 'Add Category'
         ]);
     }
@@ -54,7 +54,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('edit-category', [
+        return view('category.edit-category', [
             'category' => $category,
             'title' => 'Edit Category'
         ]);
