@@ -1,8 +1,12 @@
+
 <x-homepage-layout>
+    
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <h3 class='text-2xl'>Categories</h3>
     <div class="p-4">
         @foreach ($categories as $category )
-            <a href="/{{ $category->slug }}" class='inline-block bg-white px-2 py-1 rounded font-bold hover:bg-green-300 mt-2 mr-3 transition-all duration-300'>{{ $category->name }}</a>
+            <a href="/categories/{{ $category->slug }}" class='inline-block bg-white px-2 py-1 rounded font-bold hover:bg-green-300 mt-2 mr-3 transition-all duration-300'>{{ $category->name }}</a>
         @endforeach
         
         

@@ -1,16 +1,18 @@
 <x-app-layout>
 
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <div class="pt-20 pl-6 pr-6 bg-gray-500 pb-3" >
 
         <div class="mx-auto mb-4" style="max-width: 600px">
-            <x-back-btn :path="url('/backoffice/productManager')"/>
+            <x-back-btn :path="route('products.index')"/>
         </div>
 
         <div class='bg-white mx-auto rounded p-6 shadow-xl' style="max-width: 600px">
             <h1 class='text-2xl mb-2'>Edit product page</h1>
             <hr class="mb-6">
 
-            <form action="/product/edit/{{$product->id}}" method='POST' enctype="multipart/form-data">
+            <form action="/products/{{$product->id}}" method='POST' enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 

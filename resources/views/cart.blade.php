@@ -1,9 +1,12 @@
 <x-homepage-layout>
+    
+    <x-slot name='title'>Cart</x-slot>
+
     <div class='bg-white p-3 shadow-2xl'>
         <h1 class='text-3xl ml-6 mt-3'>Your Shopping Cart</h1>
     
         @if (!$cart || $cart['cart-quantity'] === 0)
-            <p class='text-center w-1/2 mt-6'>You have no items</p>
+            <p class='w-1/2 m-16 pl-20'>You have no items</p>
         @endif
     
         @if ($cart)
@@ -50,5 +53,10 @@
                 </div>
             </div>
         @endif
+        @unless($cart)
+            <div>
+                <a href="{{ url('/') }}" class='ml-6 bg-gray-800 text-white px-3 py-2 rounded hover:bg-blue-300 hover:text-gray-800 transition-colors duration-300 text-center'>Continue Shopping</a>
+            </div>
+        @endunless
     </div>
 </x-homepage-layout>
