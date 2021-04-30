@@ -1,4 +1,7 @@
 <x-app-layout>
+
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <div class="pt-20 h-screen">
         <div class="mx-auto mb-4 w-4/5 lg:w-3/5 flex justify-between items-center" >
             <x-back-btn :path="route('backoffice')"/>

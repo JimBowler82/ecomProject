@@ -10,32 +10,39 @@ class BackofficeController extends Controller
 {
     public function index()
     {
-        return view('backoffice');
+        return view('backoffice', [
+            'title' => 'Menu'
+        ]);
     }
 
     public function addProduct()
     {
         return view('add-product', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'title' => 'Add Product'
         ]);
     }
 
     public function addCategory()
     {
-        return view('add-category');
+        return view('add-category', [
+            'title' => 'Add Category'
+        ]);
     }
 
     public function productManager()
     {
         return view('product-manager', [
-            'products' => Product::all()->sortByDesc('updated_at')
+            'products' => Product::all()->sortByDesc('updated_at'),
+            'title' => 'Product Manager'
         ]);
     }
 
     public function categoryManager()
     {
         return view('category-manager', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'title' => 'Category Manager'
         ]);
     }
 
@@ -43,14 +50,16 @@ class BackofficeController extends Controller
     {
         return view('edit-product', [
             'product' => $product,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'title' => 'Edit Product'
         ]);
     }
 
     public function categoryEdit(Category $category)
     {
         return view('edit-category', [
-            'category' => $category
+            'category' => $category,
+            'title' => 'Edit Category'
         ]);
     }
 }

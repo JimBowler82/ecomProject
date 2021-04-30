@@ -29,7 +29,8 @@ class HomeController extends Controller
     public function product(Product $product)
     {
         return view('product-page', [
-            'product' => $product
+            'product' => $product,
+            'title' => $product->model
         ]);
     }
 

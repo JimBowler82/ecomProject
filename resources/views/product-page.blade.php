@@ -1,4 +1,7 @@
 <x-homepage-layout>
+
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <div class='w-full pl-4 pr-4'>
 
         <div class='mx-auto mb-6' style='max-width: 900px;'>

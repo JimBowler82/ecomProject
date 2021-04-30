@@ -1,4 +1,7 @@
 <x-homepage-layout>
+    
+    <x-slot name='title'>Cart</x-slot>
+
     <div class='bg-white p-3 shadow-2xl'>
         <h1 class='text-3xl ml-6 mt-3'>Your Shopping Cart</h1>
     

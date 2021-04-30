@@ -1,5 +1,7 @@
 <x-app-layout>
 
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <div class="pt-20 pl-6 pr-6 bg-gray-500 pb-3" >
 
         <div class="mx-auto mb-4" style="max-width: 600px">

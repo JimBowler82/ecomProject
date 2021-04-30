@@ -1,4 +1,8 @@
+
 <x-homepage-layout>
+    
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <h3 class='text-2xl'>Categories</h3>
     <div class="p-4">
         @foreach ($categories as $category )
