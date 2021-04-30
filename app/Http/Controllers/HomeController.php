@@ -8,34 +8,4 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        return view('show-products', [
-            'categories' => Category::all(),
-            'title' => 'Latest Products',
-            'products' => Product::orderBy('updated_at', 'desc')->paginate(9)
-        ]);
-    }
-
-    public function category(Category $category)
-    {
-        return view('show-products', [
-            'categories' => Category::where('name', '<>', $category->name)->get(),
-            'title' => $category->name,
-            'products' => $category->products()->paginate(9)
-        ]);
-    }
-
-    public function product(Product $product)
-    {
-        return view('product-page', [
-            'product' => $product,
-            'title' => $product->model
-        ]);
-    }
-
-    public function portal()
-    {
-        return view('portal');
-    }
 }
