@@ -19,6 +19,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased" style="min-width: 345px">
+        
         <div class="min-h-screen bg-gray-500">
             @include('layouts.navigation')
 
@@ -34,6 +35,7 @@
 
 
         @yield('page-script')
+        @yield('alert-script')
        
     </body>
 </html>

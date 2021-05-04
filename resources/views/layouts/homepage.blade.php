@@ -48,6 +48,7 @@
         
 
         @yield('page-script')
+        @yield('alert-script')
         
     </body>
 </html>
