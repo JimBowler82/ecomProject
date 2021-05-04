@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -90,8 +91,12 @@ class ProductController extends Controller
             'price' => ['numeric', 'required']
         ]);
 
-        // If new picture then save it
+        // If new picture, remove old and then save new
         if (request('picture')) {
+            if (Storage::exists($product->picture)) {
+                Storage::delete($product->picture);
+            }
+            
             $attributes['picture'] = request('picture')->store('images');
         }
 
