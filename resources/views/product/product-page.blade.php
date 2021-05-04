@@ -28,7 +28,7 @@
                         {{ $product->description }}
                     </li>
                     <li class='mt-2 mb-2 font-bold text-xl'>
-                        <h2>Price:<span class='ml-3'>£{{ $product->price }}</span></h2>
+                        <h2>Price:<span class='ml-3'>£{{ number_format($product->price / 100, 2, '.', '')  }}</span></h2>
                         
                     </li>
                 </ul>

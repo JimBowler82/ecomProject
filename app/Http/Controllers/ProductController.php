@@ -53,7 +53,7 @@ class ProductController extends Controller
             'description' => $attributes['description'],
             'picture' => $attributes['picture'],
             'condition' => $attributes['condition'],
-            'price' => $attributes['price']
+            'price' => (int)((float) $attributes['price'] * 100),
         ]);
 
         $product->categories()->syncWithoutDetaching(request()->categories);
@@ -93,6 +93,11 @@ class ProductController extends Controller
         // If new picture then save it
         if (request('picture')) {
             $attributes['picture'] = request('picture')->store('images');
+        }
+
+        // Convert pounds to pence
+        if (request('price')) {
+            $attributes['price'] = (int)((float) $attributes['price'] * 100);
         }
 
         // Update the category associatons

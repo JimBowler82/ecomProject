@@ -8,7 +8,7 @@
         <h3 class='font-bold mt-2 mb-2'>{{ $product->manufacturer }} <span class='font-normal'>{{ $product->model }}</span> </h3>
         <p class='mb-2'><span class='font-bold'>Condition: </span> {{ $product->condition }}</p>
         <p class='flex-1'>{{ $product->description }}</p>
-        <p class="border-t-2 border-b-2 border-gray-200 mt-3 mb-2 font-bold text-center"><span class='mr-2'>only</span>£{{ $product->price }}</p>
+        <p class="border-t-2 border-b-2 border-gray-200 mt-3 mb-2 font-bold text-center"><span class='mr-2'>only</span>£{{ number_format($product->price / 100, 2, '.', '')  }}</p>
     </div>
     <a href="/products/{{ $product->id }}" class="bg-gray-800 text-center hover:bg-green-300 hover:text-gray-800 hover:font-bold text-white w-full py-1 transition-colors duration-300">View</a>
 </div>

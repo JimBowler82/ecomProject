@@ -27,9 +27,6 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="model"  :value="__('Model')" class="sm:w-24" />
                     <x-input id="model" type="text" name="model" :value="$product->model" class="sm:w-9/12" required />
-                    @error('model')  
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
                 </div>
                 
 
@@ -37,9 +34,6 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="description"  :value="__('Description')" class="sm:w-24 place-self-start" />
                     <textarea name="description" id="description" rows="5" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-9/12" required >{{ $product->description }}</textarea>
-                    @error('description')  
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
                 </div>
                 
 
@@ -49,9 +43,6 @@
                     <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
                     <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" />
                     <img src="{{asset($product->picture)}}" width="50px">
-                    @error('picture')  
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Condition -->
@@ -62,9 +53,6 @@
                         <option value="new">New</option>
                         <option value="refurbished">Refurbished</option>
                     </select>
-                    @error('condition')  
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Categories checkbox -->
@@ -86,24 +74,14 @@
                     </div>
                 </div>
                 
-                <!-- Errors -->
-                @error('manufacturer')  
-                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Manufacturer: </span>{{ $message }}</p>
-                @enderror
-                
-                
-
                 <!-- Price -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="price"  :value="__('Price (£)')" class="sm:w-24" />
-                    <x-input id="price" type="number" name="price" :value="$product->price" step="0.01" placeholder="0.00" required />
-                    @error('model')  
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
+                    <x-input id="price" type="number" name="price" :value="number_format($product->price / 100, 2, '.', '') " step="0.01" placeholder="0.00" required />
                 </div>
 
                 <!-- Errors -->
-                @error('name')
+                @error('manufacturer')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Manufacturer: </span>{{ $message }}</p>
                 @enderror
                 @error('model')
