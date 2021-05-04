@@ -3,6 +3,6 @@
     <button type="button" class='absolute top-0 right-3 font-bold text-white text-xl hover:text-gray-800' id="alert-btn">x</button>
 </div>
 
-@section('page-script')
+@section('alert-script')
     <script src="{{ asset('js/success-message.js') }}"></script>
-@stop
+@endsection

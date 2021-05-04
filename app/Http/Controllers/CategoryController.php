@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -64,7 +65,7 @@ class CategoryController extends Controller
     {
         $attributes = request()->validate([
             'name' =>['string', 'required', 'max:255'],
-            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category']
+            'slug' => ['string', 'alpha_dash', Rule::unique('categories')->ignore($category)],
         ]);
 
         $category->update($attributes);
