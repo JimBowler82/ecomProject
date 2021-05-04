@@ -31,7 +31,9 @@
                 {{ $slot }}
             </main>
         </div>
+
+
         @yield('page-script')
-        <script src="{{ asset('js/success-message.js') }}"></script>
+       
     </body>
 </html>
