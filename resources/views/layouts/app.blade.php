@@ -28,7 +28,6 @@
 
             <!-- Page Content -->
             <main class="mt-9 h-screen">
-                {{ dd(request()) }}
                 {{ $slot }}
             </main>
         </div>

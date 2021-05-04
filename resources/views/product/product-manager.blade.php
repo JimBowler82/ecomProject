@@ -53,17 +53,7 @@
                                     £{{ number_format($product->price / 100, 2, '.', '')  }}
                                 </td>
                                 <td class='p-2'>
-                                    <div class=' flex justify-evenly'>
-                                        <a href="/products/{{ $product->id }}/edit" class="hover:text-green-500 mr-1"><i class="fas fa-edit"></i></a>
-                                        <form action="/products/{{ $product->id }}" method="POST" id="delete-form" class="mr-1">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="button" id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
-                                        </form>
-                                        <a href='/products/{{ $product->id }}' class="hover:text-blue-500"><i class="fas fa-eye"></i></a>
-                                        
-                                        
-                                    </div>
+                                    <x-action-buttons type="products" :identifier="$product->id"/>
                                 </td>
                             </tr>
                         @endforeach
@@ -77,28 +67,6 @@
         
     </div>
 
-    @section('page-script')
-        <script type='text/javascript'>
-            window.addEventListener('DOMContentLoaded', () => {
-
-                const buttons = document.querySelectorAll('form>button');
-
-                buttons.forEach(button => {
-
-                    button.addEventListener('click', (e) => {
-
-                        if( confirm('Are you sure you want to delete?') ) {
-                            return button.parentElement.submit();
-                        }
-
-                    });
-
-                });
-            
-            });
-            
-
-        </script>
-    @stop
+    
     
 </x-app-layout>
