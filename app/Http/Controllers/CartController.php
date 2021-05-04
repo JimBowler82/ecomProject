@@ -24,7 +24,6 @@ class CartController extends Controller
 
 
         $cart = session()->get('cart');
-        //dd($cart);
 
         // If no cart is present, create the cart and add first item
         if (!$cart) {

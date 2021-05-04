@@ -50,7 +50,7 @@
                                     </ul>
                                 </td>
                                 <td class='p-2'>
-                                    £{{ $product->price }}
+                                    £{{ number_format($product->price / 100, 2, '.', '')  }}
                                 </td>
                                 <td class='p-2'>
                                     <div class=' flex justify-evenly'>
