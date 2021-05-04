@@ -51,13 +51,6 @@
     </div>
 
     @section('page-script')
-        <script type="text/javascript" >
-            const nameInput = document.getElementById('name');
-            const slugInput = document.getElementById('slug');
-
-            nameInput.addEventListener('keyup', () => {
-                slugInput.value = nameInput.value.replace(/\s/g, '-').toLowerCase();
-            });
-        </script>
+        <script src="{{ asset('js/add-category.js') }}" ></script>
     @stop
 </x-app-layout>

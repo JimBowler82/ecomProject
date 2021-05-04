@@ -28,11 +28,12 @@
 
             <!-- Page Content -->
             <main class="mt-9 h-screen">
-                {{ dd(request()) }}
                 {{ $slot }}
             </main>
         </div>
+
+
         @yield('page-script')
-        <script src="{{ asset('js/success-message.js') }}"></script>
+       
     </body>
 </html>
