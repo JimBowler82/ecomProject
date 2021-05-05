@@ -54,7 +54,7 @@ class ProductController extends Controller
             'description' => $attributes['description'],
             'picture' => $attributes['picture'],
             'condition' => $attributes['condition'],
-            'price' => (int)((float) $attributes['price'] * 100),
+            'price' => (int) bcmul($attributes['price'], 100.0),
         ]);
 
         $product->categories()->syncWithoutDetaching(request()->categories);
