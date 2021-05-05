@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\cart\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Float_;
 
 class CartController extends Controller
 {
