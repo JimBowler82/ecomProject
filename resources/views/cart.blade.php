@@ -19,14 +19,14 @@
                     </div>
 
                     <div class='flex items-center flex-1'>
-                        <div class=''>
+                        <div class='w-1/4'>
                             <h2 class='font-bold'>{{ $details['manufacturer']}}</h2>
                             <h3>{{ $details['model'] }}</h3>
                         </div>
 
                         <div class='flex items-center flex-1 flex-col sm:flex-row'>
                             <p class='flex-1 text-center'>£{{ $details['price'] / 100 }} each</p>
-                            <div class='flex-1 text-center flex flex-col md:flex-row mt-2 mb-2'>
+                            <div class='flex-1 text-center flex flex-col justify-center md:flex-row mt-2 mb-2'>
                                 <p>Quantity:</p>
                                 <div>
                                     <a href="/cart/remove/{{ $id }}" class='ml-1'><i class="far fa-minus-square"></i></a><span class='ml-1 mr-1'>{{ $details['quantity'] }}</span><a href="/cart/add/{{ $id }}"><i class="far fa-plus-square"></i></a></div>
