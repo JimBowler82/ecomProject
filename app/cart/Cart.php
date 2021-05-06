@@ -50,7 +50,7 @@ class Cart
     {
         $cart = $this->getCart();
         if (isset($cart[$product->id])) {
-            unset($cart['cart-contents'][$product->id]);
+            unset($cart[$product->id]);
 
             $this->saveCart($cart);
 
