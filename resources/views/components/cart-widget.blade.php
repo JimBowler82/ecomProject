@@ -1,5 +1,5 @@
- @php
-    $cart = session('cart');
+@php
+    $cart = App\cart\Cart::showCart();
 @endphp
 
 <a href="{{ url('/cart') }}" class='text-lg mr-4 p-2 rounded-lg flex items-center   hover:bg-green-300 hover:text-gray-800 transition-colors duration-300 cursor-pointer'>

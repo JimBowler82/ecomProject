@@ -12,8 +12,9 @@
         @endif
     
         @if ($cart)
+
         
-            @foreach ($cart['cart-contents'] as $id => $details)
+            @foreach ($cart['contents'] as $id => $details)
             
                 <div class='flex border-b-2 border-gray-200 m-4 p-3'>
                     <div class='mr-4 flex items-center'>
@@ -27,7 +28,7 @@
                         </div>
 
                         <div class='flex items-center flex-1 flex-col sm:flex-row'>
-                            <p class='flex-1 text-center'>£{{ $details['price'] / 100 }} each</p>
+                            <p class='flex-1 text-center'>£{{ number_format($details['price'] / 100, 2, '.', '') }} each</p>
                             <div class='flex-1 text-center flex flex-col justify-center md:flex-row mt-2 mb-2'>
                                 <p>Quantity:</p>
                                 <div>

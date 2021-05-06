@@ -19,7 +19,7 @@ class CartController extends Controller
     public function show()
     {
         return view('cart', [
-            'cart' => $this->cart->getCart(),
+            'cart' => $this->cart->showCart(),
         ]);
     }
 

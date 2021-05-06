@@ -9,35 +9,23 @@ class Cart
     public function __construct()
     {
         if (!session()->get('cart')) {
-            session()->put('cart', [
-                "cart-contents" => [],
-                "cart-total" => 0,
-                "cart-quantity" => 0,
-            ]);
+            session()->put('cart', []);
         }
     }
 
     public function addProduct(Product $product)
     {
         $cart = $this->getCart();
-        if (isset($cart['cart-contents'][$product->id])) {
+        if (isset($cart[$product->id])) {
 
             // Product exists in cart
-            $cart['cart-contents'][$product->id]['quantity'] += 1;
-            $cart['cart-quantity'] += 1;
-            $cart['cart-total'] += $product->price;
+            $cart[$product->id]['quantity'] += 1;
         } else {
 
             // Product not already in cart
-            $cart['cart-contents'][$product->id] = [
-                "manufacturer" => $product->manufacturer,
-                "model" => $product->model,
+            $cart[$product->id] = [
                 "quantity" => 1,
-                "price" => $product->price,
-                "picture" => $product->picture
             ];
-            $cart['cart-total'] += $product->price;
-            $cart['cart-quantity'] += 1;
         }
 
         $this->saveCart($cart);
@@ -47,15 +35,11 @@ class Cart
     {
         $cart = $this->getCart();
         
-        if (isset($cart['cart-contents'][$request->id])) {
-            if ($cart['cart-contents'][$request->id]['quantity'] > 1) {
-                $cart['cart-contents'][$request->id]['quantity'] -= 1;
-                $cart['cart-quantity'] -= 1;
-                $cart['cart-total'] -= $cart['cart-contents'][$request->id]['price'];
+        if (isset($cart[$request->id])) {
+            if ($cart[$request->id]['quantity'] > 1) {
+                $cart[$request->id]['quantity'] -= 1;
             } else {
-                $cart['cart-quantity'] -= 1;
-                $cart['cart-total'] -= $cart['cart-contents'][$request->id]['price'];
-                unset($cart['cart-contents'][$request->id]);
+                unset($cart[$request->id]);
             }
         }
 
@@ -65,9 +49,7 @@ class Cart
     public function removeAllOfProduct(Product $product)
     {
         $cart = $this->getCart();
-        if (isset($cart['cart-contents'][$product->id])) {
-            $cart['cart-quantity'] -= $cart['cart-contents'][$product->id]['quantity'];
-            $cart['cart-total'] -= $cart['cart-contents'][$product->id]['price'] * $cart['cart-contents'][$product->id]['quantity'];
+        if (isset($cart[$product->id])) {
             unset($cart['cart-contents'][$product->id]);
 
             $this->saveCart($cart);
@@ -76,7 +58,30 @@ class Cart
         }
     }
 
-    public function getCart()
+    public static function showCart()
+    {
+        $cart = session()->get('cart');
+        $result = ['cart-total' => 0];
+        foreach ($cart as $id => $details) {
+            $product = Product::find($id);
+            $result['contents'][$id] = [
+                'manufacturer' => $product->manufacturer,
+                'model' => $product->model,
+                'condition' => $product->condition,
+                'price' => $product->price,
+                'quantity' => $details['quantity'],
+                'picture' => $product->picture,
+            ];
+            $result['cart-total'] += $product->price * $details['quantity'];
+        }
+
+        $result['cart-quantity'] = array_reduce($cart, fn ($acc, $item) => $acc + $item['quantity'], 0);
+        
+
+        return $result;
+    }
+
+    private function getCart()
     {
         return session()->get('cart');
     }
