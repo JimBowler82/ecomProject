@@ -61,23 +61,21 @@ class Cart
     public static function showCart()
     {
         $cart = session()->get('cart');
-        $result = ['cart-total' => 0];
-        foreach ($cart as $id => $details) {
+        $result = [
+            'cart-quantity' => 0,
+            'cart-total' => 0,
+        ];
+
+        foreach ($cart as $id => $item) {
             $product = Product::find($id);
             $result['contents'][$id] = [
-                'manufacturer' => $product->manufacturer,
-                'model' => $product->model,
-                'condition' => $product->condition,
-                'price' => $product->price,
-                'quantity' => $details['quantity'],
-                'picture' => $product->picture,
+                'product' => $product,
+                'quantity' => $item['quantity'],
             ];
-            $result['cart-total'] += $product->price * $details['quantity'];
+            $result['cart-quantity'] += $item['quantity'];
+            $result['cart-total'] += $product->price * $item['quantity'];
         }
-
-        $result['cart-quantity'] = array_reduce($cart, fn ($acc, $item) => $acc + $item['quantity'], 0);
         
-
         return $result;
     }
 
