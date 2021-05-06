@@ -55,5 +55,11 @@
                 </x-button>
             </div>
         </form>
+
+        <x-slot name="options">
+            <x-back-btn :path="url('/')" />
+            <a href="{{ url('/login') }}" class='bg-gray-800 text-white py-2 px-4 rounded group hover:bg-green-300 hover:text-gray-800 transition-colors duration-300'>Log in here</a>
+        </x-slot>
+
     </x-auth-card>
 </x-guest-layout>
