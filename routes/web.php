@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +17,6 @@ use Illuminate\Support\Facades\Route;
 require __DIR__.'/auth.php';
 
 Route::get('/', [App\Http\Controllers\PagesController::class, 'home'])->name('home');
-
-Route::get('/portal', [App\Http\Controllers\PagesController::class, 'portal'])->name('portal');
 
 Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware('auth')->name('backoffice');
 
