@@ -14,6 +14,7 @@ class PagesController extends Controller
             'categories' => Category::all(),
             'title' => 'Latest Products',
             'products' => Product::orderBy('updated_at', 'desc')->paginate(9)
+            
         ]);
     }
 
