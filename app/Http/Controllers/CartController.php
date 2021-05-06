@@ -23,30 +23,30 @@ class CartController extends Controller
         ]);
     }
 
-    public function addToCart(Product $product)
+    public function add(Product $product)
     {
         if (!$product) {
             abort(404);
         }
 
-        $this->cart->addProduct($product);
+        $this->cart->add($product);
         
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
-    public function removeFromCart(Request $request)
+    public function remove(Product $product)
     {
-        if ($request->id) {
-            $this->cart->removeProduct($request);
+        if ($product) {
+            $this->cart->remove($product);
 
             return back()->with('success', 'Product removed successfully');
         }
     }
 
-    public function removeAllOfItem(Product $product)
+    public function removeAll(Product $product)
     {
         if ($product) {
-            $this->cart->removeAllOfProduct($product);
+            $this->cart->removeAll($product);
 
             return back()->with('success', 'Items removed from cart successfully');
         }

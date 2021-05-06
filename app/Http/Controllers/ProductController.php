@@ -102,7 +102,7 @@ class ProductController extends Controller
 
         // Convert pounds to pence
         if (request('price')) {
-            $attributes['price'] = (int)((float) $attributes['price'] * 100);
+            $attributes['price'] = (int) bcmul($attributes['price'], 100.0);
         }
 
         // Update the category associatons

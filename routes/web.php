@@ -30,6 +30,6 @@ Route::resources([
 ]);
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
-Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class, 'addToCart']);
-Route::get('/cart/remove/{id}', [App\Http\Controllers\CartController::class, 'removeFromCart']);
-Route::get('/cart/remove/{product:id}/all', [App\Http\Controllers\CartController::class, 'removeAllOfItem']);
+Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class, 'add']);
+Route::get('/cart/remove/{product:id}', [App\Http\Controllers\CartController::class, 'remove']);
+Route::get('/cart/remove/{product:id}/all', [App\Http\Controllers\CartController::class, 'removeAll']);
