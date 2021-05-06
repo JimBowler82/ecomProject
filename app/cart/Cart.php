@@ -13,7 +13,7 @@ class Cart
         }
     }
 
-    public function addProduct(Product $product)
+    public function add(Product $product)
     {
         $cart = $this->getCart();
         if (isset($cart[$product->id])) {
@@ -31,22 +31,22 @@ class Cart
         $this->saveCart($cart);
     }
 
-    public function removeProduct($request)
+    public function remove(Product $product)
     {
         $cart = $this->getCart();
         
-        if (isset($cart[$request->id])) {
-            if ($cart[$request->id]['quantity'] > 1) {
-                $cart[$request->id]['quantity'] -= 1;
+        if (isset($cart[$product->id])) {
+            if ($cart[$product->id]['quantity'] > 1) {
+                $cart[$product->id]['quantity'] -= 1;
             } else {
-                unset($cart[$request->id]);
+                unset($cart[$product->id]);
             }
         }
 
         $this->saveCart($cart);
     }
 
-    public function removeAllOfProduct(Product $product)
+    public function removeAll(Product $product)
     {
         $cart = $this->getCart();
         if (isset($cart[$product->id])) {
