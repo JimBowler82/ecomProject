@@ -18,11 +18,6 @@ class PagesController extends Controller
         ]);
     }
 
-    public function portal()
-    {
-        return view('portal');
-    }
-
     public function backOffice()
     {
         return view('backoffice', [
