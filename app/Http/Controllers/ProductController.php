@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -16,6 +17,12 @@ class ProductController extends Controller
         $this->middleware('auth')->except('show');
     }
 
+
+    /**
+     * Returns the product-manager view
+     *
+     * @return void
+     */
     public function index()
     {
         return view('product.product-manager', [
@@ -24,6 +31,11 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Returns the add-product view
+     *
+     * @return void
+     */
     public function create()
     {
         return view('product.add-product', [
@@ -32,6 +44,14 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Store new product
+     *
+     * Creates a new Product, stores associated image, adds image to database,
+     * and creates new assocation between Product & Image.
+     *
+     * @return void
+     */
     public function store()
     {
         // Validate
@@ -44,24 +64,34 @@ class ProductController extends Controller
             'price' => ['numeric', 'required']
         ]);
 
-        // Store the image
-        $attributes['picture'] = request('picture')->store('images');
-
         // Product create
         $product = Product::create([
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
-            'picture' => $attributes['picture'],
             'condition' => $attributes['condition'],
             'price' => (int) bcmul($attributes['price'], 100.0),
         ]);
 
+        // Store the image
+        $attributes['picture'] = request('picture')->store('images');
+        
+        // Image - Product association
+        $product->images()->save(new Image(['location' => $attributes['picture']]));
+
+        // Product - Categories association
         $product->categories()->syncWithoutDetaching(request()->categories);
 
         return Redirect::route('products.index')->with('success', 'Product added to database');
     }
 
+    /**
+     * Shows an individual product.
+     * Returns the view for the product-page.
+     *
+     * @param Product $product
+     * @return void
+     */
     public function show(Product $product)
     {
         return view('product.product-page', [
@@ -70,6 +100,12 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Returns the view for the edit-product page
+     *
+     * @param Product $product
+     * @return void
+     */
     public function edit(Product $product)
     {
         return view('product.edit-product', [
@@ -79,6 +115,16 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * Update existing product
+     *
+     * Updates properties for an existing product.
+     * If an image has been changed, the old image is removed from storage
+     * and from the database before the new one is added.
+     *
+     * @param Product $product
+     * @return void
+     */
     public function update(Product $product)
     {
         // Validate
@@ -93,11 +139,17 @@ class ProductController extends Controller
 
         // If new picture, remove old and then save new
         if (request('picture')) {
-            if (Storage::exists($product->picture)) {
-                Storage::delete($product->picture);
+            if (Storage::exists($product->images()->first()->location)) {
+                Storage::delete($product->images()->first()->location);
             }
             
             $attributes['picture'] = request('picture')->store('images');
+
+            // Destroy old image model
+            Image::destroy($product->images->first()->id);
+
+            // Create new Image - Product association
+            $product->images()->save(new Image(['location' => $attributes['picture']]));
         }
 
         // Convert pounds to pence
@@ -109,11 +161,19 @@ class ProductController extends Controller
         $product->categories()->sync(request()->categories);
 
         // Update the product
-        $product->update($attributes);
+        $product->update(array_filter($attributes, function ($key) {
+            return $key != 'picture';
+        }, ARRAY_FILTER_USE_KEY));
 
         return Redirect::route('products.index')->with('success', 'Product updated in database');
     }
 
+    /**
+     * Removes a product from the database
+     *
+     * @param Product $product
+     * @return void
+     */
     public function destroy(Product $product)
     {
         $product->delete();
