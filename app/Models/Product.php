@@ -15,4 +15,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

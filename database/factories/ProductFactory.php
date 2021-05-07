@@ -25,7 +25,6 @@ class ProductFactory extends Factory
             'manufacturer' => "Apple",
             'model' => "IPhone",
             'condition' => 'new',
-            'picture' => "images/dummy_phone.webp",
             'description' => $this->faker->sentences($nb=2, $asText = true),
             'price' => $this->faker->numberBetween($min = 8999, $max = 120000),
         ];
