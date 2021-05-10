@@ -22,6 +22,7 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
+            'product_type_id' => '',
             'manufacturer' => "Apple",
             'model' => "IPhone",
             'condition' => 'new',

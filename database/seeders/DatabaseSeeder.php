@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +17,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Categories
+
         $apple = Category::factory()->create([
             'name' => 'Apple',
             'slug' => 'apple'
@@ -36,55 +39,70 @@ class DatabaseSeeder extends Seeder
             'slug' => 'other'
         ]);
 
-        $new = Category::factory()->create([
+        
+
+        // Product Types
+
+        $newPhones = ProductType::factory()->hasImage(1, [
+            'location' => 'images/dummy_phone.webp'
+        ])->create([
             'name' => 'New Phones',
-            'slug' => 'new-phones'
+            'slug' => 'new-phones',
+            
         ]);
 
-        $refurb = Category::factory()->create([
-            'name' => 'Refurbished Phones',
-            'slug' => 'refurbished-phones'
+        $refurbPhones = ProductType::factory()->hasImage(1, [
+            'location' => 'images/dummy_phone.webp'
+        ])->create([
+            'name' => 'Refurbised Phones',
+            'slug' => 'refurbished-phones',
         ]);
 
+        // Products
 
-        Product::factory(10)->hasAttached([$apple, $new,])->hasImages(1, [
+        Product::factory(10)->hasAttached([$apple])->hasImages(1, [
             'location' => 'images/iphone_placeholder.webp',
         ])->create([
             'manufacturer' => "Apple",
             'model' => "IPhone 12",
             'condition' => 'new',
+            'product_type_id' => $newPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached([$apple, $refurb,])->hasImages(1, [
+        Product::factory(10)->hasAttached([$apple])->hasImages(1, [
             'location' => 'images/iphone_placeholder.webp',
         ])->create([
             'manufacturer' => "Apple",
             'model' => "IPhone 12",
             'condition' => 'refurbished',
+            'product_type_id' => $refurbPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached([$samsung, $android, $new])->hasImages(1, [
+        Product::factory(10)->hasAttached([$samsung, $android])->hasImages(1, [
             'location' => 'images/samsung_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",
             'condition' => 'new',
+            'product_type_id' => $newPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached([$samsung, $android, $refurb])->hasImages(1, [
+        Product::factory(10)->hasAttached([$samsung, $android])->hasImages(1, [
             'location' => 'images/samsung_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",
             'condition' => 'refurbished',
+            'product_type_id' => $refurbPhones->id,
         ]);
 
-        $product = Product::factory(10)->hasAttached([$other, $android, $new])->hasImages(1, [
+        Product::factory(10)->hasAttached([$other, $android])->hasImages(1, [
             'location' => 'images/huawei_placeholder.webp',
         ])->create([
             'manufacturer' => "Huawei",
             'model' => "GP30 Lite",
             'condition' => 'new',
+            'product_type_id' => $newPhones->id,
         ]);
     }
 }
