@@ -6,6 +6,7 @@
     <h3 class='text-2xl'>Shop by category</h3>
     <div class="p-4 flex overflow-x-scroll">
             
+        
 
         @if (isset($categories))
 
@@ -19,7 +20,7 @@
         @else
 
             @foreach ($productTypes as $type )
-                <a href="#" class='ml-3 pt-2 px-3 bg-white hover:bg-gray-300 transition-colors duration-300 shadow-lg flex flex-col w-48 flex-none'>
+                <a href="/type/{{ $type->slug }}" class='ml-3 pt-2 px-3 bg-white hover:bg-gray-300 transition-colors duration-300 shadow-lg flex flex-col w-48 flex-none'>
                     <div class='shadow-md p-1 bg-white flex-1 flex items-center justify-center'>
                         <img src="{{ asset($type->image->location) }}" alt="" class="max-h-32">
                     </div>

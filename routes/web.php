@@ -16,9 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 require __DIR__.'/auth.php';
 
+Route::get('/type/{productType:id}', [App\Http\Controllers\ProductTypesController::class, 'show']);
+
 Route::get('/', [App\Http\Controllers\PagesController::class, 'home'])->name('home');
 
 Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware('auth')->name('backoffice');
+
 
 
 Route::resources([
