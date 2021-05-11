@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         // Product Types
 
         $newPhones = ProductType::factory()->hasImage(1, [
-            'location' => 'images/dummy_phone.webp'
+            'location' => 'images/new_phones.webp'
         ])->create([
             'name' => 'New Phones',
             'slug' => 'new-phones',
@@ -52,10 +52,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $refurbPhones = ProductType::factory()->hasImage(1, [
+            'location' => 'images/refurb_phones.webp'
+        ])->create([
+            'name' => 'Refurbished Phones',
+            'slug' => 'refurbished-phones',
+        ]);
+
+        $usedPhones = ProductType::factory()->hasImage(1, [
             'location' => 'images/dummy_phone.webp'
         ])->create([
-            'name' => 'Refurbised Phones',
-            'slug' => 'refurbished-phones',
+            'name' => 'Used Phones',
+            'slug' => 'used-phones',
         ]);
 
         // Products
