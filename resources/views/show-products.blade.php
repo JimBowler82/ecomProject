@@ -11,22 +11,26 @@
         @if (isset($categories))
 
             @foreach ($categories as $category )
-                <a href="/categories/{{ $category->slug }}" class='inline-block bg-white px-2 py-1 rounded font-bold hover:bg-green-300 mt-2 mr-3 transition-all duration-300'>{{ $category->name }}</a>
+                <a href="/{{ $productType->slug }}/{{ $category->slug }}" class='inline-block bg-white px-2 py-1 rounded font-bold hover:bg-green-300 mt-2 mr-3 transition-all duration-300 {{ isset($active) && $active == $category->slug ?  'bg-green-300':''}}' >{{ $category->name }}</a>
             @endforeach
-            @if (request()->path() != "/")
-                <a href="/" class='inline-block bg-gray-800 text-white px-2 py-1 rounded  font-bold hover:bg-green-300 hover:text-gray-800 mt-2 mr-3 transition-all duration-300'>Show All</a>
+            @if (isset($active))
+                <a href="/{{ $productType->slug }}" class='inline-block bg-gray-800 text-white px-2 py-1 rounded  font-bold hover:bg-green-300 hover:text-gray-800 mt-2 mr-3 transition-all duration-300'>Show All</a>
             @endif
 
         @else
 
-            @foreach ($productTypes as $type )
-                <a href="/type/{{ $type->slug }}" class='ml-3 pt-2 px-3 bg-white hover:bg-gray-300 transition-colors duration-300 shadow-lg flex flex-col w-48 flex-none'>
-                    <div class='shadow-md p-1 bg-white flex-1 flex items-center justify-center'>
-                        <img src="{{ asset($type->image->location) }}" alt="" class="max-h-32">
-                    </div>
-                    <p class="mt-3">{{ $type->name }}</p>
-                </a>
-            @endforeach
+            @if(isset($productTypes))
+
+                @foreach ($productTypes as $type )
+                    <a href="/{{ $type->slug }}" class='ml-3 pt-2 px-3 bg-white hover:bg-gray-300 transition-colors duration-300 shadow-lg flex flex-col w-48 flex-none'>
+                        <div class='shadow-md p-1 bg-white flex-1 flex items-center justify-center'>
+                            <img src="{{ asset($type->image->location) }}" alt="" class="max-h-32">
+                        </div>
+                        <p class="mt-3">{{ $type->name }}</p>
+                    </a>
+                @endforeach
+
+            @endif
             
         @endif
         
