@@ -18,4 +18,13 @@ class ProductType extends Model
     {
         return $this->hasOne(Image::class);
     }
+
+    public function subcategories()
+    {
+        $products = $this->products()->with('categories')->get();
+
+        return $products->map(function ($item, $key) {
+            return $item->categories->values();
+        })->flatten()->unique('name')->values()->all();
+    }
 }
