@@ -46,10 +46,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+        });
 
-            Route::bind('category', function ($value) {
-                return \App\Models\Category::where('id', $value)->orWhere('slug', $value)->firstOrFail();
-            });
+        Route::bind('category', function ($value) {
+            return \App\Models\Category::where('id', $value)->orWhere('slug', $value)->firstOrFail();
         });
     }
 
