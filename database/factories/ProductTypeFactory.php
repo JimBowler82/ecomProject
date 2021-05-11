@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Image;
+use App\Models\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ImageFactory extends Factory
+class ProductTypeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Image::class;
+    protected $model = ProductType::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,8 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            "location" => "",
-            "product_id" => null,
-            "product_type_id" => null
+            "name" => "New Phones",
+            "slug" => "new-phones",
         ];
     }
 }
