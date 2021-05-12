@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductTypesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,13 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 require __DIR__.'/auth.php';
 
+Route::get('/', [App\Http\Controllers\PagesController::class, 'home'])->name('home');
+
 Route::resources([
     'products' => ProductController::class,
     'categories' => CategoryController::class
-]);
+    ]);
+    
+Route::resource('productTypes', ProductTypesController::class)->except(['show']);
 
-
-Route::get('/', [App\Http\Controllers\ProductTypesController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\ProductTypesController::class, 'index'])->name('home');
 
 Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware('auth')->name('backoffice');
 
