@@ -23,6 +23,7 @@ class ProductTypesController extends Controller
         return view('show-products', [
             'productType' => $productType,
             'title' => $productType->name,
+            'active' => '',
             'products' => $productType->products()->orderBy('updated_at', 'desc')->paginate(9),
             'categories' => $productType->subcategories()
         ]);
