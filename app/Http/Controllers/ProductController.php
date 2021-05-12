@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,7 @@ class ProductController extends Controller
     public function create()
     {
         return view('product.add-product', [
+            'productTypes' => ProductType::all(),
             'categories' => Category::all(),
             'title' => 'Add Product'
         ]);
@@ -110,6 +112,7 @@ class ProductController extends Controller
     {
         return view('product.edit-product', [
             'product' => $product,
+            'productTypes' => ProductType::all(),
             'categories' => Category::all(),
             'title' => 'Edit Product'
         ]);
