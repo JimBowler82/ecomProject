@@ -21,7 +21,7 @@
                     <select name="productType" id="productType" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                         <option value="" disabled selected>Select a type</option>
                         @foreach ($productTypes as $type )
-                            <option value="{{ $type->slug }}">{{ $type->name }}</option>
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
                         @endforeach
                     </select>
                     <a href="" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new product type</a>

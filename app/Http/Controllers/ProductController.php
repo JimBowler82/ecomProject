@@ -58,7 +58,7 @@ class ProductController extends Controller
     {
         // Validate
         $attributes = request()->validate([
-            'productType' => ['required', 'string', 'alpha_dash'],
+            'productType' => ['required', 'integer'],
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
