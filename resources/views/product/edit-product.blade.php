@@ -25,7 +25,7 @@
                             <option value="{{ $type->id }}">{{ $type->name }}</option>
                         @endforeach
                     </select>
-                    <a href="" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new product type</a>
+                    <a href="{{ url('productTypes/create') }}" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new product type</a>
                 </div>
 
                 <!-- Manufacturer -->

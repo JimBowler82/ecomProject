@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class TypeCategoryController extends Controller
 {
+
+    /**
+     * Show
+     *
+     * Returns the view to show all products for a given product type and category
+     *
+     * @param ProductType $productType
+     * @param Category $category
+     * @return void
+     */
     public function show(ProductType $productType, Category $category)
     {
         return view('show-products', [

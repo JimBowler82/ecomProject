@@ -11,11 +11,23 @@ class CartController extends Controller
 {
     public $cart;
 
+    
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->cart = new Cart();
     }
 
+
+    /**
+     * Show
+     *
+     * Returns the view to show current cart state
+     *
+     * @return void
+     */
     public function show()
     {
         return view('cart', [
@@ -23,6 +35,15 @@ class CartController extends Controller
         ]);
     }
 
+
+    /**
+     * Add
+     *
+     * Calls cart method to adds a given product to the cart
+     *
+     * @param Product $product
+     * @return void
+     */
     public function add(Product $product)
     {
         if (!$product) {
@@ -34,6 +55,15 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
+
+    /**
+     * Remove
+     *
+     * Calls cart method to removes a given product from the cart
+     *
+     * @param Product $product
+     * @return void
+     */
     public function remove(Product $product)
     {
         if ($product) {
@@ -43,6 +73,15 @@ class CartController extends Controller
         }
     }
 
+
+    /**
+     * Remove
+     *
+     * Calls cart method to remove all of a given product from the cart
+     *
+     * @param Product $product
+     * @return void
+     */
     public function removeAll(Product $product)
     {
         if ($product) {

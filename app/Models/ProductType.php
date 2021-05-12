@@ -9,6 +9,8 @@ class ProductType extends Model
 {
     use HasFactory;
 
+    protected $guarded= [];
+
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -26,5 +28,14 @@ class ProductType extends Model
         return $products->map(function ($item, $key) {
             return $item->categories->values();
         })->flatten()->unique('name')->values()->all();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($productType) {
+            $productType->image()->delete();
+        });
     }
 }

@@ -10,7 +10,16 @@
 
         @if (isset($categories))
 
-            <x-categories-buttons :categories="$categories" :productType="$productType" :active="$active"/>
+            @if(!empty($categories))
+
+                <x-categories-buttons :categories="$categories" :productType="$productType" :active="$active"/>
+
+            @else
+
+                <x-back-btn :path="url()->previous()" />
+                {{-- <h1>Empty</h1> --}}
+
+            @endif
 
         @else
 
