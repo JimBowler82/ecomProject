@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+
+    /**
+     * Home
+     *
+     * Return the homepage view showing all products and product types
+     *
+     * @return void
+     */
     public function home()
     {
         return view('show-products', [
@@ -17,6 +25,13 @@ class PagesController extends Controller
         ]);
     }
 
+    /**
+     * BackOffice
+     *
+     * Return the view for the backoffice
+     *
+     * @return void
+     */
     public function backOffice()
     {
         return view('backoffice', [

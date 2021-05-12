@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProductTypesController extends Controller
 {
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['show']);
@@ -19,7 +23,7 @@ class ProductTypesController extends Controller
     /**
      * Index
      *
-     * Show all product types in the database
+     * Shows all product types in the database
      *
      * @return void
      */
@@ -45,7 +49,13 @@ class ProductTypesController extends Controller
         ]);
     }
 
-
+    /**
+     * Store
+     *
+     * Adds a new product type to the database
+     *
+     * @return void
+     */
     public function store()
     {
         $attributes = request()->validate([
@@ -88,22 +98,65 @@ class ProductTypesController extends Controller
         ]);
     }
 
+
     /**
      * Edit
      *
-     * Returns the view to edit a product type
+     * Returns the view to edit a particular product type
      *
+     * @param ProductType $productType
      * @return void
      */
-    public function edit()
+    public function edit(ProductType $productType)
     {
-        dd('product type - edit');
+        return view('productTypes.edit-productType', [
+            'title' => 'Edit Product Type',
+            'productType' => $productType
+        ]);
     }
 
 
-    public function update()
+    /**
+     * Update
+     *
+     * Updates a given product type.
+     * If an image has been changed, the old image is removed from storage
+     * and from the database before the new one is added.
+     *
+     * @param ProductType $productType
+     * @return void
+     */
+    public function update(ProductType $productType)
     {
+        $attributes = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['string', 'alpha_dash', Rule::unique('product_types')->ignore($productType)],
+            'picture' => ['file', 'nullable']
+        ]);
+
+        // If new picture, remove old and then save new
+        if (request('picture')) {
+            if (Storage::exists($productType->image->location)) {
+                Storage::delete($productType->image->location);
+            }
+            
+            $attributes['picture'] = request('picture')->store('images');
+
+            // Destroy old image model
+            Image::destroy($productType->image->id);
+
+            // Create new Image - ProductType association
+            $productType->image()->save(new Image(['location' => $attributes['picture']]));
+
+            // Update the product type
+            $productType->update(array_filter($attributes, function ($key) {
+                return $key != 'picture';
+            }, ARRAY_FILTER_USE_KEY));
+        }
+
+        return Redirect::route('productTypes.index')->with('success', 'Product type updated');
     }
+
 
     /**
      * Destroy

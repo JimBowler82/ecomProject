@@ -5,27 +5,34 @@
     <div class="pt-20 pl-6 pr-6" >
 
         <div class="mx-auto mb-4" style="max-width: 600px">
-            <x-back-btn :path="route('categories.index')"/>
+            <x-back-btn :path="route('productTypes.index')"/>
         </div>
 
         <div class='bg-white mx-auto rounded p-6 shadow-xl' style="max-width: 600px">
-            <h1 class='text-2xl mb-2'>Edit category page</h1>
+            <h1 class='text-2xl mb-2'>Edit product type page</h1>
             <hr class="mb-6">
 
-            <form action="/categories/{{ $category->slug }}" method='POST' enctype="multipart/form-data">
+            <form action="/productTypes/{{ $productType->slug }}" method='POST' enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
 
-                <!-- Manufacturer -->
+                <!-- Product Type Name -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="name"  :value="__('Name')" class="sm:w-24" />
-                    <x-input id="name" type="text" name="name" :value="$category->name" class="sm:w-9/12" required autocomplete='off' />
+                    <x-input id="name" type="text" name="name" :value="$productType->name" class="sm:w-9/12" required autocomplete='off' />
                 </div>
 
                 <!-- Model -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="slug"  :value="__('Slug')" class="sm:w-24" />
-                    <x-input id="slug" type="text" name="slug" :value="$category->slug" class="sm:w-9/12" required />
+                    <x-input id="slug" type="text" name="slug" :value="$productType->slug" class="sm:w-9/12" required />
+                </div>
+
+                <!-- Picture -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+                    <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
+                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0"  />
+                    <img src="{{asset($productType->image->location)}}" width="50px">
                 </div>
 
                 <!-- Errors -->
@@ -34,6 +41,9 @@
                 @enderror
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
+                @enderror
+                @error('picture')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
                 @enderror
                 
 

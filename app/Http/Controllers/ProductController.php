@@ -13,6 +13,9 @@ use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->middleware('auth')->except('show');
@@ -20,7 +23,9 @@ class ProductController extends Controller
 
 
     /**
-     * Returns the product-manager view
+     * Index
+     *
+     * Shows all products in the database
      *
      * @return void
      */
@@ -33,7 +38,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Returns the add-product view
+     * Create
+     *
+     * Returns the view for create a product
      *
      * @return void
      */
@@ -47,7 +54,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store new product
+     * Store
      *
      * Creates a new Product, stores associated image, adds image to database,
      * and creates new assocation between Product & Image.
@@ -90,6 +97,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Show
+     *
      * Shows an individual product.
      * Returns the view for the product-page.
      *
@@ -105,6 +114,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Edit
+     *
      * Returns the view for the edit-product page
      *
      * @param Product $product
@@ -121,7 +132,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update existing product
+     * Update
      *
      * Updates properties for an existing product.
      * If an image has been changed, the old image is removed from storage
@@ -175,13 +186,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Removes a product from the database
+     * Destroy
+     *
+     * Delete a product from the database
      *
      * @param Product $product
      * @return void
      */
     public function destroy(Product $product)
     {
+        /**
+         * TODO: Remove associated images from db & storage for $product
+         */
+        
         $product->delete();
 
         return back()->with('success', 'Product deleted from database');
