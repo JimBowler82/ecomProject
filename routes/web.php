@@ -26,8 +26,6 @@ Route::resources([
     
 Route::resource('productTypes', ProductTypesController::class)->except(['show']);
 
-// Route::get('/', [App\Http\Controllers\ProductTypesController::class, 'index'])->name('home');
-
 Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware('auth')->name('backoffice');
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
