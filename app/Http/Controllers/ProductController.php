@@ -58,6 +58,7 @@ class ProductController extends Controller
     {
         // Validate
         $attributes = request()->validate([
+            'productType' => ['required', 'string', 'alpha_dash'],
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
@@ -68,6 +69,7 @@ class ProductController extends Controller
 
         // Product create
         $product = Product::create([
+            'product_type_id' => $attributes['productType'],
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
@@ -132,6 +134,7 @@ class ProductController extends Controller
     {
         // Validate
         $attributes = request()->validate([
+            'product_type_id' => ['required', 'integer'],
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
