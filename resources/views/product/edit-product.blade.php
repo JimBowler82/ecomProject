@@ -16,11 +16,22 @@
                 @csrf
                 @method('PATCH')
 
+                <!-- Product Type -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+                    <x-label for="product_type_id"  :value="__('Product Type')" class="sm:w-24" />
+                    <select name="product_type_id" id="product_type_id" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        <option value="" disabled selected>Select a type</option>
+                        @foreach ($productTypes as $type )
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                    </select>
+                    <a href="" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new product type</a>
+                </div>
+
                 <!-- Manufacturer -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="manufacturer"  :value="__('Manufacturer')" class="sm:w-24" />
                     <x-input id="manufacturer" type="text" name="manufacturer" :value="$product->manufacturer" class="sm:w-9/12" required />
-                    
                 </div>
 
                 <!-- Model -->
@@ -81,6 +92,9 @@
                 </div>
 
                 <!-- Errors -->
+                @error('productType')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Product Type: </span>{{ $message }}</p>
+                @enderror
                 @error('manufacturer')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Manufacturer: </span>{{ $message }}</p>
                 @enderror
@@ -119,10 +133,20 @@
         <script >
             window.addEventListener('DOMContentLoaded', () => {
                 const condition = {!! json_encode($product->condition) !!}
-                const options = document.querySelectorAll('#condition > option');
-                options.forEach(option => {
+                const productType = {!! json_encode($product->productType->id) !!}
+                
+                const productTypeOptions = document.querySelectorAll('#product_type_id > option');
+                const conditionOptions = document.querySelectorAll('#condition > option');
+
+                conditionOptions.forEach(option => {
                     if (option.value === condition) {
-                        option.selected = true
+                        option.selected = true;
+                    } 
+                })
+
+                productTypeOptions.forEach(option => {
+                    if (option.value == productType) {
+                        option.selected = true;
                     } 
                 })
             });

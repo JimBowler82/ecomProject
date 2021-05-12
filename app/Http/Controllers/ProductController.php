@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,7 @@ class ProductController extends Controller
     public function create()
     {
         return view('product.add-product', [
+            'productTypes' => ProductType::all(),
             'categories' => Category::all(),
             'title' => 'Add Product'
         ]);
@@ -56,6 +58,7 @@ class ProductController extends Controller
     {
         // Validate
         $attributes = request()->validate([
+            'productType' => ['required', 'integer'],
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
@@ -66,6 +69,7 @@ class ProductController extends Controller
 
         // Product create
         $product = Product::create([
+            'product_type_id' => $attributes['productType'],
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
@@ -110,6 +114,7 @@ class ProductController extends Controller
     {
         return view('product.edit-product', [
             'product' => $product,
+            'productTypes' => ProductType::all(),
             'categories' => Category::all(),
             'title' => 'Edit Product'
         ]);
@@ -129,6 +134,7 @@ class ProductController extends Controller
     {
         // Validate
         $attributes = request()->validate([
+            'product_type_id' => ['required', 'integer'],
             'manufacturer' => ['string', 'required', 'max:255'],
             'model' => ['string', 'required', 'max:255'],
             'description' => ['string', 'required'],
