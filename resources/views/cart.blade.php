@@ -15,7 +15,7 @@
         @else
             @foreach ($cart['contents'] as $id => $details)
                 
-                <div class='flex border-b-2 border-gray-200 m-4 p-3'>
+                <div class='flex border-b-2 border-gray-200 m-4 p-3 item'>
                     <div class='mr-4 flex items-center'>
                         <img src="{{ $details['product']->images->first()->location }}" alt="" width='50px'>
                     </div>
@@ -31,13 +31,13 @@
                             <div class='flex-1 text-center flex flex-col justify-center md:flex-row mt-2 mb-2'>
                                 <p>Quantity:</p>
                                 <div>
-                                    <a href="/cart/remove/{{ $id }}" class='ml-1'>
+                                    <a href="#" class='ml-1' onclick="decrement(this, {{ $id }})">  <!-- /cart/remove/{{ $id }} -->
                                         <i class="far fa-minus-square"></i>
                                     </a>
-                                    <span class='ml-1 mr-1'>
+                                    <span class='ml-1 mr-1' id="quantity">
                                         {{ $details['quantity'] }}
                                     </span>
-                                    <a href="/cart/add/{{ $id }}">
+                                    <a href="#" onclick="increment({{ $id }})"> <!-- /cart/add/{{ $id }} -->
                                         <i class="far fa-plus-square"></i>
                                     </a>
                                 </div>
@@ -68,4 +68,14 @@
     
         
     </div>
+
+    @section('page-script')
+        <script type="text/javascript">
+            window.addEventListener('DOMContentLoaded', () => {
+                const itemDivs = document.querySelectorAll('.item');
+            });
+            
+        </script>
+    @endsection
+
 </x-homepage-layout>

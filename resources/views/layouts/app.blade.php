@@ -28,7 +28,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="mt-9 h-screen">
+            <main class="mt-9 min-h-screen">
                 {{ $slot }}
             </main>
         </div>
