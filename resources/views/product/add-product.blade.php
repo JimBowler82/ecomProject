@@ -2,7 +2,7 @@
 
     <x-slot name="title">{{ $title }}</x-slot>
 
-    <div class="pt-20 pl-6 pr-6" >
+    <div class="pt-20 pl-6 pr-6 pb-6" >
 
         <div class="mx-auto mb-4" style="max-width: 600px">
             <x-back-btn :path="route('products.index')"/>
@@ -80,6 +80,18 @@
 
                     </div>
                 </div>
+
+                <!-- Attributes -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+                    <x-label   :value="__('Attributes')" class="sm:w-24" />
+                    <div class="rounded-md flex justify-between w-8/12 flex-wrap">
+                        <div id="container" class="w-full p-1 flex flex-wrap "></div>
+                        <input type="hidden" id="attributes" name="attributes" >
+                        <x-input id="attr-key" type="text" name="attr-key" :value="old('attr-key')" class="sm:w-1/3 " placeholder="" />
+                        <x-input id="attr-val" type="text" name="attr-val" :value="old('attr-val')" class="sm:w-1/3" placeholder="" />
+                        <button class="bg-blue-500 text-white sm:w-1/5 rounded" id="add">Add</button>
+                    </div>
+                </div>
                 
                 <!-- Price -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
@@ -125,4 +137,8 @@
         </div>
         
     </div>
+
+    @section('page-script')
+        <script src="{{ asset('js/attributes.js') }}" type="text/javascript"></script>
+    @endsection
 </x-app-layout>

@@ -11,6 +11,10 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'attributes' => 'array',
+    ];
+
     public function categories()
     {
         return $this->belongsToMany(Category::class)->withTimestamps();

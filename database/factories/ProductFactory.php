@@ -27,6 +27,7 @@ class ProductFactory extends Factory
             'model' => "IPhone",
             'condition' => 'new',
             'description' => $this->faker->sentences($nb=2, $asText = true),
+            'attributes' => json_decode('{"size": "large", "colour": "red", "random": "true"}'),
             'price' => $this->faker->numberBetween($min = 8999, $max = 120000),
         ];
     }
