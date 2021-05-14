@@ -15,7 +15,7 @@
         @else
             @foreach ($cart['contents'] as $id => $details)
                 
-                <div class='flex border-b-2 border-gray-200 m-4 p-3 item'>
+                <div class='flex border-b-2 border-gray-200 m-4 p-3 item' id="item-{{ $id }}">
                     <div class='mr-4 flex items-center'>
                         <img src="{{ $details['product']->images->first()->location }}" alt="" width='50px'>
                     </div>
@@ -27,22 +27,22 @@
                         </div>
 
                         <div class='flex items-center flex-1 flex-col sm:flex-row'>
-                            <p class='flex-1 text-center'>£{{ number_format($details['product']->price / 100, 2, '.', '') }} each</p>
+                            <p class='flex-1 text-center' id="item-price">£{{ number_format($details['product']->price / 100, 2, '.', '') }} each</p>
                             <div class='flex-1 text-center flex flex-col justify-center md:flex-row mt-2 mb-2'>
                                 <p>Quantity:</p>
                                 <div>
-                                    <a href="#" class='ml-1' onclick="decrement(this, {{ $id }})">  <!-- /cart/remove/{{ $id }} -->
+                                    <a href="/cart/remove/{{ $id }}" class='ml-1' >  <!-- /cart/remove/{{ $id }} -->
                                         <i class="far fa-minus-square"></i>
                                     </a>
                                     <span class='ml-1 mr-1' id="quantity">
                                         {{ $details['quantity'] }}
                                     </span>
-                                    <a href="#" onclick="increment({{ $id }})"> <!-- /cart/add/{{ $id }} -->
+                                    <a href="/cart/add/{{ $id }}"> <!-- /cart/add/{{ $id }} -->
                                         <i class="far fa-plus-square"></i>
                                     </a>
                                 </div>
                             </div>
-                            <p class='flex-1 text-center'>Sub-total: £{{ number_format(($details['quantity'] * $details['product']['price']) / 100, 2, '.', '')  }}</p>
+                            <p class='flex-1 text-center' id="item-total">Sub-total: £{{ number_format(($details['quantity'] * $details['product']['price']) / 100, 2, '.', '')  }}</p>
                         </div>
 
                         <div class='self-stretch flex items-center px-4 text-2xl text-red-400'>
@@ -71,9 +71,10 @@
 
     @section('page-script')
         <script type="text/javascript">
-            window.addEventListener('DOMContentLoaded', () => {
-                const itemDivs = document.querySelectorAll('.item');
-            });
+            
+
+            
+            
             
         </script>
     @endsection
