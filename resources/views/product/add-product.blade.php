@@ -85,7 +85,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label   :value="__('Attributes')" class="sm:w-24" />
                     <div class="rounded-md flex justify-between w-8/12 flex-wrap">
-                        <div id="container" class="w-full p-1 flex flex-wrap"></div>
+                        <div id="container" class="w-full p-1 flex flex-wrap "></div>
                         <input type="hidden" id="attributes" name="attributes" >
                         <x-input id="attr-key" type="text" name="attr-key" :value="old('attr-key')" class="sm:w-1/3 " placeholder="" />
                         <x-input id="attr-val" type="text" name="attr-val" :value="old('attr-val')" class="sm:w-1/3" placeholder="" />
@@ -140,56 +140,66 @@
 
     @section('page-script')
         <script type="text/javascript">
-            let productInfo = {
-                "attributes": [],
-            };
+            let attributes = {};
 
             window.addEventListener('DOMContentLoaded', () => {
 
                 document.getElementById('add').addEventListener('click', (e) => {
                     e.preventDefault();
-                    console.log(e);
+                    
                     const container = document.getElementById('container');
-                    const key = e.target.parentNode.childNodes[5].value;
-                    const value = e.target.parentElement.childNodes[7].value;
+                    const key = e.target.parentNode.childNodes[5].value.toLowerCase().trim();
+                    const value = e.target.parentElement.childNodes[7].value.toLowerCase().trim();
 
                     if(key && value) {
 
-                        const newAttribute = {id: Math.random() * 999, [key]: value};
+                        attributes = {...attributes, [key] : value};
 
-                        productInfo.attributes = [...productInfo.attributes, newAttribute];
-
-                        const div = document.createElement('div');
-                        const p = document.createElement('p');
-                        const button = document.createElement('button');
-                        div.classList = "inline p-1 m-1 shadow bg-gray-100 flex ";
-                        p.innerHTML = `<strong>${key}:</strong> ${value}`;
-                        button.innerText = "X";
-                        button.classList = "text-red-500 ml-2 font-bold";
-                        button.setAttribute('onclick', 'remove(this)');
-                        button.setAttribute('id', newAttribute.id);
-                        div.appendChild(p);
-                        div.appendChild(button);
-                        container.appendChild(div);
-                        
-                        document.getElementById('attributes').value = JSON.stringify(productInfo);
+                        document.getElementById('attributes').value = JSON.stringify(attributes);
 
                         e.target.parentNode.childNodes[5].value = '';
+                        e.target.parentNode.childNodes[5].focus();
                         e.target.parentElement.childNodes[7].value = '';
+
+                        displayAttributes(attributes);
                     }
                           
                 });
 
             });
 
-            function remove(elem) {
+            function displayAttributes(obj) {
+
+                document.getElementById('container').innerHTML = '';
+                attributesArray = Object.entries(obj);
+
+                attributesArray.forEach(attribute => {
+                    
+                    const div = document.createElement('div');
+                    const p = document.createElement('p');
+                    const button = document.createElement('button');
+
+                    div.classList = "inline p-1 m-1 shadow bg-gray-100 flex text-sm";
+                    p.classList = "capitalize";
+                    button.classList = "text-red-500 ml-2 font-bold";
+
+                    p.innerHTML = `<strong>${attribute[0]}:</strong> ${attribute[1]}`;
+                    button.innerText = "X";
+                    
+                    button.setAttribute('onclick', `remove("${attribute[0]}")`);
+
+                    div.appendChild(p);
+                    div.appendChild(button);
+                    container.appendChild(div);
+                });
+            }
+
+            function remove(key) {
                 event.preventDefault();
-                const index = productInfo.attributes.findIndex((attribute) => attribute.id == elem.id);
-                
-                if(index >= 0) {
-                    productInfo = [...productInfo.attributes.slice(0, index), ...productInfo.attributes.slice(index + 1)];
-                    elem.parentNode.remove();
-                }  
+
+                delete attributes[key];
+                event.target.parentNode.remove();
+                  
             }
         </script>
     @endsection

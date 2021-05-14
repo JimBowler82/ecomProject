@@ -73,7 +73,8 @@ class ProductController extends Controller
             'description' => ['string', 'required'],
             'picture' => ['file', 'required'],
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
-            'price' => ['numeric', 'required']
+            'price' => ['numeric', 'required'],
+            'attributes' => ['nullable', 'JSON']
         ]);
 
         // Product create
