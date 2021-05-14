@@ -140,7 +140,9 @@
 
     @section('page-script')
         <script type="text/javascript">
-            let attributes = [];
+            let productInfo = {
+                "attributes": [],
+            };
 
             window.addEventListener('DOMContentLoaded', () => {
 
@@ -155,7 +157,7 @@
 
                         const newAttribute = {id: Math.random() * 999, [key]: value};
 
-                        attributes = [...attributes, newAttribute];
+                        productInfo.attributes = [...productInfo.attributes, newAttribute];
 
                         const div = document.createElement('div');
                         const p = document.createElement('p');
@@ -170,7 +172,7 @@
                         div.appendChild(button);
                         container.appendChild(div);
                         
-                        document.getElementById('attributes').value = JSON.stringify(attributes);
+                        document.getElementById('attributes').value = JSON.stringify(productInfo);
 
                         e.target.parentNode.childNodes[5].value = '';
                         e.target.parentElement.childNodes[7].value = '';
@@ -182,10 +184,10 @@
 
             function remove(elem) {
                 event.preventDefault();
-                const index = attributes.findIndex((attribute) => attribute.id == elem.id);
+                const index = productInfo.attributes.findIndex((attribute) => attribute.id == elem.id);
                 
                 if(index >= 0) {
-                    attributes = [...attributes.slice(0, index), ...attributes.slice(index + 1)];
+                    productInfo = [...productInfo.attributes.slice(0, index), ...productInfo.attributes.slice(index + 1)];
                     elem.parentNode.remove();
                 }  
             }

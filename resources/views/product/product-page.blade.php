@@ -1,5 +1,7 @@
 <x-homepage-layout>
 
+    {{ dd($product->attributes) }}
+
     <x-slot name="title">{{ $title }}</x-slot>
 
     <div class='w-full pl-4 pr-4'>

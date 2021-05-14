@@ -82,7 +82,7 @@ class ProductController extends Controller
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
-            'attributes' => request('attributes'),
+            'attributes' => json_decode(request('attributes')),
             'condition' => $attributes['condition'],
             'price' => (int) bcmul($attributes['price'], 100.0),
         ]);
