@@ -29,4 +29,13 @@ class Product extends Model
     {
         return $this->belongsTo(ProductType::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+            $product->images()->delete();
+        });
+    }
 }
