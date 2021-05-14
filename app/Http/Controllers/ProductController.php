@@ -203,9 +203,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        /**
-         * TODO: Remove associated images from db & storage for $product
-         */
+        $images = $product->images()->get();
+        
+        foreach ($images as $image) {
+            // Remove image from storage
+            if (Storage::exists($image->location)) {
+                Storage::delete($image->location);
+            }
+        }
         
         $product->delete();
 
