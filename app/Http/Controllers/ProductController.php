@@ -83,7 +83,7 @@ class ProductController extends Controller
             'manufacturer' => $attributes['manufacturer'],
             'model' => $attributes['model'],
             'description' => $attributes['description'],
-            'attributes' => json_decode(request('attributes')),
+            'attributes' => json_decode($attributes['attributes']),
             'condition' => $attributes['condition'],
             'price' => (int) bcmul($attributes['price'], 100.0),
         ]);
@@ -155,7 +155,8 @@ class ProductController extends Controller
             'description' => ['string', 'required'],
             'picture' => ['file', 'nullable'],
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
-            'price' => ['numeric', 'required']
+            'price' => ['numeric', 'required'],
+            'attributes' => ['nullable', 'JSON']
         ]);
 
         // If new picture, remove old and then save new
@@ -180,6 +181,9 @@ class ProductController extends Controller
 
         // Update the category associatons
         $product->categories()->sync(request()->categories);
+
+        // Attributes to json 'attributes' => json_decode(request('attributes')),
+        $attributes['attributes'] = json_decode($attributes['attributes']);
 
         // Update the product
         $product->update(array_filter($attributes, function ($key) {
