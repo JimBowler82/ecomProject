@@ -1,6 +1,6 @@
 <x-homepage-layout>
 
-    {{ dd($product->attributes) }}
+    
 
     <x-slot name="title">{{ $title }}</x-slot>
 
@@ -29,10 +29,17 @@
                         <span class='block text-sm font-bold'>Description:</span>
                         {{ $product->description }}
                     </li>
+                    <li>
+                        <div class="flex flex-wrap border-2 p-2 border-gray-800">
+                            @foreach ($product->attributes as $type => $value )
+                                <p class="mr-2"><span class='font-bold text-sm capitalize'>{{ $type }}:</span> {{ $value }} {{ !$loop->last ? ' | ':''}} </p>
+                            @endforeach
+                        </div>
+                    </li>
                     <li class='mt-2 mb-2 font-bold text-xl'>
                         <h2>Price:<span class='ml-3'>£{{ number_format($product->price / 100, 2, '.', '')  }}</span></h2>
-                        
                     </li>
+                    
                 </ul>
                 <a href="/cart/add/{{ $product->id }}" class='box-border bg-gray-800 text-white text-center w-11/12 mx-auto py-3 mt-3 justify-self-end border-4 border-gray-800 hover:bg-red-300  hover:border-gray-800 hover:text-gray-800 hover:font-extrabold transition-all duration-300'>Add to basket</a>
             </div>
