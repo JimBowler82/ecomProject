@@ -16,13 +16,13 @@
                 @csrf
                 @method('PATCH')
 
-                <!-- Manufacturer -->
+                <!-- Name -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="name"  :value="__('Name')" class="sm:w-24" />
                     <x-input id="name" type="text" name="name" :value="$category->name" class="sm:w-9/12" required autocomplete='off' />
                 </div>
 
-                <!-- Model -->
+                <!-- Slug -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="slug"  :value="__('Slug')" class="sm:w-24" />
                     <x-input id="slug" type="text" name="slug" :value="$category->slug" class="sm:w-9/12" required />

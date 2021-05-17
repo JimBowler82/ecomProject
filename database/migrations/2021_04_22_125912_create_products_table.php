@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('condition');
             $table->text('description');
             $table->json('attributes');
+            $table->string('slug')->unique();
             $table->integer('price');
             $table->timestamps();
         });

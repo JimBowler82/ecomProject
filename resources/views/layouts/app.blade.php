@@ -34,8 +34,8 @@
         </div>
 
 
-        @yield('page-script')
         @yield('alert-script')
+        @yield('page-script')
        
     </body>
 </html>

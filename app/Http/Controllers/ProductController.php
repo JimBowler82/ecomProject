@@ -74,6 +74,7 @@ class ProductController extends Controller
             'picture' => ['file', 'required'],
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required'],
+            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Product'],
             'attributes' => ['nullable', 'JSON']
         ]);
 
@@ -85,6 +86,7 @@ class ProductController extends Controller
             'description' => $attributes['description'],
             'attributes' => json_decode($attributes['attributes']),
             'condition' => $attributes['condition'],
+            'slug' => $attributes['slug'],
             'price' => (int) bcmul($attributes['price'], 100.0),
         ]);
 
@@ -156,6 +158,7 @@ class ProductController extends Controller
             'picture' => ['file', 'nullable'],
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required'],
+            'slug' => ['string', 'alpha_dash', Rule::unique('products')->ignore($product)],
             'attributes' => ['nullable', 'JSON']
         ]);
 

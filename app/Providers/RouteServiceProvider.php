@@ -53,6 +53,10 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Models\Category::where('id', $value)->orWhere('slug', $value)->firstOrFail();
         });
 
+        Route::bind('product', function ($value) {
+            return \App\Models\Product::where('id', $value)->orWhere('slug', $value)->firstOrFail();
+        });
+
         Route::bind('productType', function ($value) {
             return \App\Models\ProductType::where('id', $value)->orWhere('slug', $value)->firstOrFail();
         });
