@@ -30,7 +30,7 @@
                         {{ $product->description }}
                     </li>
                     <li>
-                        <div class="flex flex-wrap border-2 p-2 border-gray-800">
+                        <div class="flex flex-wrap border-2 p-2 mt-2 mb-2 border-gray-800">
                             @foreach ($product->attributes as $type => $value )
                                 <p class="mr-2"><span class='font-bold text-sm capitalize'>{{ $type }}:</span> {{ $value }} {{ !$loop->last ? ' | ':''}} </p>
                             @endforeach

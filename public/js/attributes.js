@@ -1,30 +1,33 @@
+if(document.getElementById('attributes').value) {
+    attributes = JSON.parse(document.getElementById('attributes').value);
+    displayAttributes(attributes);
+} else {
+    let attributes = {};
+}
+    
+const addBtn = document.getElementById('add');
+addBtn.addEventListener('click', addAttribute);
 
-let attributes = {};
-
-window.addEventListener('DOMContentLoaded', () => {
-
-    document.getElementById('add').addEventListener('click', (e) => {
-        e.preventDefault();
+function addAttribute(e) {
+    e.preventDefault();
         
-        const key = e.target.parentNode.childNodes[5].value.toLowerCase().trim();
-        const value = e.target.parentElement.childNodes[7].value.toLowerCase().trim();
+    const key = e.target.parentNode.childNodes[5].value.toLowerCase().trim();
+    const value = e.target.parentElement.childNodes[7].value.toLowerCase().trim();
 
-        if(key && value) {
+    if(key && value) {
 
-            attributes = {...attributes, [key] : value};
+        attributes = {...attributes, [key] : value};
 
-            document.getElementById('attributes').value = JSON.stringify(attributes);
+        document.getElementById('attributes').value = JSON.stringify(attributes);
 
-            e.target.parentNode.childNodes[5].value = '';
-            e.target.parentNode.childNodes[5].focus();
-            e.target.parentElement.childNodes[7].value = '';
+        e.target.parentNode.childNodes[5].value = '';
+        e.target.parentNode.childNodes[5].focus();
+        e.target.parentElement.childNodes[7].value = '';
 
-            displayAttributes(attributes);
-        }
-                
-    });
-
-});
+        displayAttributes(attributes);
+        generateSlug();
+    }
+}
 
 function displayAttributes(obj) {
 
@@ -51,6 +54,7 @@ function displayAttributes(obj) {
         div.appendChild(button);
         container.appendChild(div);
     });
+
 }
 
 function remove(key) {
@@ -60,5 +64,27 @@ function remove(key) {
     event.target.parentNode.remove();
 
     document.getElementById('attributes').value = JSON.stringify(attributes);
-        
+    generateSlug();     
+}
+// End of Attributes.js
+
+
+
+const manufacturer = document.getElementById('manufacturer');
+const model = document.getElementById('model');
+const condition = document.getElementById('condition');
+
+
+[manufacturer, model].forEach(element => element.addEventListener('keyup', generateSlug));
+condition.addEventListener('change', generateSlug);
+
+
+
+function generateSlug() {
+    console.log(attributes);
+    const manufacturerString = manufacturer.value.replace(/\s/g, '-');
+    const modelString = model.value.replace(/\s/g, '-');
+    const attributesString = Object.values(attributes).join('-');
+
+    document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
 }

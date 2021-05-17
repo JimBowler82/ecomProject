@@ -12,13 +12,13 @@
             <h1 class='text-2xl mb-2'>Add product page</h1>
             <hr class="mb-6">
 
-            <form action="/products" method='POST' enctype="multipart/form-data">
+            <form action="/products" method='POST' enctype="multipart/form-data" onChange="generateSlug()" >
                 @csrf
 
                 <!-- Product Type -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="productType"  :value="__('Product Type')" class="sm:w-24" />
-                    <select name="productType" id="productType" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                    <select name="productType" id="productType" name="productType" value="{{ old('productType') }}" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                         <option value="" disabled selected>Select a type</option>
                         @foreach ($productTypes as $type )
                             <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -43,7 +43,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="description"  :value="__('Description')" class="sm:w-24 place-self-start" />
                     
-                    <textarea name="description" id="description" value="{{ old('description') }}"  rows="5" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-9/12" required ></textarea>
+                    <textarea name="description" id="description" rows="5" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-9/12" required >{{ old('description') }}</textarea>
                 </div>
 
                 <!-- Picture -->
@@ -84,13 +84,19 @@
                 <!-- Attributes -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label   :value="__('Attributes')" class="sm:w-24" />
-                    <div class="rounded-md flex justify-between w-8/12 flex-wrap">
+                    <div class="rounded-md flex justify-between w-8/12 flex-wrap" >
                         <div id="container" class="w-full p-1 flex flex-wrap "></div>
-                        <input type="hidden" id="attributes" name="attributes" >
+                        <input type="hidden" id="attributes" name="attributes" value="{{ old('attributes') }}">
                         <x-input id="attr-key" type="text" name="attr-key" :value="old('attr-key')" class="sm:w-1/3 " placeholder="" />
                         <x-input id="attr-val" type="text" name="attr-val" :value="old('attr-val')" class="sm:w-1/3" placeholder="" />
-                        <button class="bg-blue-500 text-white sm:w-1/5 rounded" id="add">Add</button>
+                        <button type="button" class="bg-blue-500 text-white sm:w-1/5 rounded" id="add">Add</button>
                     </div>
+                </div>
+
+                <!-- Slug -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+                    <x-label for="slug"  :value="__('Slug')" class="sm:w-24" />
+                    <x-input id="slug" type="text" name="slug" :value="old('slug')" class="sm:w-9/12" placeholder="e.g 'iPhone-11-Pro-unlocked-64gb'" required />
                 </div>
                 
                 <!-- Price -->
@@ -121,6 +127,12 @@
                 @error('categories')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Categories: </span>{{ $message }}</p>
                 @enderror
+                @error('attributes')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Attributes: </span>{{ $message }}</p>
+                @enderror
+                @error('slug')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
+                @enderror
                 @error('price')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Price: </span>{{ $message }}</p>
                 @enderror
@@ -139,6 +151,100 @@
     </div>
 
     @section('page-script')
-        <script src="{{ asset('js/attributes.js') }}" type="text/javascript"></script>
+        <script type="text/javascript" >
+            if(document.getElementById('attributes').value) {
+                attributes = JSON.parse(document.getElementById('attributes').value);
+                displayAttributes(attributes);
+            } else {
+                let attributes = {};
+            }
+                
+            const addBtn = document.getElementById('add');
+            addBtn.addEventListener('click', addAttribute);
+
+            function addAttribute(e) {
+                e.preventDefault();
+                    
+                const key = e.target.parentNode.childNodes[5].value.toLowerCase().trim();
+                const value = e.target.parentElement.childNodes[7].value.toLowerCase().trim();
+
+                if(key && value) {
+
+                    attributes = {...attributes, [key] : value};
+
+                    document.getElementById('attributes').value = JSON.stringify(attributes);
+
+                    e.target.parentNode.childNodes[5].value = '';
+                    e.target.parentNode.childNodes[5].focus();
+                    e.target.parentElement.childNodes[7].value = '';
+
+                    displayAttributes(attributes);
+                    generateSlug();
+                }
+            }
+
+            function displayAttributes(obj) {
+
+                const container = document.getElementById('container');
+                container.innerHTML = '';
+                attributesArray = Object.entries(obj);
+
+                attributesArray.forEach(attribute => {
+                    
+                    const div = document.createElement('div');
+                    const p = document.createElement('p');
+                    const button = document.createElement('button');
+
+                    div.classList = "inline p-1 m-1 shadow bg-gray-100 flex text-sm";
+                    p.classList = "capitalize";
+                    button.classList = "text-red-500 ml-2 font-bold";
+
+                    p.innerHTML = `<strong>${attribute[0]}:</strong> ${attribute[1]}`;
+                    button.innerText = "X";
+                    
+                    button.setAttribute('onclick', `remove("${attribute[0]}")`);
+
+                    div.appendChild(p);
+                    div.appendChild(button);
+                    container.appendChild(div);
+                });
+  
+            }
+
+            function remove(key) {
+                event.preventDefault();
+
+                delete attributes[key];
+                event.target.parentNode.remove();
+
+                document.getElementById('attributes').value = JSON.stringify(attributes);
+                generateSlug();     
+            }
+            // End of Attributes.js
+
+            
+
+            const manufacturer = document.getElementById('manufacturer');
+            const model = document.getElementById('model');
+            const condition = document.getElementById('condition');
+            
+            
+            [manufacturer, model].forEach(element => element.addEventListener('keyup', generateSlug));
+            condition.addEventListener('change', generateSlug);
+        
+            
+
+            function generateSlug() {
+                console.log(attributes);
+                const manufacturerString = manufacturer.value.replace(/\s/g, '-');
+                const modelString = model.value.replace(/\s/g, '-');
+                const attributesString = Object.values(attributes).join('-');
+
+                document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
+            }
+            
+            
+        </script>
+        
     @endsection
 </x-app-layout>
