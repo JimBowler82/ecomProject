@@ -15,16 +15,43 @@
             <form action="/categories" method='POST' enctype="multipart/form-data">
                 @csrf
 
-                <!-- Manufacturer -->
+                <!-- Name -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
-                    <x-label for="manufacturer"  :value="__('Name')" class="sm:w-24" />
+                    <x-label for="name"  :value="__('Name')" class="sm:w-24" />
                     <x-input id="name" type="text" name="name" :value="old('name')" class="sm:w-9/12" placeholder="e.g 'New Phones'" required autocomplete='off' />
                 </div>
 
-                <!-- Model -->
+                <!-- Slug -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="slug"  :value="__('Slug')" class="sm:w-24" />
                     <x-input id="slug" type="text" name="slug" :value="old('slug')" class="sm:w-9/12" placeholder="e.g 'new-phones'" required />
+                </div>
+
+                <!-- Hierarchy -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3 pt-3">
+                    <x-label for="operator"  :value="__('Nest Category')" class="sm:w-24 sm:self-start" />
+                    <div class="flex flex-col sm:w-9/12 ">
+                        <div class="flex flex-col sm:flex-row">
+                            <select name="operator" id="operator" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-1/4">
+                                <option value="root" selected>Root</option>
+                                <option value="after">After</option>
+                            </select>
+                            <select name="existingCategory" id="existingCategory" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4">
+                                <option value="0" selected>Select a category as parent</option>
+                                @php
+                                    $traverse = function ($categories, $prefix = '-') use (&$traverse) {
+                                        foreach ($categories as $category) {
+                                            
+                                            echo "<option value='$category->id'>$prefix $category->name</option>"; 
+                                            $traverse($category->children, $prefix.'-');
+                                        }
+                                    };
+    
+                                    $traverse($nodes);
+                                @endphp
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Errors -->

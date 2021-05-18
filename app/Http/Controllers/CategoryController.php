@@ -46,6 +46,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view('category.add-category', [
+            'nodes' => Category::get()->toTree(),
             'title' => 'Add Category'
         ]);
     }
@@ -61,14 +62,18 @@ class CategoryController extends Controller
     public function store()
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' =>['string', 'required', 'max:255', 'unique:App\Models\Category'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category']
         ]);
 
-        Category::create([
-            'name' => $attributes['name'],
-            'slug' => $attributes['slug']
-        ]);
+        $node = Category::create($attributes);
+
+        if (request('operator') === 'root') {
+            $node->saveAsRoot();
+        } else {
+            $parent = Category::find(request('existingCategory'));
+            $node->parent()->associate($parent)->save();
+        }
 
         return Redirect::route('categories.index')->with('success', 'Category added to database');
     }
