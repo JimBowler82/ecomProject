@@ -161,6 +161,13 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $nodes = $category->children;
+
+        foreach ($nodes as $node) {
+            $node->parent_id = $category->parent_id;
+            $node->save();
+        }
+
         $category->delete();
 
         return Redirect::route('categories.index')->with('success', 'Category deleted from database');
