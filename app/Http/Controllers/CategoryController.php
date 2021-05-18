@@ -109,6 +109,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('category.edit-category', [
+            'nodes' => Category::get()->toTree(),
             'category' => $category,
             'title' => 'Edit Category'
         ]);
@@ -126,12 +127,26 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' =>['string', 'required', 'max:255', Rule::unique('categories')->ignore($category)],
             'slug' => ['string', 'alpha_dash', Rule::unique('categories')->ignore($category)],
+            'operator' => ['required', Rule::in(['root', 'after'])],
         ]);
 
         $category->update($attributes);
 
+        if (request('operator') == 'root' && $category->isLeaf()) {
+            $category->saveAsRoot();
+        } elseif (request('operator') == 'after' && $category->isRoot()) {
+            $category->parent_id = request('existingCategory');
+            $category->save();
+        } elseif (request('operator') == 'after' && $category->isLeaf()) {
+            if ($category->parent->id != request('existingCategory')) {
+                $category->parent_id = request('existingCategory');
+                $category->save();
+            }
+        }
+
+        
         return Redirect::route('categories.index')->with('success', 'Category updated');
     }
 
