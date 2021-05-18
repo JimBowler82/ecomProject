@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class PagesController extends Controller
     {
         return view('show-products', [
             'productTypes' => ProductType::all(),
+            'categories' => Category::whereIsRoot()->get(),
             'title' => 'Latest Products',
             'products' => Product::orderBy('updated_at', 'desc')->paginate(9)
         ]);

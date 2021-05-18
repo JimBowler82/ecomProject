@@ -151,6 +151,7 @@
     </div>
 
     @section('page-script')
+
         <script type="text/javascript" >
             if(document.getElementById('attributes').value) {
                 attributes = JSON.parse(document.getElementById('attributes').value);

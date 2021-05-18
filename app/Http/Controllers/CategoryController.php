@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
@@ -84,8 +85,9 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return view('show-products', [
-            // 'categories' => Category::where('name', '<>', $category->name)->get(),
+            'categories' => $category->children,
             'title' => $category->name,
+            'current' => $category,
             'products' => $category->products()->paginate(9)
         ]);
     }
