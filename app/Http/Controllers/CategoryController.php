@@ -89,11 +89,13 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $categories = $category->descendants()->with('products')->get()->pluck('products');
+        $categories[] = $category->products;
+        
         return view('show-products', [
             'categories' => $category->children,
             'title' => $category->name,
-            'current' => $category,
-            'products' => $category->products()->paginate(9)
+            'products' => $categories->flatten(1)->paginate(9)
         ]);
     }
 

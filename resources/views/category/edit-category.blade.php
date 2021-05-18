@@ -68,7 +68,12 @@
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
                 @enderror
-                
+                @error('operator')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Operator: </span>{{ $message }}</p>
+                @enderror
+                @error('existingCategory')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Existing Category: </span>{{ $message }}</p>
+                @enderror
 
                 <!-- Form Buttons -->
                 <div class=" w-11/12 flex flex-row mt-10 mx-auto">
@@ -90,10 +95,8 @@
                 
                 const operator = {!! json_encode($category->isRoot()) !!};
                 document.getElementById('operator').value = operator ? 'root' : 'after';
-
                 document.getElementById('existingCategory').value = {{ $category->parent->id ?? 0 }};
-                
-
+            
             });
             
             

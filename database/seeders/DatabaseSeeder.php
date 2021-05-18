@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
         
 
-        Product::factory(10)->hasAttached(Category::findMany([1,2,4]))->hasImages(1, [
+        Product::factory(10)->hasAttached(Category::find(4))->hasImages(1, [
             'location' => 'images/iphone_placeholder.webp',
         ])->create([
             'manufacturer' => "Apple",
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
             'product_type_id' => $newPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached(Category::findMany([1,5,7]))->hasImages(1, [
+        Product::factory(10)->hasAttached(Category::find(8))->hasImages(1, [
             'location' => 'images/iphone_placeholder.webp',
         ])->create([
             'manufacturer' => "Apple",
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
             'product_type_id' => $refurbPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached(Category::findMany([1,2,3]))->hasImages(1, [
+        Product::factory(10)->hasAttached(Category::find(3))->hasImages(1, [
             'location' => 'images/samsung_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
             'product_type_id' => $newPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached(Category::findMany([1,5,6]))->hasImages(1, [
+        Product::factory(10)->hasAttached(Category::find(7))->hasImages(1, [
             'location' => 'images/samsung_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
             'product_type_id' => $refurbPhones->id,
         ]);
 
-        Product::factory(10)->hasAttached(Category::findMany([1,2]))->hasImages(1, [
+        Product::factory(10)->hasAttached(Category::find(5))->hasImages(1, [
             'location' => 'images/huawei_placeholder.webp',
         ])->create([
             'manufacturer' => "Huawei",

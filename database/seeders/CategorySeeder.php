@@ -31,6 +31,10 @@ class CategorySeeder extends Seeder
                                 'name' => 'New iPhones',
                                 'slug' => 'new-iPhones',
                             ],
+                            [
+                                'name' => 'New Huawei',
+                                'slug' => 'new-huawei',
+                            ],
                         ],
                     ],
                     [

@@ -62,23 +62,25 @@
                     </select>
                 </div>
 
-                <!-- Categories checkbox -->
+                <!-- Main Category -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
 
-                    <p class='font-medium text-sm text-gray-700 sm:w-24 place-self-start'>Categories</p>
+                    <p class='font-medium text-sm text-gray-700 sm:w-24 place-self-start'>Primary Category</p>
 
-                    <div class='mb-3 flex flex-wrap p-4 border border-gray-300 rounded-md'>
+                    <select name="mainCategory" id="mainCategory" class=" rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4">
+                        <option value="0" selected>Select a main category</option>
+                        @php
+                            $traverse = function ($categories, $prefix = '-') use (&$traverse) {
+                                foreach ($categories as $category) {
+                                    
+                                    echo "<option value='$category->id' >$prefix $category->name</option>"; 
+                                    $traverse($category->children, $prefix.'-');
+                                }
+                            };
 
-                        @if($categories)
-                            @foreach ($categories as $category )
-                            <div class='w-2/6 mb-3'>
-                                <x-label for="{{ $category->slug }}" value="{{ $category->name }}" />
-                                <x-input type="checkbox" name="categories[]" id="{{ $category->slug }}" value="{{ $category->id }}" />
-                            </div>
-                            @endforeach
-                        @endif
-
-                    </div>
+                            $traverse($nodes);
+                        @endphp
+                    </select>
                 </div>
 
                 <!-- Attributes -->
@@ -124,8 +126,8 @@
                 @error('condition')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Condition: </span>{{ $message }}</p>
                 @enderror
-                @error('categories')
-                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Categories: </span>{{ $message }}</p>
+                @error('mainCategory')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Main Categories: </span>{{ $message }}</p>
                 @enderror
                 @error('attributes')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Attributes: </span>{{ $message }}</p>
