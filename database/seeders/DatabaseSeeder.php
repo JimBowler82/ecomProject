@@ -24,24 +24,18 @@ class DatabaseSeeder extends Seeder
 
         // Product Types
 
-        $mobilePhones = ProductType::factory()->hasImage(1, [
-            'location' => 'images/new_phones.webp'
-        ])->create([
+        $mobilePhones = ProductType::factory()->create([
             'name' => 'Mobile Phones',
             'slug' => 'mobile-phones',
             
         ]);
 
-        $headPhones = ProductType::factory()->hasImage(1, [
-            'location' => 'images/refurb_phones.webp'
-        ])->create([
+        $headPhones = ProductType::factory()->create([
             'name' => 'Headphones',
             'slug' => 'headphones',
         ]);
 
-        $accessories = ProductType::factory()->hasImage(1, [
-            'location' => 'images/dummy_phone.webp'
-        ])->create([
+        $accessories = ProductType::factory()->create([
             'name' => 'Accessories',
             'slug' => 'accessories',
         ]);

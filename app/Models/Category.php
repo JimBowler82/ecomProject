@@ -13,12 +13,27 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    /**
+     * Relation to Products - belongs to many.
+     *
+     * @return void
+     */
     public function products()
     {
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
 
-    /*
+    /**
+     * Relation to Image - has one.
+     *
+     * @return void
+     */
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
+
+    /**
      * Get the full slug path based on ancestors.
      *
      * @return string
@@ -30,9 +45,28 @@ class Category extends Model
         return '/' . implode('/', $slugs);
     }
 
+    /**
+     * Get the path to the parent of the category.
+     *
+     * @return string
+     */
     public function getParentPathAttribute()
     {
         $slugs = $this->ancestors->pluck('slug')->toArray();
         return '/' . implode('/', $slugs);
+    }
+
+    /**
+     * Class boot method
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($category) {
+            $category->image()->delete();
+        });
     }
 }

@@ -18,7 +18,6 @@
 
                 <table class='border w-full text-center mb-2' style='min-width: 600px'>
                     <thead class="w-full bg-gray-200" style="padding: 5px">
-                        <th>Image</th>
                         <th>Name</th>
                         <th>Slug</th>
                         <th># of products</th>
@@ -28,9 +27,6 @@
     
                         @foreach ($productTypes as $type)
                             <tr class="border-b-2">
-                                <td class='p-2'>
-                                    <img src="{{ asset($type->image->location) }}" alt="{{ $type->name}}" width='50px' class='mx-auto'>
-                                </td>
                                 <td class='px-1'>
                                     {{ $type->name }}
                                 </td>

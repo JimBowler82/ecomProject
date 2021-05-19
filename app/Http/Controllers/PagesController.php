@@ -20,7 +20,6 @@ class PagesController extends Controller
     public function home()
     {
         return view('show-products', [
-            'productTypes' => ProductType::all(),
             'categories' => Category::whereIsRoot()->get(),
             'title' => 'Latest Products',
             'products' => Product::orderBy('updated_at', 'desc')->paginate(9)

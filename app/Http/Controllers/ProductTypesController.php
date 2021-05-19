@@ -61,7 +61,6 @@ class ProductTypesController extends Controller
         $attributes = request()->validate([
             'name' => ['string', 'required', 'max:255'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\ProductType'],
-            'picture' => ['file', 'required'],
         ]);
 
         $productType = ProductType::create([
@@ -69,35 +68,11 @@ class ProductTypesController extends Controller
             'slug' => $attributes['slug']
         ]);
 
-        // Store the image
-        $attributes['picture'] = request('picture')->store('images');
         
-        // Image - Product association
-        $productType->image()->save(new Image(['location' => $attributes['picture']]));
 
         return Redirect::route('productTypes.index')->with('success', 'Product type added!');
     }
     
-
-    /**
-     * Show
-     *
-     * Show all products linked to a particular product type
-     *
-     * @param ProductType $productType
-     * @return void
-     */
-    public function show(ProductType $productType)
-    {
-        return view('show-products', [
-            'productType' => $productType,
-            'title' => $productType->name,
-            'active' => '',
-            'products' => $productType->products()->orderBy('updated_at', 'desc')->paginate(9),
-            'categories' => $productType->subcategories()
-        ]);
-    }
-
 
     /**
      * Edit
@@ -131,28 +106,9 @@ class ProductTypesController extends Controller
         $attributes = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['string', 'alpha_dash', Rule::unique('product_types')->ignore($productType)],
-            'picture' => ['file', 'nullable']
         ]);
 
-        // If new picture, remove old and then save new
-        if (request('picture')) {
-            if (Storage::exists($productType->image->location)) {
-                Storage::delete($productType->image->location);
-            }
-            
-            $attributes['picture'] = request('picture')->store('images');
-
-            // Destroy old image model
-            Image::destroy($productType->image->id);
-
-            // Create new Image - ProductType association
-            $productType->image()->save(new Image(['location' => $attributes['picture']]));
-
-            // Update the product type
-            $productType->update(array_filter($attributes, function ($key) {
-                return $key != 'picture';
-            }, ARRAY_FILTER_USE_KEY));
-        }
+        $productType->update($attributes);
 
         return Redirect::route('productTypes.index')->with('success', 'Product type updated');
     }
@@ -168,14 +124,7 @@ class ProductTypesController extends Controller
      */
     public function destroy(ProductType $productType)
     {
-        $image = $productType->image->location;
-        
-        // Remove image from storage
-        if (Storage::exists($image)) {
-            Storage::delete($image);
-        }
-
-        // Delete type and image from database
+        // Delete type from database
         $productType->delete();
 
         return Redirect::route('productTypes.index')->with('success', 'Type deleted from database');

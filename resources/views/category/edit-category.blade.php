@@ -61,6 +61,13 @@
                     </div>
                 </div>
 
+                <!-- Picture -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3 pt-3">
+                    <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
+                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0"  />
+                    <img src="{{asset($category->image->location ?? 'images/default-avatar.jpeg')}}" width="50px" id="img-preview">
+                </div>
+
                 <!-- Errors -->
                 @error('name')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
@@ -73,6 +80,9 @@
                 @enderror
                 @error('existingCategory')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Existing Category: </span>{{ $message }}</p>
+                @enderror
+                @error('picture')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
                 @enderror
 
                 <!-- Form Buttons -->
@@ -96,6 +106,16 @@
                 const operator = {!! json_encode($category->isRoot()) !!};
                 document.getElementById('operator').value = operator ? 'root' : 'after';
                 document.getElementById('existingCategory').value = {{ $category->parent->id ?? 0 }};
+
+
+                
+                // Image preview
+                document.getElementById('picture').addEventListener('change', (e) => {
+                    const previewImage = document.getElementById('img-preview');
+                    previewImage.src = URL.createObjectURL(e.target.files[0]);
+                    previewImage.alt = 'preview image';
+                    previewImage.classList.remove('hidden');
+                });
             
             });
             

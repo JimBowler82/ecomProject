@@ -1,7 +1,5 @@
 <x-homepage-layout>
 
-    
-
     <x-slot name="title">{{ $title }}</x-slot>
 
     <div class='w-full pl-4 pr-4'>
@@ -41,7 +39,7 @@
                     </li>
                     
                 </ul>
-                <a href="/cart/add/{{ $product->id }}" class='box-border bg-gray-800 text-white text-center w-11/12 mx-auto py-3 mt-3 justify-self-end border-4 border-gray-800 hover:bg-red-300  hover:border-gray-800 hover:text-gray-800 hover:font-extrabold transition-all duration-300'>Add to basket</a>
+                <a href="/cart/add/{{ $product->slug }}" class='box-border bg-gray-800 text-white text-center w-11/12 mx-auto py-3 mt-3 justify-self-end border-4 border-gray-800 hover:bg-red-300  hover:border-gray-800 hover:text-gray-800 hover:font-extrabold transition-all duration-300'>Add to basket</a>
             </div>
 
         </div>

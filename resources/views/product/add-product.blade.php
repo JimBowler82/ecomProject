@@ -50,6 +50,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
                     <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
                     <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" required />
+                    <img alt="preview image" id="img-preview" width="50px" class="hidden">
                 </div>
 
                 <!-- Condition -->
@@ -127,7 +128,7 @@
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Condition: </span>{{ $message }}</p>
                 @enderror
                 @error('mainCategory')
-                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Main Categories: </span>{{ $message }}</p>
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Main Category: </span>{{ $message }}</p>
                 @enderror
                 @error('attributes')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Attributes: </span>{{ $message }}</p>
@@ -155,6 +156,8 @@
     @section('page-script')
 
         <script type="text/javascript" >
+
+            // Handling attributes
             if(document.getElementById('attributes').value) {
                 attributes = JSON.parse(document.getElementById('attributes').value);
                 displayAttributes(attributes);
@@ -223,10 +226,10 @@
                 document.getElementById('attributes').value = JSON.stringify(attributes);
                 generateSlug();     
             }
-            // End of Attributes.js
+            // End of attributes
 
             
-
+            // Slug generation
             const manufacturer = document.getElementById('manufacturer');
             const model = document.getElementById('model');
             const condition = document.getElementById('condition');
@@ -235,16 +238,25 @@
             [manufacturer, model].forEach(element => element.addEventListener('keyup', generateSlug));
             condition.addEventListener('change', generateSlug);
         
-            
-
+        
             function generateSlug() {
-                console.log(attributes);
                 const manufacturerString = manufacturer.value.replace(/\s/g, '-');
                 const modelString = model.value.replace(/\s/g, '-');
                 const attributesString = Object.values(attributes).join('-');
 
                 document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
             }
+            // End of slug generation
+
+            // Image preview
+            document.getElementById('picture').addEventListener('change', (e) => {
+                const previewImage = document.getElementById('img-preview');
+                previewImage.src = URL.createObjectURL(e.target.files[0]);
+                previewImage.alt = 'preview image';
+                previewImage.classList.remove('hidden');
+            });
+            
+
             
             
         </script>
