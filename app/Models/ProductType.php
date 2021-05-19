@@ -9,8 +9,19 @@ class ProductType extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes which are NOT mass assignable.
+     *
+     * @var array
+     */
     protected $guarded= [];
 
+
+    /**
+     * Relation to Products - has many.
+     *
+     * @return void
+     */
     public function products()
     {
         return $this->hasMany(Product::class);

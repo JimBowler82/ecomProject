@@ -9,7 +9,13 @@ class Image extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are NOT mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
+
 
     /**
      * Relation to Product - belongs to.

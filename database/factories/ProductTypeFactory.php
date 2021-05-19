@@ -14,6 +14,7 @@ class ProductTypeFactory extends Factory
      */
     protected $model = ProductType::class;
 
+    
     /**
      * Define the model's default state.
      *
