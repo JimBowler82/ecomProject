@@ -134,8 +134,11 @@
                 @error('condition')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Condition: </span>{{ $message }}</p>
                 @enderror
-                @error('categories')
-                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Categories: </span>{{ $message }}</p>
+                @error('mainCategory')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Main Category: </span>{{ $message }}</p>
+                @enderror
+                @error('attributes')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Attributes: </span>{{ $message }}</p>
                 @enderror
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
