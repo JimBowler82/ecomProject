@@ -11,7 +11,15 @@ class Category extends Model
     use HasFactory;
     use NodeTrait;
 
-    protected $fillable = ['name', 'slug'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'slug'
+    ];
+
 
     /**
      * Relation to Products - belongs to many.
@@ -23,6 +31,7 @@ class Category extends Model
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
 
+
     /**
      * Relation to Image - has one.
      *
@@ -32,6 +41,7 @@ class Category extends Model
     {
         return $this->hasOne(Image::class);
     }
+
 
     /**
      * Get the full slug path based on ancestors.
@@ -45,6 +55,7 @@ class Category extends Model
         return '/' . implode('/', $slugs);
     }
 
+
     /**
      * Get the path to the parent of the category.
      *
@@ -56,6 +67,7 @@ class Category extends Model
         return '/' . implode('/', $slugs);
     }
 
+    
     /**
      * Class boot method
      *
@@ -65,6 +77,7 @@ class Category extends Model
     {
         parent::boot();
 
+        // Delete any images associated with the category being deleted.
         static::deleting(function ($category) {
             $category->image()->delete();
         });
