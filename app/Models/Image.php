@@ -11,13 +11,24 @@ class Image extends Model
 
     protected $guarded = [];
 
+    /**
+     * Relation to Product - belongs to.
+     *
+     * @return void
+     */
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function productType()
+    
+    /**
+     * Relation to Category - belongs to.
+     *
+     * @return void
+     */
+    public function category()
     {
-        return $this->belongsTo(ProductType::class);
+        return $this->belongsTo(Category::class);
     }
 }

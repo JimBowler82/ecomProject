@@ -61,6 +61,13 @@
                     </div>
                 </div>
 
+                <!-- Picture -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3 pt-3">
+                    <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
+                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0"  />
+                    <img src="{{asset($category->image->location ?? 'images/default-avatar.jpeg')}}" width="50px">
+                </div>
+
                 <!-- Errors -->
                 @error('name')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
@@ -73,6 +80,9 @@
                 @enderror
                 @error('existingCategory')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Existing Category: </span>{{ $message }}</p>
+                @enderror
+                @error('picture')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
                 @enderror
 
                 <!-- Form Buttons -->

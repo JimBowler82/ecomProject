@@ -54,12 +54,22 @@
                     </div>
                 </div>
 
+                <!-- Picture -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3 pt-3">
+                    <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
+                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" required />
+                    <img id="img-preview" class="hidden" width="50px">
+                </div>
+
                 <!-- Errors -->
                 @error('name')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
                 @enderror
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
+                @enderror
+                @error('picture')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
                 @enderror
 
                 <!-- Form Buttons -->
@@ -77,5 +87,14 @@
 
     @section('page-script')
         <script src="{{ asset('js/add-category.js') }}" ></script>
+        <script>
+            // Image preview
+            document.getElementById('picture').addEventListener('change', (e) => {
+                const previewImage = document.getElementById('img-preview');
+                previewImage.src = URL.createObjectURL(e.target.files[0]);
+                previewImage.alt = 'preview image';
+                previewImage.classList.remove('hidden');
+            });
+        </script>
     @stop
 </x-app-layout>

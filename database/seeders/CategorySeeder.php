@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -93,7 +94,7 @@ class CategorySeeder extends Seeder
 
       
         foreach ($categories as $category) {
-            Category::create($category);
+            $category = Category::create($category);
         }
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('show');
+        $this->middleware('auth')->except(['show', 'destructureCategoryFromSlug']);
     }
 
 
@@ -63,7 +64,8 @@ class CategoryController extends Controller
     {
         $attributes = request()->validate([
             'name' =>['string', 'required', 'max:255', 'unique:App\Models\Category'],
-            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category']
+            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category'],
+            'picture' => ['file'],
         ]);
 
         $node = Category::create($attributes);
@@ -74,6 +76,12 @@ class CategoryController extends Controller
             $parent = Category::find(request('existingCategory'));
             $node->parent()->associate($parent)->save();
         }
+
+        // Store the image
+        $attributes['picture'] = request('picture')->store('images');
+        
+        // Image - Product association
+        $node->image()->save(new Image(['location' => $attributes['picture']]));
 
         return Redirect::route('categories.index')->with('success', 'Category added to database');
     }
@@ -133,9 +141,10 @@ class CategoryController extends Controller
             'name' =>['string', 'required', 'max:255', Rule::unique('categories')->ignore($category)],
             'slug' => ['string', 'alpha_dash', Rule::unique('categories')->ignore($category)],
             'operator' => ['required', Rule::in(['root', 'after'])],
+            'picture' => ['file', 'nullable'],
         ]);
 
-        $category->update($attributes);
+        
 
         if (request('operator') == 'root' && $category->isLeaf()) {
             $category->saveAsRoot();
@@ -148,6 +157,31 @@ class CategoryController extends Controller
                 $category->save();
             }
         }
+
+        // If new picture, remove old and then save new
+        if (request('picture') && isset($category->image->location)) {
+            if (Storage::exists($category->image->location)) {
+                Storage::delete($category->image->location);
+            }
+            
+            $attributes['picture'] = request('picture')->store('images');
+
+            // Destroy old image model
+            Image::destroy($category->image->id);
+
+            // Create new Image - Category association
+            $category->image()->save(new Image(['location' => $attributes['picture']]));
+        } elseif (request('picture')) {
+            $attributes['picture'] = request('picture')->store('images');
+
+            // Create new Image - Category association
+            $category->image()->save(new Image(['location' => $attributes['picture']]));
+        }
+
+        // Update the product type
+        $category->update(array_filter($attributes, function ($key) {
+            return $key != 'picture';
+        }, ARRAY_FILTER_USE_KEY));
 
         
         return Redirect::route('categories.index')->with('success', 'Category updated');
@@ -171,6 +205,14 @@ class CategoryController extends Controller
             $node->save();
         }
 
+        $image = $category->image->location;
+        
+        // Remove image from storage
+        if (Storage::exists($image)) {
+            Storage::delete($image);
+        }
+
+        // Delete type and image from database
         $category->delete();
 
         return Redirect::route('categories.index')->with('success', 'Category deleted from database');

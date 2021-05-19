@@ -28,13 +28,6 @@
                     <x-input id="slug" type="text" name="slug" :value="$productType->slug" class="sm:w-9/12" required />
                 </div>
 
-                <!-- Picture -->
-                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
-                    <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
-                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0"  />
-                    <img src="{{asset($productType->image->location)}}" width="50px">
-                </div>
-
                 <!-- Errors -->
                 @error('name')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
@@ -42,11 +35,7 @@
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
                 @enderror
-                @error('picture')
-                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Picture: </span>{{ $message }}</p>
-                @enderror
-                
-
+            
                 <!-- Form Buttons -->
                 <div class=" w-11/12 flex flex-row mt-10 mx-auto">
                     <button type="reset" class="bg-gray-800 text-white rounded px-3 py-2 flex-1 mr-4 hover:bg-red-300 hover:text-gray-800 transition-colors duration-300">Clear Form</button>
