@@ -97,13 +97,15 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $categories = $category->descendants()->with('products')->get()->pluck('products');
+        $categories = $category->descendants()->with('products.images')->get()->pluck('products');
         $categories[] = $category->products;
+        //dd($categories);
         
         return view('show-products', [
-            'categories' => $category->children,
+            'categories' => $category->children()->with('image')->get(),
             'title' => $category->name,
             'parent_path' => $category->parent_path,
+            'ancestors' => Category::ancestorsAndSelf($category->id),
             'products' => $categories->flatten(1)->paginate(9)
         ]);
     }
