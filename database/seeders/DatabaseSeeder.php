@@ -17,58 +17,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // // Categories
-
-        // $apple = Category::factory()->create([
-        //     'name' => 'Apple',
-        //     'slug' => 'apple'
-        // ]);
-
-        // $samsung = Category::factory()->create([
-        //     'name' => 'Samsung',
-        //     'slug' => 'samsung'
-        // ]);
-
-        // $android = Category::factory()->create([
-        //     'name' => 'Android',
-        //     'slug' => 'android'
-        // ]);
-
-        // $other = Category::factory()->create([
-        //     'name' => 'Other',
-        //     'slug' => 'other'
-        // ]);
+        // Categories
 
         $this->call([CategorySeeder::class]);
         
 
         // Product Types
 
-        $newPhones = ProductType::factory()->hasImage(1, [
+        $mobilePhones = ProductType::factory()->hasImage(1, [
             'location' => 'images/new_phones.webp'
         ])->create([
-            'name' => 'New Phones',
-            'slug' => 'new-phones',
+            'name' => 'Mobile Phones',
+            'slug' => 'mobile-phones',
             
         ]);
 
-        $refurbPhones = ProductType::factory()->hasImage(1, [
+        $headPhones = ProductType::factory()->hasImage(1, [
             'location' => 'images/refurb_phones.webp'
         ])->create([
-            'name' => 'Refurbished Phones',
-            'slug' => 'refurbished-phones',
+            'name' => 'Headphones',
+            'slug' => 'headphones',
         ]);
 
-        $usedPhones = ProductType::factory()->hasImage(1, [
+        $accessories = ProductType::factory()->hasImage(1, [
             'location' => 'images/dummy_phone.webp'
         ])->create([
-            'name' => 'Used Phones',
-            'slug' => 'used-phones',
+            'name' => 'Accessories',
+            'slug' => 'accessories',
         ]);
 
-        // Products
 
-        
+        // Products
 
         Product::factory(10)->hasAttached(Category::find(4))->hasImages(1, [
             'location' => 'images/iphone_placeholder.webp',
@@ -76,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'manufacturer' => "Apple",
             'model' => "IPhone 12",
             'condition' => 'new',
-            'product_type_id' => $newPhones->id,
+            'product_type_id' => $mobilePhones->id,
         ]);
 
         Product::factory(10)->hasAttached(Category::find(8))->hasImages(1, [
@@ -85,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'manufacturer' => "Apple",
             'model' => "IPhone 12",
             'condition' => 'refurbished',
-            'product_type_id' => $refurbPhones->id,
+            'product_type_id' => $mobilePhones->id,
         ]);
 
         Product::factory(10)->hasAttached(Category::find(3))->hasImages(1, [
@@ -94,7 +73,7 @@ class DatabaseSeeder extends Seeder
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",
             'condition' => 'new',
-            'product_type_id' => $newPhones->id,
+            'product_type_id' => $mobilePhones->id,
         ]);
 
         Product::factory(10)->hasAttached(Category::find(7))->hasImages(1, [
@@ -103,7 +82,7 @@ class DatabaseSeeder extends Seeder
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",
             'condition' => 'refurbished',
-            'product_type_id' => $refurbPhones->id,
+            'product_type_id' => $mobilePhones->id,
         ]);
 
         Product::factory(10)->hasAttached(Category::find(5))->hasImages(1, [
@@ -112,7 +91,7 @@ class DatabaseSeeder extends Seeder
             'manufacturer' => "Huawei",
             'model' => "GP30 Lite",
             'condition' => 'new',
-            'product_type_id' => $newPhones->id,
+            'product_type_id' => $mobilePhones->id,
         ]);
     }
 }

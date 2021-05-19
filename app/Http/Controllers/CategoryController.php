@@ -95,6 +95,7 @@ class CategoryController extends Controller
         return view('show-products', [
             'categories' => $category->children,
             'title' => $category->name,
+            'parent_path' => $category->parent_path,
             'products' => $categories->flatten(1)->paginate(9)
         ]);
     }
@@ -173,5 +174,18 @@ class CategoryController extends Controller
         $category->delete();
 
         return Redirect::route('categories.index')->with('success', 'Category deleted from database');
+    }
+
+    /**
+     * Destructure category from slug heirarchy
+     *
+     * @return void
+     */
+    public function destructureCategoryFromSlug($categories)
+    {
+        $categories = explode('/', $categories);
+        $categorySlug = array_pop($categories);
+        
+        return $this->show(Category::where('slug', $categorySlug)->firstOrFail());
     }
 }

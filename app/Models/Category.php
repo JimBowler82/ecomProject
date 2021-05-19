@@ -19,7 +19,7 @@ class Category extends Model
     }
 
     /*
-    * Get the full slug path based on ancestors.
+     * Get the full slug path based on ancestors.
      *
      * @return string
      */
@@ -27,6 +27,12 @@ class Category extends Model
     {
         $slugs = $this->ancestors->pluck('slug')->toArray();
         $slugs[] = $this->slug;
+        return '/' . implode('/', $slugs);
+    }
+
+    public function getParentPathAttribute()
+    {
+        $slugs = $this->ancestors->pluck('slug')->toArray();
         return '/' . implode('/', $slugs);
     }
 }

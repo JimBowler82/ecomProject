@@ -7,10 +7,9 @@
     <div class="p-4 flex overflow-x-scroll ">
             
         
-
         @if (isset($categories))
 
-                <x-categories-buttons :categories="$categories"/>
+                <x-categories-buttons :categories="$categories" :parentPath="$parent_path ?? '/'"/>
 
         @else
 
