@@ -33,6 +33,8 @@ Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class
 Route::get('/cart/remove/{product:id}', [App\Http\Controllers\CartController::class, 'remove']);
 Route::get('/cart/remove/{product:id}/all', [App\Http\Controllers\CartController::class, 'removeAll']);
 
-Route::get('/{productType:slug}', [App\Http\Controllers\ProductTypesController::class, 'show']);
+//Route::get('/{productType:slug}', [App\Http\Controllers\ProductTypesController::class, 'show']);
 
-Route::get('/{productType:slug}/{category:slug}', [App\Http\Controllers\TypeCategoryController::class, 'show']);
+// Route::get('/{productType:slug}/{category:slug}', [App\Http\Controllers\TypeCategoryController::class, 'show']);
+
+Route::get('/{categories}', [App\Http\Controllers\CategoryController::class, 'destructureCategoryFromSlug'])->where('categories', '.*');

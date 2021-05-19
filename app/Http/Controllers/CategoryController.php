@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
@@ -45,6 +46,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view('category.add-category', [
+            'nodes' => Category::get()->toTree(),
             'title' => 'Add Category'
         ]);
     }
@@ -60,14 +62,18 @@ class CategoryController extends Controller
     public function store()
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' =>['string', 'required', 'max:255', 'unique:App\Models\Category'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category']
         ]);
 
-        Category::create([
-            'name' => $attributes['name'],
-            'slug' => $attributes['slug']
-        ]);
+        $node = Category::create($attributes);
+
+        if (request('operator') === 'root') {
+            $node->saveAsRoot();
+        } else {
+            $parent = Category::find(request('existingCategory'));
+            $node->parent()->associate($parent)->save();
+        }
 
         return Redirect::route('categories.index')->with('success', 'Category added to database');
     }
@@ -83,10 +89,14 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $categories = $category->descendants()->with('products')->get()->pluck('products');
+        $categories[] = $category->products;
+        
         return view('show-products', [
-            // 'categories' => Category::where('name', '<>', $category->name)->get(),
+            'categories' => $category->children,
             'title' => $category->name,
-            'products' => $category->products()->paginate(9)
+            'parent_path' => $category->parent_path,
+            'products' => $categories->flatten(1)->paginate(9)
         ]);
     }
 
@@ -102,6 +112,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('category.edit-category', [
+            'nodes' => Category::get()->toTree(),
             'category' => $category,
             'title' => 'Edit Category'
         ]);
@@ -119,12 +130,26 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' =>['string', 'required', 'max:255', Rule::unique('categories')->ignore($category)],
             'slug' => ['string', 'alpha_dash', Rule::unique('categories')->ignore($category)],
+            'operator' => ['required', Rule::in(['root', 'after'])],
         ]);
 
         $category->update($attributes);
 
+        if (request('operator') == 'root' && $category->isLeaf()) {
+            $category->saveAsRoot();
+        } elseif (request('operator') == 'after' && $category->isRoot()) {
+            $category->parent_id = request('existingCategory');
+            $category->save();
+        } elseif (request('operator') == 'after' && $category->isLeaf()) {
+            if ($category->parent->id != request('existingCategory')) {
+                $category->parent_id = request('existingCategory');
+                $category->save();
+            }
+        }
+
+        
         return Redirect::route('categories.index')->with('success', 'Category updated');
     }
 
@@ -139,8 +164,28 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $nodes = $category->children;
+
+        foreach ($nodes as $node) {
+            $node->parent_id = $category->parent_id;
+            $node->save();
+        }
+
         $category->delete();
 
         return Redirect::route('categories.index')->with('success', 'Category deleted from database');
+    }
+
+    /**
+     * Destructure category from slug heirarchy
+     *
+     * @return void
+     */
+    public function destructureCategoryFromSlug($categories)
+    {
+        $categories = explode('/', $categories);
+        $categorySlug = array_pop($categories);
+        
+        return $this->show(Category::where('slug', $categorySlug)->firstOrFail());
     }
 }

@@ -28,6 +28,39 @@
                     <x-input id="slug" type="text" name="slug" :value="$category->slug" class="sm:w-9/12" required />
                 </div>
 
+                <!-- Current Parent -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3">
+                    <x-label for="currentParent"  :value="__('')" class="sm:w-24" />
+                    <p class="text-sm">Current parent category is set to: {{ $category->isRoot() ? "Root" : $category->parent->name }}</p>
+                </div>
+
+                <!-- Hierarchy -->
+                <div class="flex flex-col sm:flex-row sm:items-center mb-3 ">
+                    <x-label for="operator"  :value="__('Nest Category')" class="sm:w-24 sm:self-start" />
+                    <div class="flex flex-col sm:w-9/12 ">
+                        <div class="flex flex-col sm:flex-row">
+                            <select name="operator" id="operator" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-1/4">
+                                <option value="root" selected>Root</option>
+                                <option value="after">After</option>
+                            </select>
+                            <select name="existingCategory" id="existingCategory" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4">
+                                <option value="0" selected>Select a category as parent</option>
+                                @php
+                                    $traverse = function ($categories, $prefix = '-') use (&$traverse) {
+                                        foreach ($categories as $category) {
+                                            
+                                            echo "<option value='$category->id'>$prefix $category->name</option>"; 
+                                            $traverse($category->children, $prefix.'-');
+                                        }
+                                    };
+    
+                                    $traverse($nodes);
+                                @endphp
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Errors -->
                 @error('name')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Name: </span>{{ $message }}</p>
@@ -35,7 +68,12 @@
                 @error('slug')
                     <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Slug: </span>{{ $message }}</p>
                 @enderror
-                
+                @error('operator')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Operator: </span>{{ $message }}</p>
+                @enderror
+                @error('existingCategory')
+                    <p class="text-red-500 text-xs mt-2"><span class='font-bold'>Existing Category: </span>{{ $message }}</p>
+                @enderror
 
                 <!-- Form Buttons -->
                 <div class=" w-11/12 flex flex-row mt-10 mx-auto">
@@ -52,5 +90,16 @@
 
     @section('page-script')
         <script src="{{ asset('js/add-category.js') }}" ></script>
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                
+                const operator = {!! json_encode($category->isRoot()) !!};
+                document.getElementById('operator').value = operator ? 'root' : 'after';
+                document.getElementById('existingCategory').value = {{ $category->parent->id ?? 0 }};
+            
+            });
+            
+            
+        </script>
     @stop
 </x-app-layout>

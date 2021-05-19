@@ -47,6 +47,7 @@ class ProductController extends Controller
     public function create()
     {
         return view('product.add-product', [
+            'nodes' => Category::get()->toTree(),
             'productTypes' => ProductType::all(),
             'categories' => Category::all(),
             'title' => 'Add Product'
@@ -75,7 +76,8 @@ class ProductController extends Controller
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\Product'],
-            'attributes' => ['nullable', 'JSON']
+            'attributes' => ['nullable', 'JSON'],
+            'mainCategory' => ['required', 'numeric']
         ]);
 
         // Product create
@@ -97,7 +99,7 @@ class ProductController extends Controller
         $product->images()->save(new Image(['location' => $attributes['picture']]));
 
         // Product - Categories association
-        $product->categories()->syncWithoutDetaching(request()->categories);
+        $product->categories()->syncWithoutDetaching(request('mainCategory'));
 
         return Redirect::route('products.index')->with('success', 'Product added to database');
     }
@@ -130,6 +132,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return view('product.edit-product', [
+            'nodes' => Category::get()->toTree(),
             'product' => $product,
             'productTypes' => ProductType::all(),
             'categories' => Category::all(),
