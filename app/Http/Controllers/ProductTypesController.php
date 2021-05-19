@@ -75,25 +75,6 @@ class ProductTypesController extends Controller
     
 
     /**
-     * Show
-     *
-     * Show all products linked to a particular product type
-     *
-     * @param ProductType $productType
-     * @return void
-     */
-    public function show(ProductType $productType)
-    {
-        return view('show-products', [
-            'productType' => $productType,
-            'title' => $productType->name,
-            'products' => $productType->products()->orderBy('updated_at', 'desc')->paginate(9),
-            'categories' => $productType->subcategories()
-        ]);
-    }
-
-
-    /**
      * Edit
      *
      * Returns the view to edit a particular product type

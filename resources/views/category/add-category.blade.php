@@ -33,10 +33,10 @@
                     <div class="flex flex-col sm:w-9/12 ">
                         <div class="flex flex-col sm:flex-row">
                             <select name="operator" id="operator" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-1/4">
-                                <option value="root" selected>Root</option>
+                                <option value="root">Root</option>
                                 <option value="after">After</option>
                             </select>
-                            <select name="existingCategory" id="existingCategory" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4">
+                            <select name="existingCategory" id="existingCategory" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4" disabled>
                                 <option value="0" selected>Select a category as parent</option>
                                 @php
                                     $traverse = function ($categories, $prefix = '-') use (&$traverse) {
@@ -88,6 +88,18 @@
     @section('page-script')
         <script src="{{ asset('js/add-category.js') }}" ></script>
         <script>
+
+            const operatorSelect = document.getElementById('operator');
+            const categorySelect = document.getElementById('existingCategory');
+
+            operatorSelect.addEventListener('change', () => {
+                if(operatorSelect.value === 'root') {
+                    categorySelect.value = 0;
+                }
+                categorySelect.toggleAttribute('disabled');
+            });
+            
+
             // Image preview
             document.getElementById('picture').addEventListener('change', (e) => {
                 const previewImage = document.getElementById('img-preview');

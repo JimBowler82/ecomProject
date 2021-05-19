@@ -18,7 +18,7 @@
 
                 <table class='border w-full text-center mb-2' style='min-width: 600px'>
                     <thead class="w-full bg-gray-200" style="padding: 5px">
-                        <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Slug</th>
                         <th># of Products</th>
@@ -29,7 +29,7 @@
                         @foreach ($categories as $category)
                             <tr class="border-b-2">
                                 <td class='p-2'>
-                                    {{ $category->id }}
+                                    <img src="{{ asset($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="{{ $category->name}}" width='50px' class='mx-auto'>
                                 </td>
                                 <td class='p-2'>
                                     {{ $category->name }}

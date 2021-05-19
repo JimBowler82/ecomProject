@@ -32,7 +32,11 @@ class ProductController extends Controller
     public function index()
     {
         return view('product.product-manager', [
-            'products' => Product::all()->sortByDesc('updated_at'),
+            'products' => Product::with([
+                'images',
+                'categories',
+                'productType'
+            ])->orderBy('updated_at', 'desc')->get(),
             'title' => 'Product Manager'
         ]);
     }
@@ -49,7 +53,6 @@ class ProductController extends Controller
         return view('product.add-product', [
             'nodes' => Category::get()->toTree(),
             'productTypes' => ProductType::all(),
-            'categories' => Category::all(),
             'title' => 'Add Product'
         ]);
     }
@@ -135,7 +138,6 @@ class ProductController extends Controller
             'nodes' => Category::get()->toTree(),
             'product' => $product,
             'productTypes' => ProductType::all(),
-            'categories' => Category::all(),
             'title' => 'Edit Product'
         ]);
     }
