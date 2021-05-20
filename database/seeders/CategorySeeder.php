@@ -64,12 +64,12 @@ class CategorySeeder extends Seeder
                         'slug' => 'new-headphones',
                         'children' => [
                             [
-                                'name' => 'Samsung Headphones',
-                                'slug' => 'samsung-headphones',
+                                'name' => 'Samsung',
+                                'slug' => 'samsung',
                             ],
                             [
-                                'name' => 'Apple Headphones',
-                                'slug' => 'apple-headphones',
+                                'name' => 'Apple',
+                                'slug' => 'apple',
                             ],
                         ],
                     ],
@@ -78,12 +78,12 @@ class CategorySeeder extends Seeder
                         'slug' => 'used-headphones',
                         'children' => [
                             [
-                                'name' => 'Samsung Headphones',
-                                'slug' => 'samsung-headphones',
+                                'name' => 'Samsung',
+                                'slug' => 'samsung',
                             ],
                             [
-                                'name' => 'Apple ',
-                                'slug' => 'apple-headphones',
+                                'name' => 'Apple',
+                                'slug' => 'apple',
                             ],
                         ],
                     ]

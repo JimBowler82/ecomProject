@@ -31,7 +31,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('category.category-manager', [
-            'categories' => Category::with(['image', 'products'])->get(),
+            'categories' => Category::with(['image', 'products'])->withDepth()->get()->toFlatTree(),
             'title' => 'Category Manager'
         ]);
     }

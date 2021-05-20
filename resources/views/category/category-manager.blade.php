@@ -21,6 +21,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Slug</th>
+                        <th>Path</th>
                         <th># of Products</th>
                         <th>Actions</th>
                     </thead>
@@ -32,10 +33,13 @@
                                     <img src="{{ asset($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="{{ $category->name}}" width='50px' class='mx-auto'>
                                 </td>
                                 <td class='p-2'>
-                                    {{ $category->name }}
+                                    {{ str_repeat('-', $category->depth).$category->name }}
                                 </td>
                                 <td class='p-2'>
                                     {{ $category->slug }}
+                                </td>
+                                <td class='p-2 text-xs'>
+                                    {{ $category->full_slug_path }}
                                 </td>
                                 <td class='p-2'>
                                     {{ count($category->products) }}
