@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Database\Seeder;
@@ -62,7 +61,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(10)->hasAttached(Category::find(3))->hasImages(1, [
-            'location' => 'images/samsung_placeholder.webp',
+            'location' => 'images/iphone_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",

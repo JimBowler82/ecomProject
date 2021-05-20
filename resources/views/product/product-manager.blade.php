@@ -23,7 +23,7 @@
                         <th>Manufacturer</th>
                         <th>Model</th>
                         <th>Condition</th>
-                        <th>Categories</th>
+                        <th>Primary Category</th>
                         <th>Price</th>
                         <th>Actions</th>
                     </thead>
@@ -47,11 +47,7 @@
                                     {{ $product->condition }}
                                 </td>
                                 <td class='p-2'>
-                                    <ul>
-                                        @foreach ($product->categories as $category )
-                                            <li>{{ $category->name }}</li>
-                                        @endforeach
-                                    </ul>
+                                    {{ $product->categories->first()->name }}
                                 </td>
                                 <td class='p-2'>
                                     £{{ number_format($product->price / 100, 2, '.', '')  }}

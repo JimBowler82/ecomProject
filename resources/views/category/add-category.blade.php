@@ -87,26 +87,7 @@
 
     @section('page-script')
         <script src="{{ asset('js/add-category.js') }}" ></script>
-        <script>
-
-            const operatorSelect = document.getElementById('operator');
-            const categorySelect = document.getElementById('existingCategory');
-
-            operatorSelect.addEventListener('change', () => {
-                if(operatorSelect.value === 'root') {
-                    categorySelect.value = 0;
-                }
-                categorySelect.toggleAttribute('disabled');
-            });
-            
-
-            // Image preview
-            document.getElementById('picture').addEventListener('change', (e) => {
-                const previewImage = document.getElementById('img-preview');
-                previewImage.src = URL.createObjectURL(e.target.files[0]);
-                previewImage.alt = 'preview image';
-                previewImage.classList.remove('hidden');
-            });
-        </script>
-    @stop
+        <script src="{{ asset('js/img-preview.js') }}"></script>
+        <script src={{ asset('js/disable-operator.js') }}></script>
+    @endsection
 </x-app-layout>

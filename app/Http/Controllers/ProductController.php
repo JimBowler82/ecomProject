@@ -169,8 +169,8 @@ class ProductController extends Controller
 
         // If new picture, remove old and then save new
         if (request('picture')) {
-            if (Storage::exists($product->images()->first()->location)) {
-                Storage::delete($product->images()->first()->location);
+            if (Storage::exists($product->images->first()->location)) {
+                Storage::delete($product->images->first()->location);
             }
             
             $attributes['picture'] = request('picture')->store('images');
@@ -179,7 +179,7 @@ class ProductController extends Controller
             Image::destroy($product->images->first()->id);
 
             // Create new Image - Product association
-            $product->images()->save(new Image(['location' => $attributes['picture']]));
+            $product->images->save(new Image(['location' => $attributes['picture']]));
         }
 
         // Convert pounds to pence
@@ -188,14 +188,14 @@ class ProductController extends Controller
         }
 
         // Update the category associatons
-        $product->categories()->sync(request()->categories);
+        $product->categories()->sync(request('mainCategory'));
 
         // Attributes to json 'attributes' => json_decode(request('attributes')),
         $attributes['attributes'] = json_decode($attributes['attributes']);
 
         // Update the product
         $product->update(array_filter($attributes, function ($key) {
-            return $key != 'picture';
+            return $key != 'picture' || $key != 'mainCategory';
         }, ARRAY_FILTER_USE_KEY));
 
         return Redirect::route('products.index')->with('success', 'Product updated in database');
@@ -211,7 +211,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $images = $product->images()->get();
+        $images = $product->images->get();
         
         foreach ($images as $image) {
             // Remove image from storage

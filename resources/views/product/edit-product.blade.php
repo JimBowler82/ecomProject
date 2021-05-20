@@ -72,8 +72,9 @@
                     <p class='font-medium text-sm text-gray-700 sm:w-24 place-self-start'>Categories</p>
 
                     <div class="flex flex-col w-9/12">
+                        
                         <select name="mainCategory" id="mainCategory" class=" rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-full">
-                            <option value="0" selected>Select a main category</option>
+                            <option value="0">Select a main category</option>
                             @php
                                 $traverse = function ($categories, $prefix = '-') use (&$traverse) {
                                     foreach ($categories as $category) {
@@ -161,6 +162,8 @@
     </div>
     @section('page-script')
         <script type="text/javascript">
+
+            // Start of attributes
             if(document.getElementById('attributes').value) {
                 attributes = JSON.parse(document.getElementById('attributes').value);
                 displayAttributes(attributes);
@@ -229,10 +232,10 @@
                 document.getElementById('attributes').value = JSON.stringify(attributes);
                 generateSlug();     
             }
-            // End of Attributes.js
+            // End of attributes
 
 
-
+            // Slug Generation
             const manufacturer = document.getElementById('manufacturer');
             const model = document.getElementById('model');
             const condition = document.getElementById('condition');
@@ -251,7 +254,9 @@
 
                 document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
             }
+            // End of slug generation
 
+            
             window.addEventListener('DOMContentLoaded', () => {
                 const condition = {!! json_encode($product->condition) !!}
                 const productType = {!! json_encode($product->productType->id) !!}

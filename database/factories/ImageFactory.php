@@ -24,6 +24,7 @@ class ImageFactory extends Factory
     {
         return [
             "location" => "",
+            "category_id" => null,
             "product_id" => null,
         ];
     }

@@ -100,6 +100,8 @@
 
     @section('page-script')
         <script src="{{ asset('js/add-category.js') }}" ></script>
+        <script src="{{ asset('js/img-preview.js') }}"></script>
+        <script src={{ asset('js/disable-operator.js') }}></script>
         <script>
             window.addEventListener('DOMContentLoaded', () => {
                 
@@ -107,19 +109,8 @@
                 document.getElementById('operator').value = operator ? 'root' : 'after';
                 document.getElementById('existingCategory').value = {{ $category->parent->id ?? 0 }};
 
-
-                
-                // Image preview
-                document.getElementById('picture').addEventListener('change', (e) => {
-                    const previewImage = document.getElementById('img-preview');
-                    previewImage.src = URL.createObjectURL(e.target.files[0]);
-                    previewImage.alt = 'preview image';
-                    previewImage.classList.remove('hidden');
-                });
-            
             });
-            
-            
+               
         </script>
     @stop
 </x-app-layout>

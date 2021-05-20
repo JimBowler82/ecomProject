@@ -68,20 +68,23 @@
 
                     <p class='font-medium text-sm text-gray-700 sm:w-24 place-self-start'>Primary Category</p>
 
-                    <select name="mainCategory" id="mainCategory" class=" rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-3/4">
-                        <option value="0" selected>Select a main category</option>
-                        @php
-                            $traverse = function ($categories, $prefix = '-') use (&$traverse) {
-                                foreach ($categories as $category) {
-                                    
-                                    echo "<option value='$category->id' >$prefix $category->name</option>"; 
-                                    $traverse($category->children, $prefix.'-');
-                                }
-                            };
+                    <div class="flex flex-col w-9/12">
+                        <select name="mainCategory" id="mainCategory" class=" rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-full">
+                            <option value="0" selected>Select a main category</option>
+                            @php
+                                $traverse = function ($categories, $prefix = '-') use (&$traverse) {
+                                    foreach ($categories as $category) {
+                                        
+                                        echo "<option value='$category->id' >$prefix $category->name</option>"; 
+                                        $traverse($category->children, $prefix.'-');
+                                    }
+                                };
 
-                            $traverse($nodes);
-                        @endphp
-                    </select>
+                                $traverse($nodes);
+                            @endphp
+                        </select>
+                        <a href="{{ url('categories/create') }}" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new category</a>
+                    </div>
                 </div>
 
                 <!-- Attributes -->
