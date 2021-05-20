@@ -1,3 +1,5 @@
+
+// Product Attributes
 if(document.getElementById('attributes').value) {
     attributes = JSON.parse(document.getElementById('attributes').value);
     displayAttributes(attributes);
@@ -66,25 +68,6 @@ function remove(key) {
     document.getElementById('attributes').value = JSON.stringify(attributes);
     generateSlug();     
 }
-// End of Attributes.js
 
 
-
-const manufacturer = document.getElementById('manufacturer');
-const model = document.getElementById('model');
-const condition = document.getElementById('condition');
-
-
-[manufacturer, model].forEach(element => element.addEventListener('keyup', generateSlug));
-condition.addEventListener('change', generateSlug);
-
-
-
-function generateSlug() {
-    console.log(attributes);
-    const manufacturerString = manufacturer.value.replace(/\s/g, '-');
-    const modelString = model.value.replace(/\s/g, '-');
-    const attributesString = Object.values(attributes).join('-');
-
-    document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
-}
+// End of attributes

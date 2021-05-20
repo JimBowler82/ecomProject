@@ -53,7 +53,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3  ">
                     <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
                     <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" />
-                    <img src="{{asset($product->images->first()->location)}}" width="50px">
+                    <img src="{{asset($product->images->first()->location)}}" width="50px" id="img-preview">
                 </div>
 
                 <!-- Condition -->
@@ -161,133 +161,40 @@
         
     </div>
     @section('page-script')
+        <script src="{{ asset('js/product-attributes.js') }}"></script>
+        <script src="{{ asset('js/img-preview.js') }}"></script>
+        <script src="{{ asset('js/slug-generation.js') }}"></script>
         <script type="text/javascript">
 
-            // Start of attributes
-            if(document.getElementById('attributes').value) {
-                attributes = JSON.parse(document.getElementById('attributes').value);
-                displayAttributes(attributes);
-            } else {
-                let attributes = {};
-            }
-    
-            const addBtn = document.getElementById('add');
-            addBtn.addEventListener('click', addAttribute);
-
-            function addAttribute(e) {
-                e.preventDefault();
-                    
-                const key = e.target.parentNode.childNodes[5].value.toLowerCase().trim();
-                const value = e.target.parentElement.childNodes[7].value.toLowerCase().trim();
-
-                if(key && value) {
-
-                    attributes = {...attributes, [key] : value};
-
-                    document.getElementById('attributes').value = JSON.stringify(attributes);
-
-                    e.target.parentNode.childNodes[5].value = '';
-                    e.target.parentNode.childNodes[5].focus();
-                    e.target.parentElement.childNodes[7].value = '';
-
-                    displayAttributes(attributes);
-                    generateSlug();
-                }
-            }
-
-            function displayAttributes(obj) {
-
-                const container = document.getElementById('container');
-                container.innerHTML = '';
-                attributesArray = Object.entries(obj);
-
-                attributesArray.forEach(attribute => {
-                    
-                    const div = document.createElement('div');
-                    const p = document.createElement('p');
-                    const button = document.createElement('button');
-
-                    div.classList = "inline p-1 m-1 shadow bg-gray-100 flex text-sm";
-                    p.classList = "capitalize";
-                    button.classList = "text-red-500 ml-2 font-bold";
-
-                    p.innerHTML = `<strong>${attribute[0]}:</strong> ${attribute[1]}`;
-                    button.innerText = "X";
-                    
-                    button.setAttribute('onclick', `remove("${attribute[0]}")`);
-
-                    div.appendChild(p);
-                    div.appendChild(button);
-                    container.appendChild(div);
-                });
-
-            }
-
-            function remove(key) {
-                event.preventDefault();
-
-                delete attributes[key];
-                event.target.parentNode.remove();
-
-                document.getElementById('attributes').value = JSON.stringify(attributes);
-                generateSlug();     
-            }
-            // End of attributes
-
-
-            // Slug Generation
-            const manufacturer = document.getElementById('manufacturer');
-            const model = document.getElementById('model');
-            const condition = document.getElementById('condition');
-
-
-            [manufacturer, model].forEach(element => element.addEventListener('keyup', generateSlug));
-            condition.addEventListener('change', generateSlug);
-
-
-
-            function generateSlug() {
-                console.log(attributes);
-                const manufacturerString = manufacturer.value.replace(/\s/g, '-');
-                const modelString = model.value.replace(/\s/g, '-');
-                const attributesString = Object.values(attributes).join('-');
-
-                document.getElementById('slug').value = [manufacturerString,modelString,condition.value, attributesString].join('-');
-            }
-            // End of slug generation
-
-            
-            window.addEventListener('DOMContentLoaded', () => {
-                const condition = {!! json_encode($product->condition) !!}
-                const productType = {!! json_encode($product->productType->id) !!}
-                
+                // Pre-fill drop down options with database data
                 const productTypeOptions = document.querySelectorAll('#product_type_id > option');
                 const conditionOptions = document.querySelectorAll('#condition > option');
+                const mainCategoryOptions = document.getElementById('mainCategory');
 
-                conditionOptions.forEach(option => {
-                    if (option.value === condition) {
-                        option.selected = true;
-                    } 
-                })
+                const condition = {!! json_encode($product->condition) !!}
+                const productType = {!! json_encode($product->productType->id) !!}
+                attributes = {!! json_encode($product->attributes) !!};
 
                 productTypeOptions.forEach(option => {
                     if (option.value == productType) {
                         option.selected = true;
                     } 
-                })
+                });
 
-                attributes = {!! json_encode($product->attributes) !!};
-                
+                conditionOptions.forEach(option => {
+                    if (option.value === condition) {
+                        option.selected = true;
+                    } 
+                });
+
+                mainCategoryOptions.value = {{ $product->categories->first()->id ?? 0 }};
+
                 document.getElementById('attributes').value = JSON.stringify(attributes);
 
+                // Render existing product attributes
                 displayAttributes(attributes);
 
-                // Main Category Select
-                document.getElementById('mainCategory').value = {{ $product->categories->first()->id ?? 0 }};
-            });
+        </script> 
+    @endsection
 
-            
-        </script>
-        
-    @stop
 </x-app-layout>
