@@ -73,35 +73,19 @@
 
                     <div class="flex flex-col w-9/12">
                         
-                        <select name="mainCategory" id="mainCategory" class=" rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-full">
-                            <option value="0">Select a main category</option>
-                            @php
-                                $traverse = function ($categories, $prefix = '-') use (&$traverse) {
-                                    foreach ($categories as $category) {
-                                        
-                                        echo "<option value='$category->id' >$prefix $category->name</option>"; 
-                                        $traverse($category->children, $prefix.'-');
-                                    }
-                                };
-    
-                                $traverse($nodes);
-                            @endphp
-                        </select>
+                        <x-category-dropdown :nodes="$nodes" id="mainCategory" name="mainCategory" class="sm:w-full" />
                         <a href="{{ url('categories/create') }}" class="text-sm text-blue-500 underline hover:text-gray-800 sm:ml-3">Add new category</a>
+                   
                     </div>
                     
                 </div>
 
                 <!-- Attributes -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3">
-                    <x-label   :value="__('Attributes')" class="sm:w-24" />
-                    <div class="rounded-md flex justify-between w-8/12 flex-wrap">
-                        <div id="container" class="w-full p-1 flex flex-wrap "></div>
-                        <input type="hidden" id="attributes" name="attributes" >
-                        <x-input id="attr-key" type="text" name="attr-key" :value="old('attr-key')" class="sm:w-1/3 " placeholder="" />
-                        <x-input id="attr-val" type="text" name="attr-val" :value="old('attr-val')" class="sm:w-1/3" placeholder="" />
-                        <button class="bg-blue-500 text-white sm:w-1/5 rounded" id="add">Add</button>
-                    </div>
+
+                    <x-label :value="__('Attributes')" class="sm:w-24" />
+                    <x-attributes-form />
+                    
                 </div>
 
                 <!-- Slug -->
