@@ -63,8 +63,9 @@ class CategoryController extends Controller
     public function store()
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255', 'unique:App\Models\Category'],
-            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Category'],
+            'name' =>['string', 'required', 'max:255'],
+            'slug' => ['string', 'alpha_dash'],
+            'operator' => ['required', Rule::in(['root', 'after'])],
             'picture' => ['file'],
         ]);
 
@@ -77,11 +78,14 @@ class CategoryController extends Controller
             $node->parent()->associate($parent)->save();
         }
 
-        // Store the image
-        $attributes['picture'] = request('picture')->store('images');
+        if (request('picture')) {
+            // Store the image
+            $attributes['picture'] = request('picture')->store('images');
+                    
+            // Image - Product association
+            $node->image()->save(new Image(['location' => $attributes['picture']]));
+        }
         
-        // Image - Product association
-        $node->image()->save(new Image(['location' => $attributes['picture']]));
 
         return Redirect::route('categories.index')->with('success', 'Category added to database');
     }
@@ -140,14 +144,14 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255', Rule::unique('categories')->ignore($category)],
-            'slug' => ['string', 'alpha_dash', Rule::unique('categories')->ignore($category)],
+            'name' =>['string', 'required', 'max:255'],
+            'slug' => ['string', 'alpha_dash'],
             'operator' => ['required', Rule::in(['root', 'after'])],
             'picture' => ['file', 'nullable'],
         ]);
 
         
-
+        // Update category heirarchy
         if (request('operator') == 'root' && $category->isLeaf()) {
             $category->saveAsRoot();
         } elseif (request('operator') == 'after' && $category->isRoot()) {
@@ -207,7 +211,7 @@ class CategoryController extends Controller
             $node->save();
         }
 
-        $image = $category->image->location;
+        $image = $category->image->location ?? null;
         
         // Remove image from storage
         if (Storage::exists($image)) {
@@ -225,11 +229,19 @@ class CategoryController extends Controller
      *
      * @return void
      */
-    public function destructureCategoryFromSlug($categories)
+    public function destructureCategoryFromSlug(Request $request, $categories)
     {
+        $segments = $request->segments();
+        $segmentsCount = count($request->segments());
         $categories = explode('/', $categories);
         $categorySlug = array_pop($categories);
         
+        if ($segmentsCount > 1) {
+            $parent = Category::where('slug', $segments[$segmentsCount - 2])->firstOrFail();
+            
+            return $this->show(Category::where('slug', $categorySlug)->where('parent_id', $parent->id)->firstOrFail());
+        }
+
         return $this->show(Category::where('slug', $categorySlug)->firstOrFail());
     }
 }

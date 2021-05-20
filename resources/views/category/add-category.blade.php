@@ -57,7 +57,7 @@
                 <!-- Picture -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3 pt-3">
                     <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
-                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" required />
+                    <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" />
                     <img id="img-preview" class="hidden" width="50px">
                 </div>
 

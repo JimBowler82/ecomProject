@@ -25,16 +25,16 @@ class CategorySeeder extends Seeder
                         'slug' => 'new-phones',
                         'children' => [
                             [
-                                'name' => 'New Samsung',
-                                'slug' => 'new-samsung',
+                                'name' => 'Samsung',
+                                'slug' => 'samsung',
                             ],
                             [
-                                'name' => 'New iPhones',
-                                'slug' => 'new-iPhones',
+                                'name' => 'iPhones',
+                                'slug' => 'iPhones',
                             ],
                             [
-                                'name' => 'New Huawei',
-                                'slug' => 'new-huawei',
+                                'name' => 'Huawei',
+                                'slug' => 'huawei',
                             ],
                         ],
                     ],
@@ -43,12 +43,12 @@ class CategorySeeder extends Seeder
                         'slug' => 'refurbished-phones',
                         'children' => [
                             [
-                                'name' => 'Refurbished Samsung',
-                                'slug' => 'refurbished-samsung',
+                                'name' => 'Samsung',
+                                'slug' => 'samsung',
                             ],
                             [
-                                'name' => 'Refurbished IPhones',
-                                'slug' => 'refurbished-iPhones',
+                                'name' => 'IPhones',
+                                'slug' => 'iPhones',
                             ],
                         ],
                     ],
@@ -64,12 +64,12 @@ class CategorySeeder extends Seeder
                         'slug' => 'new-headphones',
                         'children' => [
                             [
-                                'name' => 'New Samsung Headphones',
-                                'slug' => 'new-samsung-headphones',
+                                'name' => 'Samsung Headphones',
+                                'slug' => 'samsung-headphones',
                             ],
                             [
-                                'name' => 'New Apple Headphones',
-                                'slug' => 'new-apple-headphones',
+                                'name' => 'Apple Headphones',
+                                'slug' => 'apple-headphones',
                             ],
                         ],
                     ],
@@ -78,12 +78,12 @@ class CategorySeeder extends Seeder
                         'slug' => 'used-headphones',
                         'children' => [
                             [
-                                'name' => 'Refurbished Samsung Headphones',
-                                'slug' => 'refurbished-samsung-headphones',
+                                'name' => 'Samsung Headphones',
+                                'slug' => 'samsung-headphones',
                             ],
                             [
-                                'name' => 'Refurbished Apple ',
-                                'slug' => 'refurbished-apple-headphones',
+                                'name' => 'Apple ',
+                                'slug' => 'apple-headphones',
                             ],
                         ],
                     ]
@@ -94,7 +94,15 @@ class CategorySeeder extends Seeder
 
       
         foreach ($categories as $category) {
-            $category = Category::create($category);
+            $newCategory = Category::create($category);
+
+            if ($newCategory->slug === 'mobile-phones') {
+                $image = Image::create(['location' => 'images/new_phones.webp']);
+            } else {
+                $image = Image::create(['location' => 'images/headphones.webp']);
+            }
+
+            $newCategory->image()->save($image);
         }
     }
 }
