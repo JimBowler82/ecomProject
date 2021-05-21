@@ -25,6 +25,7 @@ class ProductTypeFactory extends Factory
         return [
             "name" => "New Phones",
             "slug" => "new-phones",
+            "properties" => "",
         ];
     }
 }

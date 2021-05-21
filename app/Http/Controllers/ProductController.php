@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
@@ -76,44 +77,29 @@ class ProductController extends Controller
      *
      * @return void
      */
-    public function store()
+    public function store(StoreProductRequest $request)
     {
         
-
-        // Validate
-        $attributes = request()->validate([
-            'productType' => ['required', 'integer'],
-            'manufacturer' => ['string', 'required', 'max:255'],
-            'model' => ['string', 'required', 'max:255'],
-            'description' => ['string', 'required'],
-            'picture' => ['file', 'required'],
-            'condition' => ['required', Rule::in(['new', 'refurbished'])],
-            'price' => ['numeric', 'required'],
-            'slug' => ['string', 'alpha_dash', 'unique:App\Models\Product'],
-            'attributes' => ['required', 'JSON'],
-            'mainCategory' => ['required', 'numeric']
-        ]);
-
         // Product create
         $product = Product::create([
-            'product_type_id' => $attributes['productType'],
-            'manufacturer' => $attributes['manufacturer'],
-            'model' => $attributes['model'],
-            'description' => $attributes['description'],
-            'attributes' => json_decode($attributes['attributes']),
-            'condition' => $attributes['condition'],
-            'slug' => $attributes['slug'],
-            'price' => (int) bcmul($attributes['price'], 100.0),
+            'product_type_id' => $request['productType'],
+            'manufacturer' => $request['manufacturer'],
+            'model' => $request['model'],
+            'description' => $request['description'],
+            'attributes' => json_decode($request['attributes']),
+            'condition' => $request['condition'],
+            'slug' => $request['slug'],
+            'price' => (int) bcmul($request['price'], 100.0),
         ]);
 
         // Store the image
-        $attributes['picture'] = request('picture')->store('images');
+        $path = $request->file('picture')->store('images');
         
         // Image - Product association
-        $product->images()->save(new Image(['location' => $attributes['picture']]));
+        $product->images()->save(new Image(['location' => $path]));
 
         // Product - Categories association
-        $product->categories()->syncWithoutDetaching(request('mainCategory'));
+        $product->categories()->syncWithoutDetaching($request['mainCategory']);
 
         return Redirect::route('products.index')->with('success', 'Product added to database');
     }

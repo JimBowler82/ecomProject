@@ -26,4 +26,10 @@ class ProductType extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+
+    public function getPropertiesAttribute($value)
+    {
+        return unserialize($value);
+    }
 }

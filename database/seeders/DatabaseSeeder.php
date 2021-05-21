@@ -26,17 +26,19 @@ class DatabaseSeeder extends Seeder
         $mobilePhones = ProductType::factory()->create([
             'name' => 'Mobile Phones',
             'slug' => 'mobile-phones',
-            
+            'properties' => serialize(['colour','network','storage']),
         ]);
 
         $headPhones = ProductType::factory()->create([
             'name' => 'Headphones',
             'slug' => 'headphones',
+            'properties' => serialize(['colour','connection',]),
         ]);
 
         $accessories = ProductType::factory()->create([
             'name' => 'Accessories',
             'slug' => 'accessories',
+            'properties' => serialize([]),
         ]);
 
 
