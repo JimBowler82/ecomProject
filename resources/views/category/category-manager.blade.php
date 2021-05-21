@@ -30,7 +30,7 @@
                         @foreach ($categories as $category)
                             <tr class="border-b-2">
                                 <td class='p-2'>
-                                    <img src="{{ asset($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="{{ $category->name}}" width='50px' class='mx-auto'>
+                                    <img src="{{ Storage::url($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="{{ $category->name}}" width='50px' class='mx-auto'>
                                 </td>
                                 <td class='p-2'>
                                     {{ str_repeat('-', $category->depth).$category->name }}

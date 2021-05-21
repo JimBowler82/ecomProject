@@ -17,7 +17,7 @@
                 
                 <div class='flex border-b-2 border-gray-200 m-4 p-3 item' id="item-{{ $id }}">
                     <div class='mr-4 flex items-center'>
-                        <img src="{{ $details['product']->images->first()->location }}" alt="" width='50px'>
+                        <img src="{{ Storage::url($details['product']->images->first()->location) }}" alt="" width='50px'>
                     </div>
 
                     <div class='flex items-center flex-1'>

@@ -11,6 +11,16 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    /**
+     * Images used by seeder, Not to be deleted from storage
+     *
+     * @var array
+     */
+    private $protectedImages = [
+        'images/new_phones.webp',
+        'images/headphones.webp',
+        'images/default-avatar.jpeg',
+    ];
 
     /**
      * Constructor
@@ -166,7 +176,7 @@ class CategoryController extends Controller
 
         // If new picture, remove old and then save new
         if (request('picture') && isset($category->image->location)) {
-            if (Storage::exists($category->image->location)) {
+            if (Storage::exists($category->image->location) && !in_array($category->image->location, $this->protectedImages)) {
                 Storage::delete($category->image->location);
             }
             
@@ -212,9 +222,9 @@ class CategoryController extends Controller
         }
 
         $image = $category->image->location ?? null;
-        
+
         // Remove image from storage
-        if (Storage::exists($image)) {
+        if (Storage::exists($image) && !in_array($image, $this->protectedImages)) {
             Storage::delete($image);
         }
 

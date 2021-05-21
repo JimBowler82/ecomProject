@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::factory(10)->hasAttached(Category::find(3))->hasImages(1, [
-            'location' => 'images/iphone_placeholder.webp',
+            'location' => 'images/samsung_placeholder.webp',
         ])->create([
             'manufacturer' => "Samsung",
             'model' => "Galaxy S20",

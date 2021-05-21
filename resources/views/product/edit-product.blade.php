@@ -47,13 +47,11 @@
                     <textarea name="description" id="description" rows="5" class="rounded-md border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 sm:w-9/12" required >{{ $product->description }}</textarea>
                 </div>
                 
-
-
                 <!-- Picture -->
                 <div class="flex flex-col sm:flex-row sm:items-center mb-3  ">
                     <x-label for="picture"  :value="__('Picture')" class="sm:w-24" />
                     <x-input id="picture" type="file" name="picture" :value="old('picture')" style="border-radius: 0" />
-                    <img src="{{asset($product->images->first()->location)}}" width="50px" id="img-preview">
+                    <img src="{{Storage::url($product->images->first()->location)}}" width="50px" id="img-preview">
                 </div>
 
                 <!-- Condition -->

@@ -14,6 +14,17 @@ use Illuminate\Validation\Rule;
 class ProductController extends Controller
 {
     /**
+     * Images used by seeder, Not to be deleted from storage
+     *
+     * @var array
+     */
+    private $protectedImages = [
+        'images/iphone_placeholder.webp',
+        'images/samsung_placeholder.webp',
+        'images/huawei_placeholder.webp'
+    ];
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -79,7 +90,7 @@ class ProductController extends Controller
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\Product'],
-            'attributes' => ['nullable', 'JSON'],
+            'attributes' => ['required', 'JSON'],
             'mainCategory' => ['required', 'numeric']
         ]);
 
@@ -164,12 +175,13 @@ class ProductController extends Controller
             'condition' => ['required', Rule::in(['new', 'refurbished'])],
             'price' => ['numeric', 'required'],
             'slug' => ['string', 'alpha_dash', Rule::unique('products')->ignore($product)],
-            'attributes' => ['nullable', 'JSON']
+            'attributes' => ['nullable', 'JSON'],
+            'mainCategory' => ['required', 'numeric']
         ]);
 
         // If new picture, remove old and then save new
         if (request('picture')) {
-            if (Storage::exists($product->images->first()->location)) {
+            if (Storage::exists($product->images->first()->location) && !in_array($product->images->first()->location, $this->protectedImages)) {
                 Storage::delete($product->images->first()->location);
             }
             
@@ -179,7 +191,7 @@ class ProductController extends Controller
             Image::destroy($product->images->first()->id);
 
             // Create new Image - Product association
-            $product->images->save(new Image(['location' => $attributes['picture']]));
+            $product->images()->save(new Image(['location' => $attributes['picture']]));
         }
 
         // Convert pounds to pence
@@ -195,7 +207,7 @@ class ProductController extends Controller
 
         // Update the product
         $product->update(array_filter($attributes, function ($key) {
-            return $key != 'picture' || $key != 'mainCategory';
+            return $key != 'picture' && $key != 'mainCategory';
         }, ARRAY_FILTER_USE_KEY));
 
         return Redirect::route('products.index')->with('success', 'Product updated in database');
@@ -211,11 +223,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $images = $product->images->get();
+        $images = $product->images->all();
         
         foreach ($images as $image) {
             // Remove image from storage
-            if (Storage::exists($image->location)) {
+            if (Storage::exists($image->location) && !in_array($image->location, $this->protectedImages)) {
                 Storage::delete($image->location);
             }
         }

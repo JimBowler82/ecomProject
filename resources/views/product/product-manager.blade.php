@@ -32,7 +32,7 @@
                         @foreach ($products as $product)
                             <tr class="border-b-2">
                                 <td class='p-2'>
-                                    <img src="{{ asset($product->images->first()->location) }}" alt="{{ $product->manufacturer . ' ' . $product->model}}" width='50px' class='mx-auto'>
+                                    <img src="{{ Storage::url($product->images->first()->location) }}" alt="{{ $product->manufacturer . ' ' . $product->model}}" width='50px' class='mx-auto'>
                                 </td>
                                 <td class='px-1'>
                                     {{ $product->productType->name }}

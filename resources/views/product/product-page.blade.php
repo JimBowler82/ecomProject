@@ -11,7 +11,7 @@
         <div class='bg-white mx-auto flex flex-col sm:flex-row p-4 rounded' style='max-width: 900px; '>
 
             <div class='w-4/5 sm:w-1/2 flex justify-center mx-auto'>
-                <img src="{{ asset($product->images->first()->location) }}" alt="{{ $product->manufacturer . ' ' . $product->model }}">
+                <img src="{{ Storage::url($product->images->first()->location) }}" alt="{{ $product->manufacturer . ' ' . $product->model }}">
             </div>
 
             <div class='bg-green-100 flex flex-col p-8 sm:w-1/2 ml-2 mt-2 w-full shadow-lg'>

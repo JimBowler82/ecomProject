@@ -8,7 +8,7 @@
 
     <a href="{{ $category->full_slug_path }}" class='ml-3 pt-2 px-3 bg-gray-50 hover:bg-green-100 transition-colors duration-300 shadow-lg flex flex-col w-48 flex-none'>
         <div class='shadow-md p-1 bg-white flex-1 flex items-center justify-center'>
-            <img src="{{ asset($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="" class="max-h-32">
+            <img src="{{ Storage::url($category->image->location ?? 'images/default-avatar.jpeg') }}" alt="" class="max-h-32">
         </div>
         <p class="mt-3">{{ $category->name }}</p>
     </a>
