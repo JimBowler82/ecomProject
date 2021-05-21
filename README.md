@@ -4,17 +4,17 @@ An ecommerce webstore project for tech products. Features a webstore and back-of
 
 Built with:
 - PHP, Laravel 8,
-- MySql
+- MySql 5.7
 - Tailwind CSS
 ## How to use
 
-### 1 Clone the repo
+### 1 - Clone the repo
 
 ```php
     git clone
 ```
 
-### 2 Install 
+### 2 - Install 
 ```php
 cd ecomProject
 ```
@@ -24,14 +24,21 @@ composer install
 ```php
 npm install
 ```
-### 3 `.env` File
+### 3 - Populate your `.env` File
 - Copy over the `.env.example` file to your  `.env` file.
   - `cp .env.example .env`
   <br>
 - Add your database credentials to the `.env` file
 
-### 4 Generate your encryption key
+### 4 - Generate your encryption key
 `php artisan key:generate`
 
-### Finally, run database migrations & seeder
+### 5 - Finally, run database migrations & seeder
 `php artisan migrate:fresh --seed`
+
+---
+
+## Back-Office
+- The back-office can be accessed via `/backoffice`.
+
+- Back-office is auth protected, so log in or register first.
