@@ -105,7 +105,10 @@ class ProductTypesController extends Controller
         $attributes = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['string', 'alpha_dash', Rule::unique('product_types')->ignore($productType)],
+            'properties' => ['json'],
         ]);
+
+        $attributes['properties'] = serialize(json_decode(request()->properties));
 
         $productType->update($attributes);
 

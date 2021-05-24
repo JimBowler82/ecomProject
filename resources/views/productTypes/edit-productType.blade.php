@@ -32,9 +32,9 @@
                 <div class="flex flex-col mb-3 sm:flex-row sm:items-center">
                     <x-label for="attributes"  :value="__('Attributes')" class="sm:w-24" />
                     <input type="hidden" id="properties" name="properties" value="">
-                    <div>
+                    <div class="w-9/12 ">
                         <div id="collection" class="p-1 text-green-800 bg-gray-300"></div>
-                        <input type="text" name="attributes" id="attributes">
+                        <x-input id="attributes" name="attributes" type="text" class="w-full" />
                     </div>
                 </div>
 
