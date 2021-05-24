@@ -148,7 +148,9 @@
 
     @section('page-script')
         <script>
-            window.data = {!! json_encode($productTypes) !!};
+            window.data ={
+                "productTypesArray": {!! json_encode($productTypes) !!},
+            } ;
         </script>
         <script src="{{ asset('js/product-attributes.js') }}"></script>
         <script src="{{ asset('js/img-preview.js') }}"></script>

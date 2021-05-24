@@ -2,7 +2,7 @@
 const typeSelect = document.getElementById('productType');
 const requiredList = document.getElementById('requiredList');
 
-const typesArray = window.data;
+const typesArray = window.data.productTypesArray;
 
 typeSelect.addEventListener('change', () => {
     requiredList.innerHTML = '';
