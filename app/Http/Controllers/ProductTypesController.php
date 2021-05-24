@@ -31,7 +31,7 @@ class ProductTypesController extends Controller
     {
         return view('productTypes.productType-manager', [
             'productTypes' => ProductType::all(),
-            'title' => 'Product Type Manager'
+            'title' => 'Product Type Manager',
         ]);
     }
 
@@ -58,21 +58,21 @@ class ProductTypesController extends Controller
      */
     public function store()
     {
+
         $attributes = request()->validate([
             'name' => ['string', 'required', 'max:255'],
             'slug' => ['string', 'alpha_dash', 'unique:App\Models\ProductType'],
+            'properties' => ['json'],
         ]);
 
         $productType = ProductType::create([
             'name' => $attributes['name'],
-            'slug' => $attributes['slug']
+            'slug' => $attributes['slug'],
+            'properties' => serialize(json_decode(request()->properties)),
         ]);
-
-        
 
         return Redirect::route('productTypes.index')->with('success', 'Product type added!');
     }
-    
 
     /**
      * Edit
@@ -86,10 +86,9 @@ class ProductTypesController extends Controller
     {
         return view('productTypes.edit-productType', [
             'title' => 'Edit Product Type',
-            'productType' => $productType
+            'productType' => $productType,
         ]);
     }
-
 
     /**
      * Update
@@ -112,7 +111,6 @@ class ProductTypesController extends Controller
 
         return Redirect::route('productTypes.index')->with('success', 'Product type updated');
     }
-
 
     /**
      * Destroy
