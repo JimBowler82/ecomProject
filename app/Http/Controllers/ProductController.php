@@ -22,7 +22,7 @@ class ProductController extends Controller
     private $protectedImages = [
         'images/iphone_placeholder.webp',
         'images/samsung_placeholder.webp',
-        'images/huawei_placeholder.webp'
+        'images/huawei_placeholder.webp',
     ];
 
     /**
@@ -32,7 +32,6 @@ class ProductController extends Controller
     {
         $this->middleware('auth')->except('show');
     }
-
 
     /**
      * Index
@@ -47,9 +46,9 @@ class ProductController extends Controller
             'products' => Product::with([
                 'images',
                 'categories',
-                'productType'
+                'productType',
             ])->orderBy('updated_at', 'desc')->get(),
-            'title' => 'Product Manager'
+            'title' => 'Product Manager',
         ]);
     }
 
@@ -65,7 +64,7 @@ class ProductController extends Controller
         return view('product.add-product', [
             'nodes' => Category::get()->toTree(),
             'productTypes' => ProductType::all(),
-            'title' => 'Add Product'
+            'title' => 'Add Product',
         ]);
     }
 
@@ -79,7 +78,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        
+
         // Product create
         $product = Product::create([
             'product_type_id' => $request['productType'],
@@ -94,7 +93,7 @@ class ProductController extends Controller
 
         // Store the image
         $path = $request->file('picture')->store('images');
-        
+
         // Image - Product association
         $product->images()->save(new Image(['location' => $path]));
 
@@ -117,7 +116,7 @@ class ProductController extends Controller
     {
         return view('product.product-page', [
             'product' => $product,
-            'title' => $product->model
+            'title' => $product->model,
         ]);
     }
 
@@ -135,7 +134,7 @@ class ProductController extends Controller
             'nodes' => Category::get()->toTree(),
             'product' => $product,
             'productTypes' => ProductType::all(),
-            'title' => 'Edit Product'
+            'title' => 'Edit Product',
         ]);
     }
 
@@ -162,7 +161,7 @@ class ProductController extends Controller
             'price' => ['numeric', 'required'],
             'slug' => ['string', 'alpha_dash', Rule::unique('products')->ignore($product)],
             'attributes' => ['nullable', 'JSON'],
-            'mainCategory' => ['required', 'numeric']
+            'mainCategory' => ['required', 'numeric'],
         ]);
 
         // If new picture, remove old and then save new
@@ -170,7 +169,7 @@ class ProductController extends Controller
             if (Storage::exists($product->images->first()->location) && !in_array($product->images->first()->location, $this->protectedImages)) {
                 Storage::delete($product->images->first()->location);
             }
-            
+
             $attributes['picture'] = request('picture')->store('images');
 
             // Destroy old image model
@@ -210,14 +209,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $images = $product->images->all();
-        
+
         foreach ($images as $image) {
             // Remove image from storage
             if (Storage::exists($image->location) && !in_array($image->location, $this->protectedImages)) {
                 Storage::delete($image->location);
             }
         }
-        
+
         $product->delete();
 
         return back()->with('success', 'Product deleted from database');
