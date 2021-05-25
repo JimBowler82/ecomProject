@@ -64,6 +64,25 @@ class Category extends Model
     }
 
     /**
+     * Get the total number of all products assigned to a category plus all from
+     * any nested categories.
+     *
+     * @return Integer
+     */
+    public function getTotalNumberOfNestedProductsAttribute()
+    {
+        return $this
+            ->descendants()
+            ->with('products')
+            ->get()
+            ->reduce(function ($carry, $item) {
+
+                return $carry + count($item->products);
+
+            }, count($this->products));
+    }
+
+    /**
      * Scope - Filter
      *
      * @param $query

@@ -46,7 +46,7 @@
                                     {{ $category->full_slug_path }}
                                 </td>
                                 <td class='p-2'>
-                                    {{ count($category->products) }}
+                                    {{  $category->total_number_of_nested_products  }}
                                 </td>
                                 <td class='p-2'>
                                     <x-action-buttons type="categories" :identifier="$category->slug"/>
