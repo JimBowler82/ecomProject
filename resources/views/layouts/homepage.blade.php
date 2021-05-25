@@ -21,34 +21,34 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        
+
     </head>
-    <body class="antialiased min-h-screen bg-gray-500" style='min-width: 360px'>
-        <header class='fixed top-0 w-full shadow-xl bg-gray-800 z-49 '>
-            <div class=" flex justify-between items-center p-4 text-3xl text-white w-5/6 mx-auto" >
+    <body class="min-h-screen antialiased bg-gray-500" style='min-width: 360px'>
+        <header class='fixed top-0 w-full bg-gray-800 shadow-xl z-49 '>
+            <div class="flex items-center justify-between w-5/6 p-4 mx-auto text-3xl text-white " >
                 <a href="/"><h1 class='ml-4 font-bold' style="font-family:'Playball', cursive;">EcomProject</h1></a>
                 <x-cart-widget />
             </div>
-            
+
         </header>
-        
+
         @if(session('success'))
             <x-success-message :message="session('success')" />
         @endif
 
-        <main class='max-w-screen-xl mx-auto mt-28 mb-11 p-2'>
+        <main class='max-w-screen-xl p-4 mx-auto mt-20 bg-gray-200 rounded sm:mt-28 mb-11'>
 
-            {{ $slot }}  
-            
+            {{ $slot }}
+
         </main>
-        
+
         @auth
             <x-backoffice-link/>
         @endauth
-        
+
 
         @yield('page-script')
         @yield('alert-script')
-        
+
     </body>
 </html>
