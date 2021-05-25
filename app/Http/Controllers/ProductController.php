@@ -47,7 +47,7 @@ class ProductController extends Controller
                 'images',
                 'categories',
                 'productType',
-            ])->orderBy('updated_at', 'desc')->get(),
+            ])->latest()->filter(request(['search']))->get(),
             'title' => 'Product Manager',
         ]);
     }

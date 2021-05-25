@@ -20,12 +20,7 @@
 
     <div class="flex items-center justify-between mt-8 mb-2">
         <h3 class='text-2xl '>{{ $title }}</h3>
-        <form action="{{ route('home') }}" method="GET">
-            <div class="flex items-center">
-                <span class="flex items-center self-stretch p-2 bg-white rounded-tl-md rounded-bl-md"><i class="fas fa-search"></i></span>
-                <x-input type="search" name="search" class="border-none rounded-tl-none rounded-bl-none sm:mr-16" value="{{ request('search') }}" placeholder="Search products"/>
-            </div>
-        </form>
+        <x-search-box :action="route('home')" class="sm:mr-16" />
     </div>
 
     @if(count($products))
