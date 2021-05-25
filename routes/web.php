@@ -14,19 +14,19 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-require __DIR__.'/auth.php';
+ */
+require __DIR__ . '/auth.php';
 
 Route::get('/', [App\Http\Controllers\PagesController::class, 'home'])->name('home');
 
 Route::resources([
     'products' => ProductController::class,
-    'categories' => CategoryController::class
-    ]);
-    
+    'categories' => CategoryController::class,
+]);
+
 Route::resource('productTypes', ProductTypesController::class)->except(['show']);
 
-Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware('auth')->name('backoffice');
+Route::get('/backoffice', [App\Http\Controllers\PagesController::class, 'backOffice'])->middleware(['auth', 'verified'])->name('backoffice');
 
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'show']);
 Route::get('/cart/add/{product:id}', [App\Http\Controllers\CartController::class, 'add']);
