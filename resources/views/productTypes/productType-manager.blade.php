@@ -38,7 +38,7 @@
                                     {{ $type->slug }}
                                 </td>
                                 <td class='p-2'>
-                                    {{ count($type->products) }}
+                                    {{ $type->products_count }}
                                 </td>
                                 <td class='p-2'>
                                     <x-action-buttons type="productTypes" :identifier="$type->slug" />

@@ -30,7 +30,7 @@ class ProductTypesController extends Controller
     public function index()
     {
         return view('productTypes.productType-manager', [
-            'productTypes' => ProductType::filter(request(['search']))->get(),
+            'productTypes' => ProductType::filter(request(['search']))->withCount('products')->get(),
             'title' => 'Product Type Manager',
         ]);
     }

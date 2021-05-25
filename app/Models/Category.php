@@ -73,13 +73,14 @@ class Category extends Model
     {
         return $this
             ->descendants()
-            ->with('products')
+            ->withCount('products')
             ->get()
             ->reduce(function ($carry, $item) {
 
-                return $carry + count($item->products);
+                return $carry + $item->products_count;
 
-            }, count($this->products));
+            }, $this->products_count);
+
     }
 
     /**
