@@ -3,10 +3,10 @@
     'type'
 ])
 
-<div class=' flex justify-evenly'>
+<div {!! $attributes->merge(['class' => 'flex justify-evenly']) !!} >
 
     <!-- Edit Button -->
-    <a href="/{{ $type }}/{{ $identifier }}/edit" class="hover:text-green-500 mr-1"><i class="fas fa-edit"></i></a>
+    <a href="/{{ $type }}/{{ $identifier }}/edit" class="mr-1 hover:text-green-500"><i class="fas fa-edit"></i></a>
 
     <!-- Delete Button-->
     <form action="/{{ $type }}/{{ $identifier }}" method="POST" id="delete-form" class="mr-1">
@@ -21,7 +21,7 @@
     @else
         <a href='/{{ $type }}/{{ $identifier }}' class="hover:text-blue-500"><i class="fas fa-eye"></i></a>
     @endif
-    
+
 </div>
 
 @section('page-script')

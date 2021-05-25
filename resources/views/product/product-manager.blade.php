@@ -11,7 +11,7 @@
         <div class="w-4/5 p-6 mx-auto overflow-hidden bg-white rounded shadow-xl" style="height: 90%">
             <div class="flex flex-col items-center justify-between mb-3 sm:flex-row">
                 <h1 class="flex flex-wrap text-3xl">Product Manager <small class="self-end pb-1 pl-2 text-sm">(showing: {{ count($products) }} products)</small></h1>
-                <x-search-box :action="url('/products')" class="w-full mr-2 sm:w-auto"/>
+                <x-search-box :action="url('/products')" class="w-full mr-2 sm:w-auto" :placeholder="'Search products'" />
             </div>
 
             <hr class='mb-3'>

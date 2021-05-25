@@ -20,7 +20,7 @@
 
     <div class="flex items-center justify-between mt-8 mb-2">
         <h3 class='text-2xl '>{{ $title }}</h3>
-        <x-search-box :action="route('home')" class="sm:mr-16" />
+        <x-search-box :action="route('home')" class="sm:mr-16" :placeholder="'Search products'"/>
     </div>
 
     @if(count($products))

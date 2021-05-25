@@ -11,7 +11,7 @@
         <div class="w-4/5 p-6 mx-auto overflow-hidden bg-white rounded shadow-xl lg:w-3/5" style="height: 90%">
             <div class="flex flex-col items-center justify-between mb-3 sm:flex-row">
                 <h1 class="text-3xl">Category Manager <small class="text-sm">(showing: {{ count($categories) }} categories)</small></h1>
-                <x-search-box :action="url('/categories')" class="w-full mr-2 sm:w-auto"/>
+                <x-search-box :action="url('/categories')" class="w-full mr-2 sm:w-auto" :placeholder="'Search categories'" />
             </div>
 
             <hr class='mb-3'>

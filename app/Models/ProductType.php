@@ -36,4 +36,19 @@ class ProductType extends Model
     {
         return unserialize($value);
     }
+
+    /**
+     * Scope - Filter
+     *
+     * @param $query
+     * @param Array $filters
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query
+                ->where('name', 'like', '%' . $search . '%')
+                ->orWhere('slug', 'like', '%' . $search . '%');
+        });
+    }
 }
