@@ -14,8 +14,7 @@ class ProductType extends Model
      *
      * @var array
      */
-    protected $guarded= [];
-
+    protected $guarded = [];
 
     /**
      * Relation to Products - has many.
@@ -27,7 +26,12 @@ class ProductType extends Model
         return $this->hasMany(Product::class);
     }
 
-
+    /**
+     * Get properties column from database, unserialize to array
+     *
+     * @param $value
+     * @return Array
+     */
     public function getPropertiesAttribute($value)
     {
         return unserialize($value);

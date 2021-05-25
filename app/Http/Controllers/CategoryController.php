@@ -30,7 +30,6 @@ class CategoryController extends Controller
         $this->middleware('auth')->except(['show', 'destructureCategoryFromSlug']);
     }
 
-
     /**
      * Index
      *
@@ -42,10 +41,9 @@ class CategoryController extends Controller
     {
         return view('category.category-manager', [
             'categories' => Category::with(['image', 'products'])->withDepth()->get()->toFlatTree(),
-            'title' => 'Category Manager'
+            'title' => 'Category Manager',
         ]);
     }
-
 
     /**
      * Create
@@ -58,10 +56,9 @@ class CategoryController extends Controller
     {
         return view('category.add-category', [
             'nodes' => Category::get()->toTree(),
-            'title' => 'Add Category'
+            'title' => 'Add Category',
         ]);
     }
-
 
     /**
      * Store
@@ -73,7 +70,7 @@ class CategoryController extends Controller
     public function store()
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' => ['string', 'required', 'max:255'],
             'slug' => ['string', 'alpha_dash'],
             'operator' => ['required', Rule::in(['root', 'after'])],
             'picture' => ['file'],
@@ -91,15 +88,13 @@ class CategoryController extends Controller
         if (request('picture')) {
             // Store the image
             $attributes['picture'] = request('picture')->store('images');
-                    
+
             // Image - Product association
             $node->image()->save(new Image(['location' => $attributes['picture']]));
         }
-        
 
         return Redirect::route('categories.index')->with('success', 'Category added to database');
     }
-
 
     /**
      * Show
@@ -114,16 +109,15 @@ class CategoryController extends Controller
         $categories = $category->descendants()->with('products.images')->get()->pluck('products');
         $categories[] = $category->products;
         //dd($categories);
-        
+
         return view('show-products', [
             'categories' => $category->children()->with('image')->get(),
             'title' => $category->name,
             'parent_path' => $category->parent_path,
             'ancestors' => Category::ancestorsAndSelf($category->id),
-            'products' => $categories->flatten(1)->paginate(9)
+            'products' => $categories->flatten(1)->paginate(9),
         ]);
     }
-
 
     /**
      * Edit
@@ -138,10 +132,9 @@ class CategoryController extends Controller
         return view('category.edit-category', [
             'nodes' => Category::get()->toTree(),
             'category' => $category,
-            'title' => 'Edit Category'
+            'title' => 'Edit Category',
         ]);
     }
-
 
     /**
      * Update
@@ -154,13 +147,12 @@ class CategoryController extends Controller
     public function update(Category $category)
     {
         $attributes = request()->validate([
-            'name' =>['string', 'required', 'max:255'],
+            'name' => ['string', 'required', 'max:255'],
             'slug' => ['string', 'alpha_dash'],
             'operator' => ['required', Rule::in(['root', 'after'])],
             'picture' => ['file', 'nullable'],
         ]);
 
-        
         // Update category heirarchy
         if (request('operator') == 'root' && $category->isLeaf()) {
             $category->saveAsRoot();
@@ -179,7 +171,7 @@ class CategoryController extends Controller
             if (Storage::exists($category->image->location) && !in_array($category->image->location, $this->protectedImages)) {
                 Storage::delete($category->image->location);
             }
-            
+
             $attributes['picture'] = request('picture')->store('images');
 
             // Destroy old image model
@@ -199,10 +191,8 @@ class CategoryController extends Controller
             return $key != 'picture';
         }, ARRAY_FILTER_USE_KEY));
 
-        
         return Redirect::route('categories.index')->with('success', 'Category updated');
     }
-
 
     /**
      * Destroy
@@ -237,6 +227,8 @@ class CategoryController extends Controller
     /**
      * Destructure category from slug heirarchy
      *
+     * @param Request $request
+     * @param Array $categories
      * @return void
      */
     public function destructureCategoryFromSlug(Request $request, $categories)
@@ -245,10 +237,10 @@ class CategoryController extends Controller
         $segmentsCount = count($request->segments());
         $categories = explode('/', $categories);
         $categorySlug = array_pop($categories);
-        
+
         if ($segmentsCount > 1) {
             $parent = Category::where('slug', $segments[$segmentsCount - 2])->firstOrFail();
-            
+
             return $this->show(Category::where('slug', $categorySlug)->where('parent_id', $parent->id)->firstOrFail());
         }
 
