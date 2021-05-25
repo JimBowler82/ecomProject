@@ -20,16 +20,15 @@
 
     <div class="flex items-center justify-between mt-8 mb-2">
         <h3 class='text-2xl '>{{ $title }}</h3>
-        <form action="">
+        <form action="{{ route('home') }}" method="GET">
             <div class="flex items-center">
                 <span class="flex items-center self-stretch p-2 bg-white rounded-tl-md rounded-bl-md"><i class="fas fa-search"></i></span>
-                <x-input type="search" name="search" class="border-none rounded-tl-none rounded-bl-none sm:mr-16" placeholder="Search products"/>
+                <x-input type="search" name="search" class="border-none rounded-tl-none rounded-bl-none sm:mr-16" value="{{ request('search') }}" placeholder="Search products"/>
             </div>
         </form>
     </div>
 
-
-    @if($products)
+    @if(count($products))
 
         <div class='flex flex-wrap justify-center'>
 
@@ -45,7 +44,7 @@
         </div>
 
     @else
-        <h1>No Products</h1>
+        <h1 class="text-center">No Products - Check back later!</h1>
     @endif
 
 </x-homepage-layout>

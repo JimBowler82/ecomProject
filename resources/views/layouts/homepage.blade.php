@@ -36,7 +36,7 @@
             <x-success-message :message="session('success')" />
         @endif
 
-        <main class='max-w-screen-xl p-4 mx-auto mt-20 bg-gray-200 rounded sm:mt-28 mb-11'>
+        <main class='max-w-screen-xl p-4 mx-auto mt-20 {{ Request::is('products/*') || Request::is('cart') ? "" : "bg-gray-200" }}  rounded sm:mt-28 mb-11'>
 
             {{ $slot }}
 

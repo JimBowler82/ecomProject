@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductType;
-use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -22,7 +20,7 @@ class PagesController extends Controller
         return view('show-products', [
             'categories' => Category::whereIsRoot()->with('image')->get(),
             'title' => 'Latest Products',
-            'products' => Product::with('images')->orderBy('updated_at', 'desc')->paginate(9)
+            'products' => Product::with('images')->latest()->filter(request(['search']))->paginate(9),
         ]);
     }
 
@@ -36,7 +34,7 @@ class PagesController extends Controller
     public function backOffice()
     {
         return view('backoffice', [
-            'title' => 'Menu'
+            'title' => 'Menu',
         ]);
     }
 }

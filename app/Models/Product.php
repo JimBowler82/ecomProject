@@ -16,7 +16,6 @@ class Product extends Model
      */
     protected $guarded = [];
 
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -25,7 +24,6 @@ class Product extends Model
     protected $casts = [
         'attributes' => 'array',
     ];
-
 
     /**
      * Relation to Categories - belongs to many.
@@ -37,7 +35,6 @@ class Product extends Model
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
-
     /**
      * Relation to Image - has many.
      *
@@ -47,7 +44,6 @@ class Product extends Model
     {
         return $this->hasMany(Image::class);
     }
-
 
     /**
      * Relation to ProductType - belongs to.
@@ -59,6 +55,21 @@ class Product extends Model
         return $this->belongsTo(ProductType::class);
     }
 
+    /**
+     * Scope - Filter
+     *
+     * @param $query
+     * @param Array $filters
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query
+                ->where('manufacturer', 'like', '%' . $search . '%')
+                ->orWhere('model', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        });
+    }
 
     /**
      * Class boot method
