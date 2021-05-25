@@ -17,9 +17,8 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug'
+        'name', 'slug',
     ];
-
 
     /**
      * Relation to Products - belongs to many.
@@ -31,7 +30,6 @@ class Category extends Model
         return $this->belongsToMany(Product::class)->withTimestamps();
     }
 
-
     /**
      * Relation to Image - has one.
      *
@@ -41,7 +39,6 @@ class Category extends Model
     {
         return $this->hasOne(Image::class);
     }
-
 
     /**
      * Get the full slug path based on ancestors.
@@ -55,7 +52,6 @@ class Category extends Model
         return '/' . implode('/', $slugs);
     }
 
-
     /**
      * Get the path to the parent of the category.
      *
@@ -67,7 +63,20 @@ class Category extends Model
         return '/' . implode('/', $slugs);
     }
 
-    
+    /**
+     * Scope - Filter
+     *
+     * @param $query
+     * @param Array $filters
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query
+                ->where('slug', 'like', '%' . $search . '%');
+        });
+    }
+
     /**
      * Class boot method
      *
