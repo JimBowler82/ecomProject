@@ -26,15 +26,22 @@ npm install
 ```
 ### 3 - Populate your `.env` File
 - Copy over the `.env.example` file to your  `.env` file.
-  - `cp .env.example .env`
+  - 
+  ```php
+  cp .env.example .env
+  ```
   <br>
 - Add your database credentials to the `.env` file
 
 ### 4 - Generate your encryption key
-`php artisan key:generate`
+```php
+php artisan key:generate
+```
 
 ### 5 - Finally, run database migrations & seeder
-`php artisan migrate:fresh --seed`
+```php
+php artisan migrate:fresh --seed
+```
 
 ---
 
