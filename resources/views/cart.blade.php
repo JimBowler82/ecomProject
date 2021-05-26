@@ -83,10 +83,10 @@
             // Create a new Checkout Session using the server-side endpoint you
             // created in step 3.
             fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                "X-CSRF-Token": token,
-            }
+                method: 'POST',
+                headers: {
+                    "X-CSRF-Token": token,
+                }
             })
             .then(function(response) {
             return response.json();
@@ -98,13 +98,13 @@
             // If `redirectToCheckout` fails due to a browser or network
             // error, you should display the localized error message to your
             // customer using `error.message`.
-            console.log({result});
+
             if (result.error) {
                 alert(result.error.message);
             }
             })
             .catch(function(error) {
-            console.error('Error:', error);
+                console.error('Error:', error);
             });
         });
 

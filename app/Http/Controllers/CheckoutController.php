@@ -83,21 +83,9 @@ class CheckoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        // Set your secret key. Remember to switch to your live secret key in production.
-        // See your keys here: https://dashboard.stripe.com/apikeys
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        function print_log($val) {
-        return file_put_contents('php://stderr', print_r($val, TRUE));
-        }
-
-        $payload = @file_get_contents('php://input');
-
-        // For now, you only need to log the webhook payload so you can see
-        // the structure.
-        print_log($payload);
     }
 
     /**
