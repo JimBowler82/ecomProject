@@ -10,8 +10,8 @@ Built with:
 
 ### 1 - Clone the repo
 
-```php
-    git clone
+```
+    git clone https://dev.ecdltd.com/james.bowler/ecomProject.git
 ```
 
 ### 2 - Install 
