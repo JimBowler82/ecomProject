@@ -38,11 +38,14 @@ class CheckoutController extends Controller
         }, $cart['contents']);
 
         $session = \Stripe\Checkout\Session::create([
-            'billing_address_collection' => 'required',
             'payment_method_types' => ['card'],
+            'shipping_rates' => ['shr_1IvNQVDxNWDqAM5zvrGW83VI'],
+            'shipping_address_collection' => [
+                'allowed_countries' => ['US', 'CA', 'GB'],
+            ],
             'line_items' => [...$line_items],
             'mode' => 'payment',
-            'success_url' => 'https://example.com/success',
+            'success_url' => url('checkout/success'),
             'cancel_url' => url('/cart'),
         ]);
 
@@ -68,7 +71,10 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Store completed order in database
+
+        session()->put('cart', []);
+        return view('checkout.success');
     }
 
     /**
@@ -79,7 +85,19 @@ class CheckoutController extends Controller
      */
     public function show($id)
     {
-        //
+        // Set your secret key. Remember to switch to your live secret key in production.
+        // See your keys here: https://dashboard.stripe.com/apikeys
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        function print_log($val) {
+        return file_put_contents('php://stderr', print_r($val, TRUE));
+        }
+
+        $payload = @file_get_contents('php://input');
+
+        // For now, you only need to log the webhook payload so you can see
+        // the structure.
+        print_log($payload);
     }
 
     /**
