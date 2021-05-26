@@ -27,9 +27,9 @@ npm install
 ### 3 - Populate your `.env` File
 - Copy over the `.env.example` file to your  `.env` file.
   
-  ```php
-  cp .env.example .env
-  ```
+```php
+cp .env.example .env
+```
   <br>
 - Add your database credentials to the `.env` file
 
