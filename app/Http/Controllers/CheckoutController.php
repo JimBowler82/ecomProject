@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\cart\Cart;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
 {
@@ -21,6 +21,7 @@ class CheckoutController extends Controller
 
         $cart = Cart::showCart();
 
+        // Construct line items array from users cart
         $line_items = array_map(function ($entry) {
             return [
                 'price_data' => [
@@ -33,10 +34,11 @@ class CheckoutController extends Controller
 
                     ],
                 ],
-                'quantity' => 1,
+                'quantity' => $entry['quantity'],
             ];
         }, $cart['contents']);
 
+        // Stripe session object createion
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'shipping_rates' => ['shr_1IvNQVDxNWDqAM5zvrGW83VI'],
@@ -54,71 +56,92 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Handles webhook events for completed checkout sessions
+     *  - Validates the incoming event is from Stripe
+     *  - Create a new Order object in the database from the Stripe session data.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Store completed order in database
 
-        session()->put('cart', []);
-        return view('checkout.success');
+        // Set your secret key
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // Helper to print out to server log
+        function print_log($val)
+        {
+            return file_put_contents('php://stderr', print_r($val, true));
+        }
+
+        // Grab payload and validate Stripe event
+        $endpoint_secret = env('STRIPE_ENDPOINT_SECRET');
+
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
+        } catch (\UnexpectedValueException$e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        } catch (\Stripe\Exception\SignatureVerificationException$e) {
+            // Invalid signature
+            http_response_code(400);
+            exit();
+        }
+
+        // Create Order object for database
+        function fulfill_order($session)
+        {
+            print_log("Fulfilling order...");
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $line_items = $stripe->checkout->sessions->allLineItems($session->id, ['limit' => 5]);
+
+            Order::create([
+                'session_id' => $session->id,
+                'customer_name' => $session->shipping->name,
+                'customer_email' => $session->customer_details->email,
+                'line_items' => $line_items->data,
+                'status' => $session->payment_status,
+                'address' => $session->shipping->address->toArray(),
+                'sub_total' => $session->amount_subtotal,
+                'total' => $session->amount_total,
+            ]);
+        }
+
+        // Handle the checkout.session.completed event
+        if ($event->type == 'checkout.session.completed') {
+            $session = $event->data->object;
+
+            // Fulfill the purchase...
+            fulfill_order($session);
+        }
+
+        http_response_code(200);
+
     }
 
     /**
-     * Display the specified resource.
+     * Show
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Returns the successfull checkout view informing customer
+     * that the checkout was successful.
+     *
      */
     public function show()
     {
+        session()->put('cart', []);
+        return view('checkout.success');
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

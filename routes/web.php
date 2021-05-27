@@ -34,7 +34,7 @@ Route::get('/cart/remove/{product:id}', [App\Http\Controllers\CartController::cl
 Route::get('/cart/remove/{product:id}/all', [App\Http\Controllers\CartController::class, 'removeAll']);
 
 Route::post('/create-checkout-session', [App\Http\Controllers\CheckoutController::class, 'index']);
-Route::post('/checkout/event', [App\Http\Controllers\CheckoutController::class, 'show']);
-Route::get('/checkout/success', [App\Http\Controllers\CheckoutController::class, 'store']);
+Route::post('/checkout/event', [App\Http\Controllers\CheckoutController::class, 'store']);
+Route::get('/checkout/success', [App\Http\Controllers\CheckoutController::class, 'show']);
 
 Route::get('/{categories}', [App\Http\Controllers\CategoryController::class, 'destructureCategoryFromSlug'])->where('categories', '.*');
