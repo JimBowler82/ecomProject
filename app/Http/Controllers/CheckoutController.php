@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\cart\Cart;
+use App\Mail\SuccessfulCheckout;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 
 class CheckoutController extends Controller
@@ -106,7 +108,7 @@ class CheckoutController extends Controller
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             $line_items = $stripe->checkout->sessions->allLineItems($session->id, ['limit' => 5]);
 
-            Order::create([
+            $order = Order::create([
                 'session_id' => $session->id,
                 'customer_name' => $session->shipping->name,
                 'customer_email' => $session->customer_details->email,
@@ -116,6 +118,9 @@ class CheckoutController extends Controller
                 'sub_total' => $session->amount_subtotal,
                 'total' => $session->amount_total,
             ]);
+
+            // Send Mailable
+            Mail::to($order->customer_email)->send(new SuccessfulCheckout($order));
         }
 
         // Handle the checkout.session.completed event
