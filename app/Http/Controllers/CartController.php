@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\cart\Cart;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
     public $cart;
 
-    
     /**
      * Constructor
      */
@@ -19,7 +16,6 @@ class CartController extends Controller
     {
         $this->cart = new Cart();
     }
-
 
     /**
      * Show
@@ -34,7 +30,6 @@ class CartController extends Controller
             'cart' => $this->cart->showCart(),
         ]);
     }
-
 
     /**
      * Add
@@ -51,10 +46,9 @@ class CartController extends Controller
         }
 
         $this->cart->add($product);
-        
+
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
-
 
     /**
      * Remove
@@ -72,7 +66,6 @@ class CartController extends Controller
             return back()->with('success', 'Product removed successfully');
         }
     }
-
 
     /**
      * Remove

@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+        <!-- Stripe -->
+        <script src="https://js.stripe.com/v3/"></script>
+
     </head>
     <body class="min-h-screen antialiased bg-gray-500" style='min-width: 360px'>
         <header class='fixed top-0 w-full bg-gray-800 shadow-xl z-49 '>

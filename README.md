@@ -6,6 +6,8 @@ Built with:
 - PHP, Laravel 8,
 - MySql 5.7
 - Tailwind CSS
+- Stripe checkout
+
 ## How to use
 
 ### 1 - Clone the repo
@@ -31,7 +33,7 @@ npm install
 cp .env.example .env
 ```
   <br>
-- Add your database credentials to the `.env` file
+- Add your database credentials and Stripe API keys to the `.env` file
 
 ### 4 - Generate your encryption key
 ```php
