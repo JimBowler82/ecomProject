@@ -9,10 +9,10 @@
     <a href="/{{ $type }}/{{ $identifier }}/edit" class="mr-1 hover:text-green-500"><i class="fas fa-edit"></i></a>
 
     <!-- Delete Button-->
-    <form action="/{{ $type }}/{{ $identifier }}" method="POST" id="delete-form" class="mr-1">
+    <form action="/{{ $type }}/{{ $identifier }}" method="POST" class="mr-1">
         @method('delete')
         @csrf
-        <button type="button" id='delete-btn' class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
+        <button type="button" class="hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
     </form>
 
     <!-- View Button -->
