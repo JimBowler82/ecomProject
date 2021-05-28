@@ -20,7 +20,7 @@
 
             <div class='p-2 overflow-scroll' style="height: 100%">
 
-                <table class='w-full mb-2 text-center border' style='min-width: 600px'>
+                <table class='w-full mb-12 text-center border' style='min-width: 600px'>
                     <thead class="w-full bg-gray-200" style="padding: 5px">
                         <th>Image</th>
                         <th>Type</th>

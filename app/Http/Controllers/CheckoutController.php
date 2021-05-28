@@ -117,6 +117,7 @@ class CheckoutController extends Controller
                 'address' => $session->shipping->address->toArray(),
                 'sub_total' => $session->amount_subtotal,
                 'total' => $session->amount_total,
+                'payment_intent' => $session->payment_intent,
             ]);
 
             // Send Mailable

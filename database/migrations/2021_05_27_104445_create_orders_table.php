@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->json('address');
             $table->integer('sub_total');
             $table->integer('total');
+            $table->string('payment_intent');
             $table->timestamps();
         });
     }

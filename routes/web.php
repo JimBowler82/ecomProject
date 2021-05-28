@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypesController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::get('/', [App\Http\Controllers\PagesController::class, 'home'])->name('ho
 Route::resources([
     'products' => ProductController::class,
     'categories' => CategoryController::class,
+    'orders' => OrderController::class,
 ]);
 
 Route::resource('productTypes', ProductTypesController::class)->except(['show']);
