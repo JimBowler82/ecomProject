@@ -5,13 +5,13 @@ window.addEventListener('DOMContentLoaded', () => {
     buttons.forEach(button => {
 
         button.addEventListener('click', (e) => {
-
-            if( confirm('Are you sure you want to delete?') ) {
+            e.stopPropagation();
+            if (confirm('Are you sure you want to delete?')) {
                 return button.parentElement.submit();
             }
 
         });
 
     });
-  
+
 });

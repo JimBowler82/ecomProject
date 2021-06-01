@@ -14,7 +14,7 @@
                 <form action="{{ url("orders/$order->id") }}" method="post">
                     @csrf
                     @method('delete')
-                    <button type="button" id="delete" class="px-2 py-2 font-bold text-white bg-red-600 rounded-md">Delete Order</button>
+                    <button type="button" id="delete" class="px-2 py-2 font-bold text-white transition-colors duration-300 bg-red-600 border-2 border-red-600 rounded-md hover:bg-red-400">Delete Order</button>
                 </form>
             </div>
             <hr class="mb-4">

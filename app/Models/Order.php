@@ -25,4 +25,30 @@ class Order extends Model
         'line_items' => 'array',
         'address' => 'array',
     ];
+
+    /**
+     * Scope - Filter
+     *
+     * @param $query
+     * @param Array $filters
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query
+                ->where('customer_name', 'like', '%' . $search . '%')
+                ->orWhere('customer_email', 'like', '%' . $search . '%')
+                ->orWhere('session_id', 'like', '%' . $search . '%')
+                ->orWhere('id', 'like', '%' . $search . '%')
+                ->orWhere('payment_intent', 'like', '%' . $search . '%');
+
+        });
+
+        $query->when($filters['date_search'] ?? false, function ($query, $search) {
+            return $query
+                ->whereDate('created_at', $search);
+
+        });
+
+    }
 }

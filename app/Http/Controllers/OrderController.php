@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function index()
     {
         return view('order.order-manager', [
-            'orders' => Order::latest()->get(),
+            'orders' => Order::latest()->filter(request(['search', 'date_search']))->get(),
             'title' => 'Order Manager',
         ]);
     }

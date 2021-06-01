@@ -11,7 +11,11 @@
         <div class="w-4/5 p-6 mx-auto overflow-hidden bg-white rounded shadow-xl" style="height: 90%">
             <div class="flex flex-col items-center justify-between mb-3 sm:flex-row">
                 <h1 class="flex flex-wrap text-3xl">Order Manager <small class="self-end pb-1 pl-2 text-sm">(showing: {{ $orders->count() }} orders)</small></h1>
-                <x-search-box :action="url('/orders')" class="w-full mr-2 sm:w-auto" :placeholder="'Search orders'" />
+                <div class="flex items-center">
+                    <x-search-box :action="url('/orders')" class="w-full mr-2 sm:w-auto" :placeholder="'Search orders'" />
+                    <x-date-search />
+                </div>
+
             </div>
 
             <hr class='mb-3'>
@@ -62,7 +66,9 @@
         </div>
 
     </div>
-
-
+@section('page-script')
+    <script src={{ asset('js/action-buttons.js') }}></script>
+    <script src={{ asset('js/date-search.js') }}></script>
+@endsection
 
 </x-app-layout>

@@ -63,5 +63,8 @@
 
     </div>
 
+    @section('page-script')
+        <script src={{ asset('js/action-buttons.js') }}></script>
 
+    @endsection
 </x-app-layout>
