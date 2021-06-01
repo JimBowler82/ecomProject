@@ -129,7 +129,6 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        dd($category->products());
         return view('category.edit-category', [
             'nodes' => Category::get()->toTree(),
             'category' => $category,
