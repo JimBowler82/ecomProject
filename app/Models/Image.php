@@ -16,18 +16,16 @@ class Image extends Model
      */
     protected $guarded = [];
 
-
     /**
      * Relation to Product - belongs to.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
-    
     /**
      * Relation to Category - belongs to.
      *

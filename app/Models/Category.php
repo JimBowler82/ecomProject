@@ -23,7 +23,7 @@ class Category extends Model
     /**
      * Relation to Products - belongs to many.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products()
     {
@@ -33,7 +33,7 @@ class Category extends Model
     /**
      * Relation to Image - has one.
      *
-     * @return void
+     *@return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function image()
     {

@@ -129,6 +129,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        dd($category->products());
         return view('category.edit-category', [
             'nodes' => Category::get()->toTree(),
             'category' => $category,
@@ -228,11 +229,12 @@ class CategoryController extends Controller
      * Destructure category from slug heirarchy
      *
      * @param Request $request
-     * @param Array $categories
+     * @param String $categories
      * @return void
      */
     public function destructureCategoryFromSlug(Request $request, $categories)
     {
+
         $segments = $request->segments();
         $segmentsCount = count($request->segments());
         $categories = explode('/', $categories);

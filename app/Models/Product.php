@@ -28,7 +28,7 @@ class Product extends Model
     /**
      * Relation to Categories - belongs to many.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function categories()
     {
@@ -38,7 +38,7 @@ class Product extends Model
     /**
      * Relation to Image - has many.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function images()
     {
@@ -48,7 +48,7 @@ class Product extends Model
     /**
      * Relation to ProductType - belongs to.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function productType()
     {

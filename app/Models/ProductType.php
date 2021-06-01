@@ -19,7 +19,7 @@ class ProductType extends Model
     /**
      * Relation to Products - has many.
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products()
     {
