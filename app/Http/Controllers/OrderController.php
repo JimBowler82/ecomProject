@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -29,6 +30,14 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Show
+     *
+     * Show details for individual order
+     *
+     * @param Order $order
+     * @return void
+     */
     public function show(Order $order)
     {
         $stripe = new \Stripe\StripeClient("sk_test_51IvJg8DxNWDqAM5zB7IyAFMWmpJEAacK9bVP6uYxU0N3giwDIL59dIlDybkqUmoC8P0Bew3bfAxoIur7KQzQOVVw00SehNZPh5");
@@ -39,6 +48,18 @@ class OrderController extends Controller
             'paymentObject' => $paymentObject,
             'title' => 'View Order',
         ]);
+    }
+
+    /**
+     * Edit
+     *
+     * Edit an order
+     *
+     * @return void
+     */
+    public function edit()
+    {
+        return redirect('/orders');
     }
 
     /**

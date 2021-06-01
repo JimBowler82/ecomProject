@@ -36,7 +36,13 @@
                 <h3 class="font-bold underline">Items</h3>
                 <ul class="ml-8 list-decimal">
                     @foreach ( $order->line_items as $item)
-                        <li class="border-b-2"><span class="pl-6">{{ $item['description'] }}</span><span class="pl-8">Qty: {{ $item['quantity'] }}</span><span class="pl-8">@  £{{ number_format($item['amount_total'] / 100, '2', '.', '') }}</span></li>
+                        <li class="w-10/12 mt-2 border-b-2">
+                            <div class="flex">
+                                <span class="flex-1 pl-6">{{ $item['description'] }}</span>
+                                <span class="pl-8">Qty: {{ $item['quantity'] }}</span>
+                                <span class="pl-8">@  £{{ number_format($item['amount_total'] / 100, '2', '.', '') }}</span>
+                            </div>
+                        </li>
                     @endforeach
                 </ul>
                 <div class="mt-6">
@@ -48,11 +54,11 @@
             <div class="p-2 mt-2 border border-gray-200 rounded">
                 <h3 class="font-bold underline">Payment</h3>
                 <ul>
-                    <li><strong>Currency: </strong>{{ $paymentObject->currency }}</li>
-                    <li><strong>Type: </strong> {{ $paymentObject->charges->data[0]['payment_method_details']->type }}</li>
-                    <li><strong>Brand: </strong> {{ $paymentObject->charges->data[0]['payment_method_details']->card->brand }}</li>
+                    <li><strong>Currency: </strong>{{ strtoupper($paymentObject->currency) }}</li>
+                    <li><strong>Type: </strong> {{ ucwords($paymentObject->charges->data[0]['payment_method_details']->type) }}</li>
+                    <li><strong>Brand: </strong> {{ ucwords($paymentObject->charges->data[0]['payment_method_details']->card->brand) }}</li>
                     <li><strong>Last 4: </strong> {{ $paymentObject->charges->data[0]['payment_method_details']->card->last4 }}</li>
-                    <li><strong>Status: </strong> {{ $paymentObject->charges->data[0]->status }}</li>
+                    <li><strong>Status: </strong> {{ strtoupper($paymentObject->charges->data[0]->status) }}</li>
                     <li><strong>Amount Received: </strong>  £{{ number_format($paymentObject->amount_received / 100, '2', '.', '')  }}</li>
                 </ul>
             </div>
