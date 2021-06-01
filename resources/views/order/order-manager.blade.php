@@ -3,16 +3,18 @@
     <x-slot name="title">{{ $title }}</x-slot>
 
     <div class="h-screen pt-20">
-        <div class="flex items-center justify-between w-4/5 mx-auto mb-4" >
-            <x-back-btn :path="route('backoffice')"/>
+        <div class="flex items-center justify-between w-4/5 mx-auto mb-4">
+            <x-back-btn :path="route('backoffice')" />
 
         </div>
 
         <div class="w-4/5 p-6 mx-auto overflow-hidden bg-white rounded shadow-xl" style="height: 90%">
             <div class="flex flex-col items-center justify-between mb-3 sm:flex-row">
-                <h1 class="flex flex-wrap text-3xl">Order Manager <small class="self-end pb-1 pl-2 text-sm">(showing: {{ $orders->count() }} orders)</small></h1>
+                <h1 class="flex flex-wrap text-3xl">Order Manager <small class="self-end pb-1 pl-2 text-sm">(showing:
+                        {{ $orders->count() }} orders)</small></h1>
                 <div class="flex items-center">
-                    <x-search-box :action="url('/orders')" class="w-full mr-2 sm:w-auto" :placeholder="'Search orders'" />
+                    <x-search-box :action="url('/orders')" class="w-full mr-2 sm:w-auto"
+                        :placeholder="'Search orders'" />
                     <x-date-search />
                 </div>
 
@@ -43,7 +45,8 @@
                                 <td class='p-0'>
                                     {{ $order->session_id }}
                                 </td>
-                                <td class="font-bold {{ $order->status === 'paid' ? 'p-2 text-green-500' : 'p-2 text-red-500'}}">
+                                <td
+                                    class="font-bold {{ $order->status === 'paid' ? 'p-2 text-green-500' : 'p-2 text-red-500' }}">
                                     {{ strtoupper($order->status) }}
                                 </td>
                                 <td class='p-2'>
@@ -53,7 +56,7 @@
                                     {{ $order->created_at }}
                                 </td>
                                 <td class='p-2'>
-                                    <x-action-buttons type="orders" :identifier="$order->id"/>
+                                    <x-action-buttons type="orders" :identifier="$order->id" />
                                 </td>
                             </tr>
                         @endforeach
@@ -66,9 +69,9 @@
         </div>
 
     </div>
-@section('page-script')
-    <script src={{ asset('js/action-buttons.js') }}></script>
-    <script src={{ asset('js/date-search.js') }}></script>
-@endsection
+    @section('page-script')
+        <script src={{ asset('js/action-buttons.js') }}></script>
+        <script src={{ asset('js/date-search.js') }}></script>
+    @endsection
 
 </x-app-layout>
