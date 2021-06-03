@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UnAuthenticatedRoutesTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $endpoints = [
         '/',
         '/cart',
