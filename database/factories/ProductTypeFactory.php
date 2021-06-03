@@ -14,7 +14,6 @@ class ProductTypeFactory extends Factory
      */
     protected $model = ProductType::class;
 
-    
     /**
      * Define the model's default state.
      *
@@ -23,9 +22,9 @@ class ProductTypeFactory extends Factory
     public function definition()
     {
         return [
-            "name" => "New Phones",
-            "slug" => "new-phones",
-            "properties" => "",
+            "name" => $this->faker->sentence($nbWords = 2),
+            "slug" => $this->faker->slug(),
+            "properties" => serialize([]),
         ];
     }
 }

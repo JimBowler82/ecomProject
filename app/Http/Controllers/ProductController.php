@@ -100,7 +100,7 @@ class ProductController extends Controller
         // Product - Categories association
         $product->categories()->syncWithoutDetaching($request['mainCategory']);
 
-        return Redirect::route('products.index')->with('success', 'Product added to database');
+        return Redirect::route('products.index')->with('success', 'Product added to database')->setStatusCode(201);
     }
 
     /**
