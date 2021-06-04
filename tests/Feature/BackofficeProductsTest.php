@@ -25,7 +25,7 @@ class BackofficeProductsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Storage::fake('images');
+        Storage::fake('public');
     }
 
     /**
@@ -86,7 +86,9 @@ class BackofficeProductsTest extends TestCase
             'location' => 'images/' . $file->hashName(),
             'product_id' => $product->id,
         ]);
-        $this->assertTrue($product->images()->first()->id === $productData['mainCategory']);
+
+        // Category
+        $this->assertTrue($product->categories()->first()->id === $productData['mainCategory']);
 
         // Attributes
         $this->assertJsonStringEqualsJsonString(
@@ -98,4 +100,32 @@ class BackofficeProductsTest extends TestCase
         $this->assertTrue($product->categories()->first()->id === $productData['mainCategory']);
 
     }
+
+    /**
+     * Test to delete a product and its associated image from the database
+     *
+     * @return void
+     */
+    public function test_user_can_delete_product_and_image_from_database()
+    {
+        $user = User::factory()->create();
+
+        $picture = UploadedFile::fake()->image('test.jpg');
+
+        $product = Product::factory()->hasImages(1, ['location' => 'images/' . $picture->hashName()])->create();
+
+        $response = $this->actingAs($user)->json('DELETE', '/products/' . $product->id);
+
+        $response->assertRedirect(route('products.index'));
+
+        $this->assertDeleted($product);
+
+        $this->assertDatabaseMissing('images', [
+            'location' => 'images/' . $picture->hashName(),
+            'product_id' => $product->id,
+        ]);
+
+    }
+
+    // Todo: update product
 }

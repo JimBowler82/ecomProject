@@ -19,7 +19,7 @@ class UnAuthenticatedRoutesTest extends TestCase
     public function test_guest_can_view_unauthenticated_routes()
     {
         $product = Product::factory()->hasImages(1, ['location' => 'images/iphone_placeholder.webp'])->create();
-        //dd($product->images);
+
         foreach ($this->endpoints as $endpoint) {
             if ($endpoint === '/products') {
                 $response = $this->get(env('APP_URL') . $endpoint . '/' . $product->slug);
