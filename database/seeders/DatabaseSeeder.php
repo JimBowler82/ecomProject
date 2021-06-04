@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductType;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,20 +20,19 @@ class DatabaseSeeder extends Seeder
         // Categories
 
         $this->call([CategorySeeder::class]);
-        
 
         // Product Types
 
         $mobilePhones = ProductType::factory()->create([
             'name' => 'Mobile Phones',
             'slug' => 'mobile-phones',
-            'properties' => serialize(['colour','network','storage']),
+            'properties' => serialize(['colour', 'network', 'storage']),
         ]);
 
         $headPhones = ProductType::factory()->create([
             'name' => 'Headphones',
             'slug' => 'headphones',
-            'properties' => serialize(['colour','connection',]),
+            'properties' => serialize(['colour', 'connection']),
         ]);
 
         $accessories = ProductType::factory()->create([
@@ -40,7 +40,6 @@ class DatabaseSeeder extends Seeder
             'slug' => 'accessories',
             'properties' => serialize([]),
         ]);
-
 
         // Products
 
@@ -87,6 +86,12 @@ class DatabaseSeeder extends Seeder
             'model' => "GP30 Lite",
             'condition' => 'new',
             'product_type_id' => $mobilePhones->id,
+        ]);
+
+        // Default user
+        User::factory()->create([
+            'name' => 'james',
+            'email' => 'james@email.com',
         ]);
     }
 }

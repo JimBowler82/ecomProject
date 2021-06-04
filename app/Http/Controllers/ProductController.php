@@ -92,7 +92,7 @@ class ProductController extends Controller
         ]);
 
         // Store the image
-        $path = $request->file('picture')->store('images');
+        $path = $request->file('picture')->store('images', 'public');
 
         // Image - Product association
         $product->images()->save(new Image(['location' => $path]));
@@ -100,7 +100,7 @@ class ProductController extends Controller
         // Product - Categories association
         $product->categories()->syncWithoutDetaching($request['mainCategory']);
 
-        return Redirect::route('products.index')->with('success', 'Product added to database');
+        return Redirect::route('products.index')->with('success', 'Product added to database')->setStatusCode(201);
     }
 
     /**
@@ -219,6 +219,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return back()->with('success', 'Product deleted from database');
+        return Redirect::route('products.index')->with('success', 'Product deleted from database');
     }
 }
