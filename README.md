@@ -13,7 +13,7 @@ Built with:
 ### 1 - Clone the repo
 
 ```
-    git clone https://dev.ecdltd.com/james.bowler/ecomProject.git
+    git clone https://github.com/JimBowler82/ecomProject
 ```
 
 ### 2 - Install 
