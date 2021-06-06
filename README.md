@@ -2,6 +2,8 @@
 
 An ecommerce webstore project for tech products. Features a webstore and back-office administration area.
 
+[View Live Here](http://ecomproject.herokuapp.com)
+
 Built with:
 - PHP, Laravel 8,
 - MySql 5.7
